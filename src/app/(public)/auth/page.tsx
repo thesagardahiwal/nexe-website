@@ -41,8 +41,8 @@ export default function AuthChoice() {
             >
             Continue as Guest
             </button>
-            <button
-            onClick={() => router.push('/signin')}
+            {/* <button
+            onClick={() => router.push('/auth/')}
             className="w-full bg-blue-500 text-white px-6 py-3 rounded-full shadow-md transition-transform hover:scale-105"
             >
             Sign In
@@ -52,7 +52,7 @@ export default function AuthChoice() {
             className="w-full bg-green-500 text-white px-6 py-3 rounded-full shadow-md transition-transform hover:scale-105"
             >
             Sign Up
-            </button>
+            </button> */}
         </motion.div>
       </div>
     </div>

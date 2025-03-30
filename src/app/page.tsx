@@ -43,7 +43,7 @@ export default function Home() {
         transition={{ type: 'spring', damping: 15, delay: 1 }}
       >
         <Link
-          href={"/guest"}
+          href={"/auth"}
           className="mt-20 w-full bg-white px-6 py-3 rounded-full shadow-lg text-[#00011c] font-bold text-lg transition-transform hover:scale-105"
         >
           Get Started

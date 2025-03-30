@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { RefreshCw, Plus } from "lucide-react"; // Importing modern icons from Lucide
 
 interface TopViewInboxProps {
   fetchMyMessages: () => void;
@@ -10,18 +11,18 @@ interface TopViewInboxProps {
 
 const TopViewInbox: React.FC<TopViewInboxProps> = ({ fetchMyMessages, loading, onPress, title, icon }) => {
   return (
-    <div className="flex items-center justify-between shadow-lg shadow-black rounded-b-2xl p-4 bg-gray-800 text-white">
+    <div className="flex gap-5 items-center justify-between shadow-md rounded-b-2xl p-4 bg-gray-900 text-white">
       {/* Title Section */}
       <div className="flex items-center gap-3">
-        {icon}
-        <h1 className="font-semibold text-2xl tracking-wide truncate">{title}</h1>
+        {icon && <div className="text-2xl">{icon}</div>}
+        <h1 className="font-semibold text-xl tracking-wide truncate">{title}</h1>
       </div>
 
       {/* Action Buttons */}
       <div className="flex gap-3 items-center">
         {/* Refresh Button */}
         <button
-          className="px-4 py-2 rounded-lg active:opacity-80 shadow-md shadow-blue-900 flex items-center justify-center bg-gray-700"
+          className="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 transition-all disabled:opacity-50 flex items-center justify-center"
           onClick={fetchMyMessages}
           aria-label="Refresh messages"
           disabled={loading}
@@ -29,17 +30,17 @@ const TopViewInbox: React.FC<TopViewInboxProps> = ({ fetchMyMessages, loading, o
           {loading ? (
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
           ) : (
-            <i className="text-2xl">🔄</i> // Replace with an icon library if needed
+            <RefreshCw size={20} />
           )}
         </button>
 
         {/* Add New Chat Button */}
         <button
-          className="bg-blue-900/20 px-4 py-2 rounded-lg active:opacity-80 shadow-md shadow-blue-900 flex items-center justify-center"
+          className="bg-blue-600 px-3 py-2 rounded-lg hover:bg-blue-500 focus:ring-2 focus:ring-blue-400 transition-all flex items-center justify-center"
           onClick={onPress}
           aria-label="Start new chat"
         >
-          <i className="text-2xl">➕</i> {/* Replace with an icon library if needed */}
+          <Plus size={20} />
         </button>
       </div>
     </div>
