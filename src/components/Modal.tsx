@@ -6,11 +6,10 @@ import { Fragment } from 'react';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -26,11 +25,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
-              {title && (
-                <Dialog.Title className="text-lg font-semibold text-gray-800">
-                  {title}
-                </Dialog.Title>
-              )}
               <div className="mt-2">{children}</div>
               <div className="mt-4 flex justify-end">
                 <button

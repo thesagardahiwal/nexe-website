@@ -1,6 +1,7 @@
 import React from 'react';
 import { SelectedMediaProp } from '@/hooks/useMediaPicker';
 import { toast } from 'react-hot-toast';
+import Image from 'next/image';
 
 interface SelectedMediaViewProps {
   selectedMedia: SelectedMediaProp;
@@ -30,7 +31,7 @@ const SelectedMediaView: React.FC<SelectedMediaViewProps> = ({ selectedMedia, re
           {selectedMedia.type === 'image' ? (
             <div className="flex space-x-2 overflow-x-auto">
               {selectedMedia.image?.map((file, i) => (
-                <img
+                <Image
                   key={i}
                   src={URL.createObjectURL(file)}
                   alt={`Selected ${i}`}

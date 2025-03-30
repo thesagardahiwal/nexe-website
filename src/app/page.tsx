@@ -2,10 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const router = useRouter();
   return (
     <div className="flex flex-col justify-end items-center h-screen w-10/12 mx-auto pb-20 relative">
       {/* Animated Welcome Text */}

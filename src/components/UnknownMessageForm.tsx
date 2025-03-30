@@ -24,8 +24,8 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
     setUploading(true);
     try {
       const media = selectedMedia;
-      let uploadedFile = await uploadMedia({ selectedMedia: media });
-      let selected = media.type === "image" ? "imageURL" :
+      const uploadedFile = await uploadMedia({ selectedMedia: media });
+      const selected = media.type === "image" ? "imageURL" :
       media.type === "document" ? "documentURL" :
           "videoURL";
       if (uploadedFile.length > 0) {
