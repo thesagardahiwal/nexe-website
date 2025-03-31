@@ -1,9 +1,12 @@
+'use client';
+
 import React, { useState } from "react";
 import { databaseId, databases, ID, unknownCollectionId } from "@/libs/appwrite/config";
 import useMediaPicker from "@/hooks/useMediaPicker";
 import SelectedMediaView from "@/components/SelectedMediaView";
 import toast, { Toaster } from "react-hot-toast";
 import MediaPickerModal from "./MediaPickerModal";
+import { motion } from "framer-motion";
 
 interface UnknownMessageFormProps {
   onClose: () => void;
@@ -15,6 +18,7 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
   const { selectedMedia, pickMedia, resetMedia, uploadMedia } = useMediaPicker();
   const [uploading, setUploading] = useState<boolean>(false);
   const [isMediaPicking, setIsMediaPicking] = useState<boolean>(false);
+
   const uploadChat = async () => {
     if (!privateId.trim() || !chat.trim()) {
       toast("Please enter a private ID and message before sending.");
@@ -26,7 +30,7 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
       const media = selectedMedia;
       const uploadedFile = await uploadMedia({ selectedMedia: media });
       const selected = media.type === "image" ? "imageURL" :
-      media.type === "document" ? "documentURL" :
+        media.type === "document" ? "documentURL" :
           "videoURL";
       if (uploadedFile.length > 0) {
         await databases.createDocument(databaseId, unknownCollectionId, ID.unique(), {
@@ -61,56 +65,66 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-white font-semibold text-xl mb-3">Spam Message</h2>
+    <>
+      {/* Modal Overlay */}
+      <div className="fixed inset-0 bg-white/10 bg-opacity-50 flex items-center justify-center z-50">
+        {/* Modal Content */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", damping: 25, stiffness: 200 }}
+          className="bg-gray-800/30 dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-lg w-full space-y-6"
+        >
+          <h2 className="text-gray-800 dark:text-white font-semibold text-xl">Send a Message</h2>
 
-        {/* Selected Media View */}
-        <SelectedMediaView selectedMedia={selectedMedia} resetMedia={resetMedia} />
+          {/* Selected Media View */}
+          <SelectedMediaView selectedMedia={selectedMedia} resetMedia={resetMedia} />
 
-        {/* Input Fields */}
-        <div className="w-full space-y-3">
-          <label className="block text-white font-medium">Private ID</label>
-          <input
-            type="text"
-            placeholder="Write private ID here"
-            value={privateId}
-            onChange={(e) => setPrivateId(e.target.value)}
-            className="w-full bg-gray-800 text-white p-3 rounded-md"
-          />
-
-          <label className="block text-white font-medium">Message</label>
-          <textarea
-            placeholder="Write message here"
-            value={chat}
-            onChange={(e) => setChat(e.target.value)}
-            className="w-full bg-gray-800 text-white p-3 rounded-md min-h-[60px]"
-          ></textarea>
-        </div>
-
-        {/* Buttons */}
-        <div className="flex gap-3 mt-4">
-          <button onClick={() => setIsMediaPicking(true)} className="bg-gray-700 p-3 rounded-lg">
-            📎 Attach
-          </button>
-            <MediaPickerModal 
-                onClose={() => setIsMediaPicking(false)}
-                isOpen={isMediaPicking}
-                onSelect={handleMediaSelection}
+          {/* Input Fields */}
+          <div className="w-full space-y-4">
+            <label className="block text-gray-700 dark:text-gray-300 font-medium">Private ID</label>
+            <input
+              type="text"
+              placeholder="Enter private ID"
+              value={privateId}
+              onChange={(e) => setPrivateId(e.target.value)}
+              className="w-full bg-gray-800/30 dark:bg-gray-700 text-gray-800 dark:text-white p-3 rounded-md border border-gray-300 dark:border-gray-600"
             />
-            <input hidden type='' />
-          <button onClick={uploadChat} className="bg-blue-700 p-3 rounded-lg flex-1">
-            {uploading ? "Uploading..." : "Send"}
-          </button>
 
-          <button onClick={onClose} className="bg-red-700 p-3 rounded-lg">
-            Close
-          </button>
-        </div>
+            <label className="block text-gray-700 dark:text-gray-300 font-medium">Message</label>
+            <textarea
+              placeholder="Write your message here"
+              value={chat}
+              onChange={(e) => setChat(e.target.value)}
+              className="w-full bg-gray-800/50 dark:bg-gray-700 text-gray-800 dark:text-white p-3 rounded-md min-h-[60px] border border-gray-300 dark:border-gray-600"
+            ></textarea>
+          </div>
 
-        <Toaster position='top-right' />
+          {/* Buttons */}
+          <div className="flex gap-3 mt-6">
+            <button onClick={() => setIsMediaPicking(true)} className="bg-gray-800/80 dark:bg-gray-600 p-3 rounded-lg hover:bg-blue-900/50 dark:hover:bg-gray-500 transition-all">
+              📎 Attach Media
+            </button>
+
+            <MediaPickerModal
+              onClose={() => setIsMediaPicking(false)}
+              isOpen={isMediaPicking}
+              onSelect={handleMediaSelection}
+            />
+
+            <button onClick={uploadChat} className="bg-blue-600 p-3 rounded-lg flex-1 text-white hover:bg-blue-500 transition-all">
+              {uploading ? "Uploading..." : "Send Message"}
+            </button>
+
+            <button onClick={onClose} className="bg-red-600 p-3 rounded-lg text-white hover:bg-red-500 transition-all">
+              Close
+            </button>
+          </div>
+
+          <Toaster position="top-right" />
+        </motion.div>
       </div>
-    </div>
+    </>
   );
 };
 

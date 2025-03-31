@@ -20,23 +20,9 @@ const TopViewInbox: React.FC<TopViewInboxProps> = ({ fetchMyMessages, loading, o
 
       {/* Action Buttons */}
       <div className="flex gap-3 items-center">
-        {/* Refresh Button */}
-        <button
-          className="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 transition-all disabled:opacity-50 flex items-center justify-center"
-          onClick={fetchMyMessages}
-          aria-label="Refresh messages"
-          disabled={loading}
-        >
-          {loading ? (
-            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-          ) : (
-            <RefreshCw size={20} />
-          )}
-        </button>
-
         {/* Add New Chat Button */}
         <button
-          className="bg-blue-600 px-3 py-2 rounded-lg hover:bg-blue-500 focus:ring-2 focus:ring-blue-400 transition-all flex items-center justify-center"
+          className="bg-blue-600/50 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
           onClick={onPress}
           aria-label="Start new chat"
         >

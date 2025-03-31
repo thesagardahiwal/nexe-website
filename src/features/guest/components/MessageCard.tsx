@@ -3,31 +3,29 @@
 import React from 'react';
 import Image from 'next/image';
 import { Models } from 'appwrite';
-// import { Ionicons } from 'react-icons';
-
-
 
 const MessageCard = ({ item, title }: { item: Models.Document, title?: string }) => {
   return (
-    <div className="bg-gray-900 p-4 my-3 rounded-2xl shadow-lg shadow-black/40 border border-gray-800">
+    <div className="bg-gray-900 p-6 my-4 rounded-3xl shadow-xl border border-gray-800 transition-all hover:shadow-2xl">
       {/* Header Section */}
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-3 mb-4">
+        {/* You can uncomment and use the Ionicons icon if needed */}
         {/* <Ionicons name="chatbubble-ellipses" size={20} className="text-blue-400" /> */}
-        <h3 className="text-white font-bold text-lg tracking-wide">{title} Message</h3>
+        <h3 className="text-white font-semibold text-xl tracking-wide">{title} Message</h3>
       </div>
 
       {/* Message Content */}
-      <p className="text-white font-semibold text-base mb-3 leading-relaxed">
+      <p className="text-white font-medium text-base mb-4 leading-relaxed">
         {item.content}
       </p>
 
       {/* Images Section */}
       {item.imageURL?.length > 0 && (
         <>
-          <div className="border-b border-gray-700 my-2" />
-          <div className="flex gap-2 mt-2 overflow-x-auto">
+          <div className="border-b border-gray-700 my-3" />
+          <div className="flex gap-3 mt-3 overflow-x-auto">
             {item.imageURL.map((img: string, index: number) => (
-              <Image key={index} src={img} alt="Message Image" width={120} height={120} className="rounded-md" />
+              <Image key={index} src={img} alt={`Message Image ${index + 1}`} width={130} height={130} className="rounded-lg shadow-md hover:scale-105 transition-all" />
             ))}
           </div>
         </>
@@ -36,12 +34,14 @@ const MessageCard = ({ item, title }: { item: Models.Document, title?: string })
       {/* Videos Section */}
       {item.videoURL?.length > 0 && (
         <>
-          <div className="border-b border-gray-700 my-2" />
-          <div className="flex gap-2 mt-3 overflow-x-auto">
+          <div className="border-b border-gray-700 my-3" />
+          <div className="flex gap-3 mt-4 overflow-x-auto">
             {item.videoURL.map((video: string, index: number) => (
-              <video key={index} controls className="w-48 rounded-md">
-                <source src={video} type="video/mp4" />
-              </video>
+              <div key={index} className="w-48">
+                <video controls className="w-full rounded-lg shadow-md hover:scale-105 transition-all">
+                  <source src={video} type="video/mp4" />
+                </video>
+              </div>
             ))}
           </div>
         </>
@@ -50,11 +50,11 @@ const MessageCard = ({ item, title }: { item: Models.Document, title?: string })
       {/* Documents Section */}
       {item.documentURL?.length > 0 && (
         <>
-          <div className="border-b border-gray-700 my-2" />
-          <ul className="list-disc list-inside text-white">
+          <div className="border-b border-gray-700 my-3" />
+          <ul className="list-disc list-inside text-white space-y-2">
             {item.documentURL.map((doc: string, index: number) => (
               <li key={index}>
-                <a href={doc} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">
+                <a href={doc} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline hover:text-blue-500 transition-all">
                   Document {index + 1}
                 </a>
               </li>
