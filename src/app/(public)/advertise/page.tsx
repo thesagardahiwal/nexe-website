@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import appIcon from "@/app/favicon.ico";
 
 export default function AppDownload() {
   return (
@@ -36,7 +37,7 @@ export default function AppDownload() {
           className="w-full max-w-md p-4 bg-white rounded-lg shadow-lg dark:bg-gray-900"
         >
           <Image
-            src={require("@/app/favicon.ico")} // Example app image (adjust path as needed)
+            src={appIcon} // Example app image (adjust path as needed)
             alt="Nexe App Image"
             width={350}
             height={650}

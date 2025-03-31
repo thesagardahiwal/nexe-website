@@ -1,15 +1,13 @@
 import React, { ReactElement } from "react";
-import { RefreshCw, Plus } from "lucide-react"; // Importing modern icons from Lucide
+import { Plus } from "lucide-react"; // Importing modern icons from Lucide
 
 interface TopViewInboxProps {
-  fetchMyMessages: () => void;
-  loading: boolean;
   onPress: () => void;
   title: string;
   icon?: ReactElement;
 }
 
-const TopViewInbox: React.FC<TopViewInboxProps> = ({ fetchMyMessages, loading, onPress, title, icon }) => {
+const TopViewInbox: React.FC<TopViewInboxProps> = ({ onPress, title, icon }) => {
   return (
     <div className="flex gap-5 items-center justify-between shadow-md rounded-b-2xl p-4 bg-gray-900 text-white">
       {/* Title Section */}

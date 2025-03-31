@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import appIcon from "@/app/favicon.ico";
 
 function Navbar() {
   const pathname = usePathname(); // Get current route
@@ -24,7 +25,7 @@ function Navbar() {
       {/* Logo Section */}
       <div className='flex w-[200px] items-center gap-2'>
         <Image
-          src={require("@/app/favicon.ico")}
+          src={appIcon}
           alt='logo'
           height={50}
           width={50}

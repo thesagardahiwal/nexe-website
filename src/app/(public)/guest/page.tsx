@@ -23,8 +23,6 @@ const UnknownMessagesLayout = () => {
             >
                 <TopViewInbox
                     title="Spam Messages"
-                    fetchMyMessages={() => { }}
-                    loading={false}
                     onPress={() => setIsModalOpen(true)}
                 />
             </motion.div>

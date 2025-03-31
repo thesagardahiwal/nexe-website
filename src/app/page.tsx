@@ -2,10 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useTheme } from '@/context/theme-provider';
 
 export default function Home() {
-  const { theme } = useTheme();
 
   return (
     <div className="flex flex-col items-center h-screen w-full max-w-6xl mx-auto px-6 pb-20 relative overflow-hidden">
