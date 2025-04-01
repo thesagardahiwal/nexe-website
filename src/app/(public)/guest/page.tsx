@@ -22,7 +22,7 @@ const UnknownMessagesLayout = () => {
                 className="w-full max-w-5xl p-1 bg-transparent dark:bg-gray-800 rounded-b-xl shadow-lg"
             >
                 <TopViewInbox
-                    title="Spam Messages"
+                    title="Guest Messages"
                     onPress={() => setIsModalOpen(true)}
                 />
             </motion.div>
