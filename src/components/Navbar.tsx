@@ -39,7 +39,7 @@ function Navbar() {
           height={50}
           width={50}
         />
-        <Link href='/' className='font-bold text-3xl tracking-wide bg-gradient-to-r from-gray-900 to-transparent text-transparent bg-clip-text dark:from-white'>
+        <Link href='/' className='font-bold text-3xl tracking-wide text-[#00011c] dark:text-white'>
           Nexe
         </Link>
       </div>

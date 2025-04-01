@@ -20,7 +20,7 @@ const TopViewInbox: React.FC<TopViewInboxProps> = ({ onPress, title, icon }) => 
       <div className="flex gap-3 items-center">
         {/* Add New Chat Button */}
         <button
-          className="text-transparent bg-gradient-to-r from-blue-600/50 to-pink-400 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
+          className="text-transparent cursor-pointer bg-gradient-to-r from-blue-600/50 to-pink-400 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
           onClick={onPress}
           aria-label="Start new chat"
         >

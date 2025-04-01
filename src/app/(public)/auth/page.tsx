@@ -46,7 +46,7 @@ export default function AuthChoice() {
           {/* Continue as Guest Button */}
           <button
             onClick={() => router.push('/guest')}
-            className="w-full bg-gray-700 text-white px-6 py-3 rounded-full shadow-md transition-transform hover:scale-105"
+            className="w-fit text-nowrap cursor-pointer mx-auto bg-gray-700 text-white px-6 py-3 rounded-full shadow-md transition-transform hover:scale-105"
           >
             Continue as Guest
           </button>
