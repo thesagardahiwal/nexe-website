@@ -67,13 +67,13 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
   return (
     <>
       {/* Modal Overlay */}
-      <div className="fixed inset-0 bg-white/70 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-white/70  dark:bg-black/70 bg-opacity-50 flex items-center justify-center z-50">
         {/* Modal Content */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="bg-slate-50 dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-lg w-full space-y-6"
+          className="bg-slate-50 m-4 dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-lg w-full space-y-6"
         >
           <h2 className="text-gray-800 dark:text-white font-semibold text-xl">Send a Message</h2>
 
