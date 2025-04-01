@@ -20,7 +20,7 @@ export default function AuthChoice() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', damping: 12, stiffness: 100, delay: 0.3 }}
-        className="text-white font-bold text-4xl mb-6"
+        className="dark:text-white text-gray-900 font-bold text-4xl mb-6"
       >
         Welcome to Nexe
       </motion.h1>
@@ -30,7 +30,7 @@ export default function AuthChoice() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, type: 'spring' }}
-        className="text-gray-300 text-lg mb-8"
+        className="dark:text-gray-300 text-gray-600 text-lg mb-8"
       >
         Continue as a guest or sign in to unlock full features.
       </motion.p>

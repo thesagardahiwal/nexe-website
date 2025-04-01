@@ -67,13 +67,13 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
   return (
     <>
       {/* Modal Overlay */}
-      <div className="fixed inset-0 bg-white/10 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-white/70 bg-opacity-50 flex items-center justify-center z-50">
         {/* Modal Content */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="bg-gray-800/30 dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-lg w-full space-y-6"
+          className="bg-slate-50 dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-lg w-full space-y-6"
         >
           <h2 className="text-gray-800 dark:text-white font-semibold text-xl">Send a Message</h2>
 
@@ -88,7 +88,7 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
               placeholder="Enter private ID"
               value={privateId}
               onChange={(e) => setPrivateId(e.target.value)}
-              className="w-full bg-gray-800/30 dark:bg-gray-700 text-gray-800 dark:text-white p-3 rounded-md border border-gray-300 dark:border-gray-600"
+              className="w-full bg-slate-100 dark:bg-gray-700 text-gray-800 dark:text-white p-3 rounded-md border border-gray-300 dark:border-gray-600"
             />
 
             <label className="block text-gray-700 dark:text-gray-300 font-medium">Message</label>
@@ -96,14 +96,14 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
               placeholder="Write your message here"
               value={chat}
               onChange={(e) => setChat(e.target.value)}
-              className="w-full bg-gray-800/50 dark:bg-gray-700 text-gray-800 dark:text-white p-3 rounded-md min-h-[60px] border border-gray-300 dark:border-gray-600"
+              className="w-full bg-slate-100 dark:bg-gray-700 text-gray-800 dark:text-white p-3 rounded-md min-h-[60px] border border-gray-300 dark:border-gray-600"
             ></textarea>
           </div>
 
           {/* Buttons */}
           <div className="flex gap-3 mt-6">
-            <button onClick={() => setIsMediaPicking(true)} className="bg-gray-800/80 dark:bg-gray-600 p-3 rounded-lg hover:bg-blue-900/50 dark:hover:bg-gray-500 transition-all">
-              📎 Attach Media
+            <button onClick={() => setIsMediaPicking(true)} className="bg-slate-200 dark:bg-gray-600 p-3 rounded-lg hover:bg-blue-900/50 dark:hover:bg-gray-500 transition-all">
+              📎 Attach
             </button>
 
             <MediaPickerModal

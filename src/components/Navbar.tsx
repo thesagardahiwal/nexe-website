@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import appIcon from "@/app/favicon.ico";
+import lightModeLogo from "@/assets/Light-Mode.ico"
+import darkModeLogo from "@/assets/Dark-Mode.ico";
 
 function Navbar() {
   const pathname = usePathname(); // Get current route
@@ -21,16 +22,24 @@ function Navbar() {
 
   return (
     <>
-    <div className='flex items-center justify-between w-full px-6 py-4 bg-white dark:bg-gray-900'>
+    <div className='flex items-center justify-between w-full px-6 py-4 bg-white dark:bg-[#00011c]'>
       {/* Logo Section */}
       <div className='flex w-[200px] items-center gap-2'>
         <Image
-          src={appIcon}
+          src={darkModeLogo}
+          className='hidden dark:block'
           alt='logo'
           height={50}
           width={50}
         />
-        <Link href='/' className='font-bold text-3xl tracking-wide bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text dark:from-pink-400'>
+        <Image
+          src={lightModeLogo}
+          className='dark:hidden'
+          alt='logo'
+          height={50}
+          width={50}
+        />
+        <Link href='/' className='font-bold text-3xl tracking-wide bg-gradient-to-r from-gray-900 to-transparent text-transparent bg-clip-text dark:from-white'>
           Nexe
         </Link>
       </div>
@@ -57,7 +66,7 @@ function Navbar() {
       </nav>
 
       {/* Download Button */}
-      <div className="flex items-center gap-4">
+      <div className="md:flex hidden items-center gap-4">
         <button className="px-5 py-2 rounded-full font-bold bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md hover:scale-105 transition-all">
           <Link href="/advertise">
             Download
@@ -82,7 +91,7 @@ function Navbar() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className='fixed inset-0 top-[65px] left-0 bg-white dark:bg-gray-900 z-20 p-6 overflow-y-auto'
+        className='fixed inset-0 top-0 left-0 bg-white dark:bg-gray-900 z-20 p-6 overflow-y-auto'
       >
         <ul className='flex flex-col items-center gap-6'>
           {navItems.map(({ name, path }, index) => (

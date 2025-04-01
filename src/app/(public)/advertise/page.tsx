@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import appIcon from "@/app/favicon.ico";
+import darkModeIcon from "@/assets/Dark-Mode.ico"
 
 export default function AppDownload() {
   return (
@@ -41,7 +42,14 @@ export default function AppDownload() {
             alt="Nexe App Image"
             width={350}
             height={650}
-            className="w-full h-auto rounded-lg shadow-xl"
+            className="w-full dark:hidden h-auto rounded-lg shadow-xl"
+          />
+          <Image
+            src={darkModeIcon} // Example app image (adjust path as needed)
+            alt="Nexe app image"
+            width={350}
+            height={650}
+            className="w-full dark:block hidden h-auto rounded-lg shadow-xl"
           />
         </motion.div>
 

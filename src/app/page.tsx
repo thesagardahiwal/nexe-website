@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function Home() {
-
   return (
     <div className="flex flex-col items-center h-screen w-full max-w-6xl mx-auto px-6 pb-20 relative overflow-hidden">
       
@@ -35,6 +34,23 @@ export default function Home() {
         </p>
       </motion.div>
 
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', damping: 15, delay: 1.6 }}
+        className="mt-16 md:hidden relative"
+      >
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-[200px] h-[200px] rounded-full bg-blue-500 opacity-20 blur-2xl animate-pulse"></div>
+        </div>
+        <Link
+          href={"/auth"}
+          className="relative px-10 py-4 rounded-full font-bold text-lg shadow-xl bg-gradient-to-r from-green-500 to-blue-600 dark:from-pink-400 text-white hover:scale-110 transition-transform hover:shadow-2xl"
+        >
+          Get Started
+        </Link>
+      </motion.div>
+
       {/* Features Section - Floating & Free-flowing */}
       <div className="mt-16 flex flex-wrap justify-center gap-16 w-full max-w-5xl relative">
         {[
@@ -60,7 +76,7 @@ export default function Home() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', damping: 15, delay: 1.6 }}
-        className="mt-16 relative"
+        className="mt-16 hidden md:block relative"
       >
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-[200px] h-[200px] rounded-full bg-blue-500 opacity-20 blur-2xl animate-pulse"></div>

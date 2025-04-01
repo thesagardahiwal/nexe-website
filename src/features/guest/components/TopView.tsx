@@ -9,7 +9,7 @@ interface TopViewInboxProps {
 
 const TopViewInbox: React.FC<TopViewInboxProps> = ({ onPress, title, icon }) => {
   return (
-    <div className="flex gap-5 items-center justify-between shadow-md rounded-b-2xl p-4 bg-gray-900 text-white">
+    <div className="flex gap-5 items-center justify-between rounded-b-2xl p-4 bg-transparent text-gray-800 dark:bg-gray-800 dark:text-white">
       {/* Title Section */}
       <div className="flex items-center gap-3">
         {icon && <div className="text-2xl">{icon}</div>}
@@ -20,11 +20,11 @@ const TopViewInbox: React.FC<TopViewInboxProps> = ({ onPress, title, icon }) => 
       <div className="flex gap-3 items-center">
         {/* Add New Chat Button */}
         <button
-          className="bg-blue-600/50 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
+          className="text-transparent bg-gradient-to-r from-blue-600/50 to-pink-400 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
           onClick={onPress}
           aria-label="Start new chat"
         >
-          <Plus size={20} />
+          <Plus color="white" size={20} />
         </button>
       </div>
     </div>

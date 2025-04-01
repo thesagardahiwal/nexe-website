@@ -33,6 +33,8 @@ const SelectedMediaView: React.FC<SelectedMediaViewProps> = ({ selectedMedia, re
               {selectedMedia.image?.map((file, i) => (
                 <Image
                   key={i}
+                  width={96}
+                  height={96}
                   src={URL.createObjectURL(file)}
                   alt={`Selected ${i}`}
                   className="h-24 w-24 rounded-lg object-cover"

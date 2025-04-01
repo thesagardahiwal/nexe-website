@@ -10,8 +10,8 @@ const MediaPickerModal: React.FC<MediaPickerModalProps> = ({ isOpen, onClose, on
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-sm">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50">
+      <div className="bg-white dark:bg-[#00011c] p-6 rounded-lg shadow-lg w-full max-w-sm">
         <h2 className="text-white font-semibold text-xl mb-4">Select Media Type</h2>
         
         <div className="flex flex-col space-y-3">
