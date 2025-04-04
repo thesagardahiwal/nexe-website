@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { storage, storeId, ID } from "@/libs/appwrite/config";
+import { uploadFileWithProgress } from "@/libs/helper";
 
 export interface SelectedMediaProp {
   image: File[] | null;
@@ -39,49 +39,37 @@ function useMediaPicker() {
     });
   };
 
-  const uploadMedia = async ({selectedMedia} : {selectedMedia: SelectedMediaProp}) => {
+  const uploadMedia = async ({ selectedMedia }: { selectedMedia: SelectedMediaProp }) => {
     if (!selectedMedia.type || selectedMedia.type === "cancel") {
       toast.error("❌ No media selected! Please choose a file before uploading.");
       return [];
     }
-
+  
     const files = selectedMedia[selectedMedia.type];
     if (!files || files.length === 0) {
       toast("⏹️ Upload Canceled. No files were uploaded.");
       return [];
     }
-
-    toast(`🚀 Uploading ${files.length} file(s)...`);
-
-    const uploadPromises = files.map(async (file) => {
+  
+    const uploadedUrls: string[] = [];
+  
+    for (const file of files) {
+      toast(`⬆️ Uploading ${file.name}...`);
+  
       try {
-        const fileId = ID.unique();
-        const uploadedFile = await storage.createFile(storeId, fileId, file);
-
-        if (uploadedFile) {
-          toast.success(`🎉 Uploaded: ${file.name}!`);
-          return storage.getFilePreview(storeId, uploadedFile.$id);
-        } else {
-          toast.error(`❌ Upload failed for: ${file.name}`);
-          return null;
+        const url = await uploadFileWithProgress(file, (progress) => {
+          toast.loading(`📤 ${file.name} – ${progress.toFixed(0)}%`, { id: file.name });
+        });
+  
+        if (url) {
+          toast.success(`✅ ${file.name} uploaded!`, { id: file.name });
+          uploadedUrls.push(url);
         }
-      } catch (error) {
-        console.error("Upload Error:", error);
-        toast.error("📡 Connection Issue! Failed to upload. Please check your network.");
-        return null;
+      } catch {
+        toast.error(`❌ Failed to upload ${file.name}`, { id: file.name });
       }
-    });
-
-    const uploadedUrls = (await Promise.all(uploadPromises)).filter(Boolean);
-
-    if (uploadedUrls.length === files.length) {
-      toast.success("🚀 All files uploaded successfully!");
-    } else if (uploadedUrls.length > 0) {
-      toast.error("⚠️ Some files failed to upload.");
-    } else {
-      toast.error("All file uploads failed.");
     }
-
+  
     resetMedia();
     return uploadedUrls;
   };

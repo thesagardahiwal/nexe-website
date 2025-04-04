@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
-import { databaseId, databases, ID, unknownCollectionId } from "@/libs/appwrite/config";
+import { databaseId, databases, guestCollectionId, ID } from "@/libs/appwrite/config";
 import useMediaPicker from "@/hooks/useMediaPicker";
 import SelectedMediaView from "@/components/SelectedMediaView";
 import toast, { Toaster } from "react-hot-toast";
@@ -20,7 +20,9 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
   const [isMediaPicking, setIsMediaPicking] = useState<boolean>(false);
 
   const uploadChat = async () => {
-    if (!privateId.trim() || !chat.trim()) {
+    const trimmedPrivateId = privateId.trim();
+    const trimmedChat = chat.trim()
+    if (!trimmedPrivateId || !trimmedChat) {
       toast("Please enter a private ID and message before sending.");
       return;
     }
@@ -30,19 +32,18 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
       const media = selectedMedia;
       if (media.type !== "cancel") {
         const uploadedFile = await uploadMedia({ selectedMedia: media });
-        const selected = media.type === "image" ? "imageURL" :
-        media.type === "document" ? "documentURL" :
-        "videoURL";
-        await databases.createDocument(databaseId, unknownCollectionId, ID.unique(), {
-          privateId,
-          content: chat,
-          [selected]: uploadedFile,
+        
+        await databases.createDocument(databaseId, guestCollectionId, ID.unique(), {
+          privateId: trimmedPrivateId,
+          content: trimmedChat,
+          mediaUrl: uploadedFile,
+          mediaType: media.type
         });
         toast.success("Your message with media has been sent successfully!");
       } else {
-        await databases.createDocument(databaseId, unknownCollectionId, ID.unique(), {
-          privateId,
-          content: chat,
+        await databases.createDocument(databaseId, guestCollectionId, ID.unique(), {
+          privateId: trimmedPrivateId,
+          content: trimmedChat,
         });
 
         toast.success("Your message has been sent successfully!");
@@ -59,7 +60,7 @@ const UnknownMessageForm: React.FC<UnknownMessageFormProps> = ({ onClose }) => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = type === "image" ? "image/*" : type === "video" ? "video/*" : "*";
-    input.multiple = type !== "document"; // Allow multiple selection for images and videos
+    input.multiple = true;
     input.onchange = (e) => pickMedia(e as unknown as React.ChangeEvent<HTMLInputElement>, type);
     input.click();
   };
