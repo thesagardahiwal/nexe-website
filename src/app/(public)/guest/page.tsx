@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import TopViewInbox from '@/features/guest/components/TopView';
-import UnknownMessageForm from '@/components/UnknownMessageForm';
+import MessageForm from '@/features/guest/components/MessageForm';
 import { motion } from 'framer-motion';
 
 const UnknownMessagesLayout = () => {
@@ -29,7 +29,7 @@ const UnknownMessagesLayout = () => {
 
             {/* Message Form Modal */}
             {isModalOpen &&
-                <UnknownMessageForm onClose={() => setIsModalOpen(false)} />
+                <MessageForm onClose={() => setIsModalOpen(false)} />
             }
         </div>
     );

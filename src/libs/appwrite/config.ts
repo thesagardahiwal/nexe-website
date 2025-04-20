@@ -9,10 +9,10 @@ const userCollectionId = process.env.NEXT_PUBLIC_APPWRITE_USER_COLLECTION_ID || 
 const guestCollectionId = process.env.NEXT_PUBLIC_APPWRITE_GUEST_COLLECTION_ID || '';
 const messageCollectionId = process.env.NEXT_PUBLIC_APPWRITE_MESSAGE_COLLECTION_ID || '';
 const unknownCollectionId = process.env.NEXT_PUBLIC_APPWRITE_UNKNOWN_COLLECTION_ID || '';
-
+const notificationUrl = process.env.NEXT_PUBLIC_APPWRITE_NOTIFICATION_URL || '';
 const client = new Client()
     .setProject(projectId)
-    // .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || '');
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || '');
 
 const account = new Account(client);
 const databases = new Databases(client);
@@ -29,5 +29,6 @@ export {
     guestCollectionId,
     userCollectionId,
     messageCollectionId,
-    unknownCollectionId
+    unknownCollectionId,
+    notificationUrl
 };
