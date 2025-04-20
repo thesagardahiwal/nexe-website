@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center h-screen w-full max-w-6xl mx-auto px-6 pb-20 relative overflow-hidden">
+    <div className="flex flex-col items-center min-h-screen w-full max-w-6xl mx-auto px-6 pb-20 relative overflow-hidden">
       
       {/* Floating Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
