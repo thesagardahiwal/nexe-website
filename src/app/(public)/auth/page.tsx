@@ -30,7 +30,7 @@ export default function AuthChoice() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, type: 'spring' }}
-        className="dark:text-gray-300 text-gray-600 text-lg mb-8"
+        className="dark:text-gray-300 text-center text-gray-600 text-lg mb-8"
       >
         Continue as a guest or sign in {'('}in Mobile{')'} to unlock full features.
       </motion.p>
