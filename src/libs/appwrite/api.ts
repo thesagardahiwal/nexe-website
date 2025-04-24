@@ -1,6 +1,6 @@
-import { Models, Query } from "appwrite";
+import { ID, Models, Query } from "appwrite";
 import { databaseId, databases, guestCollectionId, userCollectionId, unknownCollectionId } from "./serverClient";
-import { RoomMessage } from "@/types";
+import { GuestMessageProps, RoomMessage } from "@/types";
 import { toRoomMessages } from "../serverHelper";
 
 export async function getUnknownMessages(privateId :string): Promise<Models.DocumentList<Models.Document>> {
@@ -18,6 +18,44 @@ export async function getUnknownMessages(privateId :string): Promise<Models.Docu
         throw error;
     }
 };
+
+export async function isUserExist (privateId: string) : Promise<boolean> {
+    try {
+        const userSnap = await databases.listDocuments(
+            databaseId,
+            userCollectionId,
+            [
+                Query.equal("privateId", privateId)
+            ]
+        );
+        return userSnap.total > 0;
+    } catch (error) {
+        console.error("Error checking user existence:", error);
+        throw error;
+    }
+};
+
+export async function sendGuestMessage(data: GuestMessageProps) {
+    try {
+        const result = await databases.createDocument(
+            databaseId,
+            guestCollectionId,
+            ID.unique(),
+            {
+                ...data
+            }
+            
+        );
+        if (!result) {
+            console.log("No messages found for this room.");
+            return;
+        };
+        return result;
+    } catch (error) {
+        console.log("Error fetching room messages:", error);
+    }
+}
+
 
 interface RoomMessagesProps {
     contactNo: string;
@@ -63,7 +101,6 @@ export const fetchRoomMessages  = async ({
             return;
         };
         const messages = toRoomMessages(result.documents);
-        console.log("Fetched room messages:", messages);
         return messages;
     } catch (error) {
         console.log("Error fetching room messages:", error);

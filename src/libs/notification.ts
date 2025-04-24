@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getBaseUrl } from "./helper";
 type NotificationPayload = {
   senderId?: string; // Optional if sending to guest
   receiverId?: string; // Optional if using privateId
@@ -14,7 +15,7 @@ type NotificationPayload = {
 };
 const sendNotificationToUser = async (payload: NotificationPayload) => {
     try {
-        await axios.post("/api/notification", payload, {
+        axios.post(getBaseUrl()+"/api/notification", payload, {
           headers: {
             "Content-Type": "application/json",
           },

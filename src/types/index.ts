@@ -12,3 +12,21 @@ export interface MediaItem {
     createdAt:  string;
   }
   
+
+  export interface GuestMessageProps {
+    privateId: string;
+    content:   string;
+    mediaUrl?: string[];
+    mediaType?: 'image' | 'video' | 'document';
+  }
+
+  export type ImageGravity =
+  | 'center'
+  | 'top_left'
+  | 'top_right'
+  | 'bottom_left'
+  | 'bottom_right'
+  | 'left'
+  | 'right'
+  | 'top'
+  | 'bottom';

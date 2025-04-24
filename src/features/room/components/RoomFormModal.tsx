@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 interface RoomFormModalProps {
   onClose: () => void;
@@ -16,18 +16,35 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
   const [errors, setErrors] = useState<{ username?: string; privateId?: string; contactNo?: string }>({});
   const [loading, setLoading] = useState(false);
 
-  const validate = () => {
-    const newErrors: typeof errors = {};
-    if (!username.trim()) newErrors.username = 'Username is required';
-    if (!privateId.trim()) newErrors.privateId = 'Private ID is required';
-    if (!/^\d+$/.test(contactNo.trim())) newErrors.contactNo = 'Contact No must be numbers only';
-    if (!contactNo.trim()) newErrors.contactNo = 'Contact No is required';
+  const validateInputs = () => {
+    const trimmedUsername = username.trim().toLowerCase().replace(/\s/g, '');
+    const trimmedPrivateId = privateId.trim().toLowerCase().replace(/\s/g, '');
+    const trimmedPhone = contactNo.trim();
+
+    const newErrors: { username?: string; privateId?: string; contactNo?: string } = {};
+
+    if (!trimmedUsername || trimmedUsername.length < 3) {
+      newErrors.username = 'Username must be at least 3 characters long.';
+    }
+
+    if (/^\d/.test(trimmedUsername)) {
+      newErrors.username = 'Username cannot start with a number.';
+    }
+
+    if (!trimmedPrivateId || trimmedPrivateId.length < 6) {
+      newErrors.privateId = 'Private ID must be at least 6 characters long.';
+    }
+
+    if (!/^\d{10}$/.test(trimmedPhone)) {
+      newErrors.contactNo = 'Phone number must be exactly 10 digits.';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = () => {
-    if (!validate()) {
+    if (!validateInputs()) {
       toast.error('Please fix the errors in the form.');
       return;
     }
@@ -59,8 +76,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
               type="text"
               value={username}
               onChange={(e) => {
-                let cleanedText = e.target.value.toLowerCase().replace(/\s/g, '');
-                setUsername(cleanedText);
+                setUsername(e.target.value);
                 if (errors.username) setErrors(prev => ({ ...prev, username: undefined }));
               }}
               placeholder="Enter your name"
@@ -75,8 +91,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
               type="text"
               value={privateId}
               onChange={(e) => {
-                const formatted = e.target.value.toLowerCase().replace(/\s/g, '');
-                setPrivateId(formatted);
+                setPrivateId(e.target.value);
                 if (errors.privateId) setErrors(prev => ({ ...prev, privateId: undefined }));
               }}
               placeholder="Enter Private ID"
@@ -91,8 +106,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
               type="text"
               value={contactNo}
               onChange={(e) => {
-                const onlyDigits = e.target.value.replace(/\D/g, '');
-                setContactNo(onlyDigits);
+                setContactNo(e.target.value.replace(/\D/g, ''));
                 if (errors.contactNo) setErrors(prev => ({ ...prev, contactNo: undefined }));
               }}
               placeholder="Enter contact number"
@@ -118,8 +132,6 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
             {loading ? 'Submitting...' : 'Submit'}
           </button>
         </div>
-
-        <Toaster position="top-right" />
       </motion.div>
     </div>
   );

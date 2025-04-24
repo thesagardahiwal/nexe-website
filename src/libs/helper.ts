@@ -1,5 +1,5 @@
 import { ID } from "appwrite";
-import { storage, storeId } from "./appwrite/config";
+import { storage, storeId } from "./appwrite/serverClient";
 import toast from "react-hot-toast";
 
 export const uploadFileWithProgress = (file: File, onProgress: (progress: number) => void): Promise<string | null> => {
@@ -43,3 +43,13 @@ export const uploadFileWithProgress = (file: File, onProgress: (progress: number
     });
   };
   
+
+  export function getBaseUrl() {
+    // ① Vercel / Netlify / Render set NEXT_PUBLIC_SITE_URL at build time
+    if (process.env.NEXT_PUBLIC_SITE_URL) {
+      return process.env.NEXT_PUBLIC_SITE_URL;      // → e.g. https://my‑app.vercel.app
+    }
+  
+    // ② When previewing locally (`next dev`) fall back to localhost
+    return `http://localhost:${process.env.PORT ?? 3000}`;
+  }

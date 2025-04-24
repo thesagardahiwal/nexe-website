@@ -1,4 +1,5 @@
-import { fetchRoomMessages } from "@/libs/appwrite/api";
+import { sendGuestMessage } from "@/libs/appwrite/api";
+import sendNotificationToUser from "@/libs/notification";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -10,20 +11,31 @@ export async function POST(req: NextRequest) {
       { status: 405 }
     );
   }
-  const { username, privateId, contactNo } = await req.json();
+  const { content, privateId, mediaType, mediaUrl } = await req.json();
   try {
     // Send the request to the actual API
-    const response = await fetchRoomMessages({username, privateId, contactNo});
+    const response = await sendGuestMessage({ content, privateId, mediaType, mediaUrl });
 
     if (!response) {
       return new Response(
-        JSON.stringify({ success: false, error: "No messages found" }),
+        JSON.stringify({ success: false, message: "Internet Error found!" }),
         { status: 404 }
       );
-    }
+    };
+
+    sendNotificationToUser({
+      privateId: privateId,
+      messageText: content,
+      data: {
+        type: "guest_message",
+        notificationData: response,
+        url: "nexe://",
+        imageUrl: mediaUrl?.[0],
+      }
+    });
     // Return the response from the actual API
     return new Response(
-      JSON.stringify({ success: true, message: "Notification sent", data: response }),
+      JSON.stringify({ success: true, message: "Guest message sent successfully" }),
       { status: 200 }
     );
   } catch (error) {

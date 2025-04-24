@@ -1,7 +1,3 @@
-import { databaseId, databases, guestCollectionId, userCollectionId } from "@/libs/appwrite/config";
-import { Query } from "appwrite";
-import axios from "axios";
-
 interface RoomMessagesProps {
     contactNo: string;
     privateId: string;
@@ -19,22 +15,15 @@ export const fetchRoomMessages = async ({
             privateId,
             username
         }
-        const result =  await axios.post("/api/room", payload, {
+        const result =  await fetch("/api/room", {
             headers: {
             "Content-Type": "application/json",
             },
+            method: "POST",
+            body: JSON.stringify(payload),
         });
-
-        if (result.status !== 200) {
-            console.log("Error fetching room messages:", result.data);
-            return;
-        }
-        const messages = result.data;
-        if (!messages) {
-            console.log("No messages found for this room.");
-            return;
-        }
-        return messages;
+        const response = await result.json();
+        return response;
     } catch (error) {
         console.log("Error fetching room messages:", error);
     }

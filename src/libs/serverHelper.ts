@@ -1,53 +1,69 @@
 import { Models } from 'appwrite';
-import { RoomMessage, MediaItem } from '@/types';
 import { storage, storeId } from '@/libs/appwrite/serverClient';
+import { RoomMessage, MediaItem } from '@/types';
 
+/* ───────────────────────── helpers ───────────────────────── */
 
-export async function getFileMeta(fileId: string): Promise<Models.File> {
-  return storage.getFile(storeId, fileId);   // returns full File object (name, mimeType, …)
+const extractFileId = (url: string): string | null =>
+  url.match(/\/files\/([^/]+)\//)?.[1] ?? null;
+
+// per‑request cache
+const metaCache = new Map<string, Models.File>();
+
+async function getMeta(id: string): Promise<Models.File | null> {
+  if (metaCache.has(id)) return metaCache.get(id)!;
+  try {
+    const meta = await storage.getFile(storeId, id);
+    metaCache.set(id, meta);
+    return meta;
+  } catch {
+    return null; // swallow errors for missing / deleted files
+  }
 }
 
-async function buildMediaData(urls: string[]): Promise<MediaItem[]> {
-  const fileIds = urls
-    .map((u) => u.match(/\/files\/([^/]+)\//)?.[1])
-    .filter(Boolean) as string[];
 
-  // Fetch metadata in parallel
-  const metas = await Promise.all(
-    fileIds.map((id) =>
-      getFileMeta(id).catch(() => null) // swallow errors for missing files
-    )
+/* ───────────────────── public API ───────────────────── */
+
+export async function toRoomMessages(
+  docs: Models.Document[],
+): Promise<RoomMessage[]> {
+  // ── 1. collect every unique file‑id in one sweep ──
+  const fileIds = new Set<string>();
+
+  docs.forEach(doc => {
+    (doc.mediaUrl as string[] | undefined)?.forEach(url => {
+      const id = extractFileId(url);
+      if (id) fileIds.add(id);
+    });
+  });
+
+  // ── 2. kick off *all* metadata fetches in parallel ──
+  const metaEntries = await Promise.all(
+    [...fileIds].map(async id => [id, await getMeta(id)] as const)
   );
+  const metaMap = new Map(metaEntries.filter(([, m]) => m));
 
-  return metas
-    .filter(Boolean)
-    .map((meta) => ({
-      fileId: meta!.$id,
-      fileName: meta!.name,
-      mimeType: meta!.mimeType,
-      size: meta!.sizeOriginal,
-    }));
-}
+  // ── 3. build the final messages – pure sync map ──
+  return docs.map<RoomMessage>(doc => {
+    const mediaData = (doc.mediaUrl as string[] | undefined)
+      ?.map(extractFileId)
+      .filter(Boolean)
+      .map(id => {
+        const m = metaMap.get(id!);
+        return m && {
+          fileId:   m.$id,
+          fileName: m.name,
+          mimeType: m.mimeType,
+          size:     m.sizeOriginal,
+        };
+      })
+      .filter(Boolean) as MediaItem[] ?? [];
 
-async function mapDoc(doc: Models.Document): Promise<RoomMessage> {
-    const mediaData =
-      Array.isArray(doc.mediaUrl) ? await buildMediaData(doc.mediaUrl) : [];
-  
     return {
-      content:    doc.content,
-      mediaData,                      // [{ fileId, fileName, mimeType, size }]
-      mediaType:  doc.mediaType,
-      createdAt:  doc.$createdAt,
+      content:   doc.content,
+      mediaData,            // [{ fileId, fileName, mimeType, size }]
+      mediaType: doc.mediaType,
+      createdAt: doc.$createdAt,
     };
-  }
-  
-  /** Converts an array of docs */
-  export async function toRoomMessages(
-    docs: Models.Document[],
-  ): Promise<RoomMessage[]> {
-    return Promise.all(docs.map(mapDoc));
-  }
-export function extractFileId(url: string): string | null {
-  const match = url.match(/\/files\/([^/]+)\//); // capture between /files/ and next /
-  return match ? match[1] : null;
+  });
 }

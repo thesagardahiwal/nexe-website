@@ -14,7 +14,7 @@ import {
   /* -------------------------------------------------------------------------- */
   const endpoint   = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!;          // e.g. https://cloud.appwrite.io/v1
   const projectId  = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!;
-  const apiKey     = process.env.APPWRITE_API_KEY!;                       // server key (scoped to media upload if you wish)
+
   
   /* Optional: collection / bucket IDs reused throughout the project */
   export const databaseId          = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!;

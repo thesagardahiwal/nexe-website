@@ -13,18 +13,46 @@ import RoomMessageCard from '@/features/room/components/RoomMessages';
 const RoomMessagesLayout = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [roomMessages, setRoomMessages] = useState<RoomMessage[]>([]);
-    const handleSubmit = async (submitData: { username: string; privateId: string; contactNo: string }) => {
+    const [loading, setLoading] = useState(false);               // 🆕 loading flag
+
+    const handleSubmit = async (data: { username: string; privateId: string; contactNo: string }) => {
         try {
-            const { success, data, message } = await fetchRoomMessages({ ...submitData });
-            console.log("Fetched room messages:", data);
-            if (success) {
-                setRoomMessages(data as unknown as RoomMessage[]);
-                toast.success(message || "Room messages fetched successfully!");
-            };
-        } catch (error) {
-            console.log("Error fetching room messages:", error);
+            setLoading(true);                                        // start
+            const response = await fetchRoomMessages(data);
+            if (!response || !response.success) {
+                toast.error('Unable to fetch messages');
+                return;
+            }
+            if (response && response.success) {
+                setRoomMessages(response.data);                     // set messages
+                toast.success('Messages fetched successfully');
+            }
+            
+        } catch (err) {
+            console.error('Error fetching room messages:', err);
+            toast.error('Unable to fetch messages');
+        } finally {
+            setLoading(false);                                       // stop
         }
-    }
+    };
+
+
+    const handleDownload = async (fileId: string, fileName: string) => {
+        const res = await fetch(`/api/appwrite/download?id=${fileId}&name=${encodeURIComponent(
+            fileName,
+        )}`);
+        if (!res.ok) return;
+        // Directly get the URL from the response text (no need for JSON parsing)
+        const url = await res.text(); // Will be the raw URL
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    };
+
     return (
         <div className="flex flex-col justify-start items-center min-h-screen w-full max-w-6xl mx-auto px-6 pb-20 relative overflow-hidden">
             {/* Animated Gradient Background */}
@@ -70,16 +98,32 @@ const RoomMessagesLayout = () => {
                 </div>
             </motion.div>
             {/* Main Content */}
-            <div className="flex flex-col items-center justify-center w-full max-w-5xl p-4 bg-white dark:bg-gray-900 rounded-lg shadow-md mt-4">
-                <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Messages</h2>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                    Here you can view and manage your room messages. Click the button above to start a new chat.
-                </p>
-            </div>
-            <div className="flex flex-col gap-4 items-center justify-center w-full max-w-5xl p-4 bg-white dark:bg-gray-900 rounded-lg shadow-md mt-4">
-                {roomMessages.map((msg) => (
-                    <RoomMessageCard key={msg.createdAt} message={msg} />
-                ))}
+            <div className="flex flex-col gap-4 w-full max-w-5xl mt-4">
+                {/* Info card */}
+                <div className="p-4 bg-white dark:bg-gray-900/50 rounded-lg shadow-md">
+                    <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+                        Messages
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-300">
+                        View and manage your room messages. Click the button above to start a new chat.
+                    </p>
+                </div>
+
+                {/* Messages list */}
+                <div className="p-4 bg-white dark:bg-gray-900/50 rounded-lg shadow-md space-y-4">
+                    {loading ? (
+                        /* 🌀 Spinner */
+                        <div className="flex justify-center py-10">
+                            <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                        </div>
+                    ) : roomMessages.length === 0 ? (
+                        <p className="text-center text-gray-500 dark:text-gray-400">No messages yet.</p>
+                    ) : (
+                        roomMessages.map((msg) => (
+                            <RoomMessageCard key={msg.createdAt} message={msg} onDownload={handleDownload} />
+                        ))
+                    )}
+                </div>
             </div>
 
             {/* Modal */}

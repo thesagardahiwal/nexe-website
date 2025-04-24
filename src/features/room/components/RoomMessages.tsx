@@ -1,7 +1,8 @@
 'use client';
 
+import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { RoomMessage } from '@/types';
+import type { RoomMessage } from '@/types';
 import {
   Image as ImageIcon,
   FileVideo,
@@ -9,62 +10,78 @@ import {
   Download,
   MessageCircle,
 } from 'lucide-react';
-import Link from 'next/link';
 
-type Props = { message: RoomMessage };
+interface Props {
+  message: RoomMessage;
+  onDownload(fileId: string, fileName: string): Promise<void>;
+}
 
-export default function RoomMessageCard({ message }: Props) {
-  const { content, mediaData, mediaType, createdAt } = message;
+function RoomMessageCard({ message, onDownload }: Props) {
+  const { content, mediaData = [], mediaType, createdAt } = message;
 
-  /* choose an icon for the group (optional) */
-  const TypeIcon =
-    mediaType === 'image'
-      ? ImageIcon
-      : mediaType === 'video'
-      ? FileVideo
-      : FileText;
+  /* memoise expensive / stable values */
+  const TypeIcon = useMemo(() => {
+    switch (mediaType) {
+      case 'image':
+        return ImageIcon;
+      case 'video':
+        return FileVideo;
+      default:
+        return FileText;
+    }
+  }, [mediaType]);
+
+  const createdLabel = useMemo(
+    () => new Date(createdAt).toLocaleString(),
+    [createdAt]
+  );
 
   return (
-    <motion.div
+    <motion.article
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18 }}
-      className="w-full rounded-xl bg-white/70 dark:bg-zinc-800/60 shadow-sm backdrop-blur p-4 space-y-4"
+      className="w-full space-y-4 rounded-xl bg-white/70 p-4 shadow-sm backdrop-blur dark:bg-zinc-800/10"
     >
-      {/* header row */}
-      <div className="flex items-start gap-3">
-        <MessageCircle className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0" />
-        <div className="flex-1">
-          <p className="text-gray-800 dark:text-gray-100 break-words">{content}</p>
-        </div>
-      </div>
+      {/* ------- content row ------- */}
+      <header className="flex items-start gap-3">
+        <MessageCircle className="h-6 w-6 flex-shrink-0 text-blue-600 dark:text-blue-400" />
+        <p className="break-words text-gray-800 dark:text-gray-100 flex-1">
+          {content}
+        </p>
+      </header>
 
-      {/* attachments */}
-      {mediaData?.length > 0 && (
-        <ul className="space-y-2 ">
-          {mediaData.map((m) => (
-            <li key={m.fileId} className="flex  bg-white/5 p-2 rounded-2xl items-center gap-2">
-              <TypeIcon className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+      {/* ------- attachments ------- */}
+      {mediaData.length > 0 && (
+        <ul className="space-y-2">
+          {mediaData.map(({ fileId, fileName }) => (
+            <li
+              key={fileId}
+              className="flex items-center gap-2 rounded-2xl p-2"
+            >
+              <TypeIcon className="h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400" />
               <span className="flex-1 truncate text-sm text-gray-800 dark:text-gray-100">
-                {m.fileName}
+                {fileName}
               </span>
-              <Link
-                href={`/api/appwrite/download?id=${m.fileId}&name=${encodeURIComponent(
-                  m.fileName,
-                )}`}
-                className="p-1 rounded-2xl hover:bg-blue-100 dark:hover:bg-zinc-700"
+              <button
+                type="button"
+                onClick={() => onDownload(fileId, fileName)}
+                title="Download"
+                className="rounded-2xl p-1 transition hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:hover:bg-zinc-700"
               >
-                <Download className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-              </Link>
+                <Download className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              </button>
             </li>
           ))}
         </ul>
       )}
 
-      {/* footer meta */}
-      <p className="text-xs text-gray-500 dark:text-gray-400 text-right">
-        {new Date(createdAt).toLocaleString()}
-      </p>
-    </motion.div>
+      {/* ------- footer meta ------- */}
+      <footer className="text-right text-xs text-gray-500 dark:text-gray-400">
+        {createdLabel}
+      </footer>
+    </motion.article>
   );
 }
+
+export default memo(RoomMessageCard);

@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/context/theme-provider";
 import Navbar from "@/components/Navbar";
+import ToastPortal  from "@/components/ToastPortal";
 
 export const metadata: Metadata = {
   title: "Nexe",
@@ -14,7 +15,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   return (
     <html lang="en">
       <body
@@ -23,6 +24,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Navbar />
           {children}
+          <ToastPortal/>
         </ThemeProvider>
         {/* </AuthProvider> */}
       </body>

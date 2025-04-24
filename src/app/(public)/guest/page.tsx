@@ -5,7 +5,7 @@ import TopViewInbox from '@/features/guest/components/TopView';
 import MessageForm from '@/features/guest/components/MessageForm';
 import { motion } from 'framer-motion';
 
-const UnknownMessagesLayout = () => {
+const GuestMessagesLayout = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -35,4 +35,4 @@ const UnknownMessagesLayout = () => {
     );
 };
 
-export default UnknownMessagesLayout;
+export default GuestMessagesLayout;
