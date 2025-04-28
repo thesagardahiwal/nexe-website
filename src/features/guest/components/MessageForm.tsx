@@ -8,13 +8,16 @@ import { validateMessageForm } from '@/utils/validation';
 import { isUserExist, sendGuestMessage } from '../libs/api';
 import useMediaPicker from '@/hooks/useMediaPicker';
 
-const MediaPickerModal  = dynamic(() => import('../../../components/MediaPickerModal'), { ssr: false });
+const MediaPickerModal  = dynamic(() => import('@/components/MediaPickerModal'), { ssr: false });
 const SelectedMediaView = dynamic(() => import('@/components/SelectedMediaView'), { ssr: false });
 
-interface MessageFormProps { onClose(): void }
+interface MessageFormProps { 
+  onClose(): void
+  isRoomMessage: boolean
+ }
 
-export default function MessageForm({ onClose }: MessageFormProps) {
-  const [chat, setChat]         = useState('');
+export default function MessageForm({ onClose, isRoomMessage=false }: MessageFormProps) {
+  const [chat, setChat] = useState('');
   const [privateId, setPrivateId] = useState('');
   const [uploading, setUploading] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -60,6 +63,7 @@ export default function MessageForm({ onClose }: MessageFormProps) {
       const { message, success } = await sendGuestMessage({
         content: chat.trim(),
         privateId: privateId.trim(),
+        room: isRoomMessage,
         ...(mediaUrl.length > 0 && selectedMedia.type !== 'cancel'
           ? { mediaUrl, mediaType: selectedMedia.type }
           : {})
@@ -78,8 +82,8 @@ export default function MessageForm({ onClose }: MessageFormProps) {
           : 'Sent\nYour message is on the way 🚀'
       );
 
-      setChat('');
-      setPrivateId('');
+      setChat(() => '');
+      setPrivateId(() => '');
       resetMedia();
     } catch (err) {
       console.error(err);

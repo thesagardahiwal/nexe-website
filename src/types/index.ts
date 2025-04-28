@@ -18,6 +18,7 @@ export interface MediaItem {
     content:   string;
     mediaUrl?: string[];
     mediaType?: 'image' | 'video' | 'document';
+    room: boolean;
   }
 
   export type ImageGravity =

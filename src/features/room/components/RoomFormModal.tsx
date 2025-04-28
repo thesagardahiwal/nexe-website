@@ -76,7 +76,8 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
               type="text"
               value={username}
               onChange={(e) => {
-                setUsername(e.target.value);
+                const value = e.target.value.toLowerCase().replace(/\s/g, '');
+                setUsername(value);
                 if (errors.username) setErrors(prev => ({ ...prev, username: undefined }));
               }}
               placeholder="Enter your name"
@@ -91,7 +92,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
               type="text"
               value={privateId}
               onChange={(e) => {
-                setPrivateId(e.target.value);
+                setPrivateId(e.target.value.toLowerCase().replace(/\s/g, ''));
                 if (errors.privateId) setErrors(prev => ({ ...prev, privateId: undefined }));
               }}
               placeholder="Enter Private ID"
@@ -101,12 +102,13 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contact No</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone No</label>
             <input
               type="text"
               value={contactNo}
               onChange={(e) => {
-                setContactNo(e.target.value.replace(/\D/g, ''));
+                const value = e.target.value.replace(/\D/g, ''); // remove non-digit characters
+                setContactNo(value);
                 if (errors.contactNo) setErrors(prev => ({ ...prev, contactNo: undefined }));
               }}
               placeholder="Enter contact number"

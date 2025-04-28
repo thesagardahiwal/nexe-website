@@ -10,7 +10,7 @@ type NotificationPayload = {
     notificationData: unknown,
     url: string,
     imageUrl?: string,
-    type: "guest_message" | "private_message" | "group_message"; // Can add more as needed
+    type: "guest_message" | "private_message" | "group_message" | "room_message"; // Can add more as needed
   };
 };
 const sendNotificationToUser = async (payload: NotificationPayload) => {

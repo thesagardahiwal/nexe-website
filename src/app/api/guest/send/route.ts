@@ -11,10 +11,10 @@ export async function POST(req: NextRequest) {
       { status: 405 }
     );
   }
-  const { content, privateId, mediaType, mediaUrl } = await req.json();
+  const { content, privateId, mediaType, mediaUrl, room } = await req.json();
   try {
     // Send the request to the actual API
-    const response = await sendGuestMessage({ content, privateId, mediaType, mediaUrl });
+    const response = await sendGuestMessage({ content, privateId, mediaType, mediaUrl, room });
 
     if (!response) {
       return new Response(
@@ -26,8 +26,9 @@ export async function POST(req: NextRequest) {
     sendNotificationToUser({
       privateId: privateId,
       messageText: content,
+      customTitle: room ? "New Room Message" : "New Guest Message",
       data: {
-        type: "guest_message",
+        type: room ? "room_message" : "guest_message",
         notificationData: response,
         url: "nexe://",
         imageUrl: mediaUrl?.[0],

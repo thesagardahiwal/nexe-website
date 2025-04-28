@@ -3,18 +3,19 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import RoomFormModal from '@/features/room/components/RoomFormModal'; // You'll create this
-import { JoystickIcon, LucideDelete } from 'lucide-react';
+import { JoystickIcon, LucideDelete, SendIcon, GalleryVerticalEnd } from 'lucide-react';
 import { fetchRoomMessages } from "@/features/room/libs/api"
 import toast from 'react-hot-toast';
 import { RoomMessage } from '@/types';
 import RoomMessageCard from '@/features/room/components/RoomMessages';
+import MessageForm from '@/features/guest/components/MessageForm';
 
 
 const RoomMessagesLayout = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [roomMessages, setRoomMessages] = useState<RoomMessage[]>([]);
-    const [loading, setLoading] = useState(false);               // 🆕 loading flag
-
+    const [loading, setLoading] = useState<boolean>(false);               // 🆕 loading flag
+    const [isRoomMessage, setIsRoomMessage] = useState<boolean>(false);       // 🆕 room message flag
     const handleSubmit = async (data: { username: string; privateId: string; contactNo: string }) => {
         try {
             setLoading(true);                                        // start
@@ -71,12 +72,25 @@ const RoomMessagesLayout = () => {
                 <div className="flex justify-between items-center p-4">
                     <h1 className="text-xl font-semibold text-gray-800 dark:text-white">Room Messages</h1>
                     <div className='flex items-center space-x-2'>
+                        <button
+                            className="text-transparent cursor-pointer bg-gradient-to-r from-blue-600/50 to-pink-400 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
+                            onClick={() => {
+                                setIsRoomMessage(true);
+                                setIsModalOpen(() => true);
+                            }}
+                            title="Start new message"
+                            aria-label="send message"
+                        >
+                            <div className='text-white font-medium'>
+                                <SendIcon />
+                            </div>
+                        </button>
                         {roomMessages.length > 0 ? (
                             <button
                                 className="text-transparent cursor-pointer bg-gradient-to-r from-blue-600/50 to-pink-400 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
                                 onClick={() => setRoomMessages([])}
-                                title="Start new chat"
-                                aria-label="Start new chat"
+                                title="Delete messages"
+                                aria-label="delete room messages"
                             >
                                 <div className='text-white font-medium'>
                                     <LucideDelete />
@@ -85,12 +99,15 @@ const RoomMessagesLayout = () => {
                         ) : (
                             <button
                                 className="text-transparent cursor-pointer bg-gradient-to-r from-blue-600/50 to-pink-400 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
-                                onClick={() => setIsModalOpen(true)}
-                                title="Start new chat"
-                                aria-label="Start new chat"
+                                onClick={() => {
+                                    setIsModalOpen(true)
+                                    setIsRoomMessage(false);
+                                }}
+                                title="Start fetch private messages"
+                                aria-label="Start fetch private messages"
                             >
                                 <div className='text-white font-medium'>
-                                    <JoystickIcon />
+                                    <GalleryVerticalEnd />
                                 </div>
                             </button>
                         )}
@@ -105,7 +122,7 @@ const RoomMessagesLayout = () => {
                         Messages
                     </h2>
                     <p className="text-gray-600 dark:text-gray-300">
-                        View and manage your room messages. Click the button above to start a new chat.
+                        View and manage your room messages.
                     </p>
                 </div>
 
@@ -127,9 +144,11 @@ const RoomMessagesLayout = () => {
             </div>
 
             {/* Modal */}
-            {isModalOpen && (
+            {isModalOpen && (!isRoomMessage ? (
                 <RoomFormModal onSubmit={handleSubmit} onClose={() => setIsModalOpen(false)} />
-            )}
+            ) : (
+                <MessageForm isRoomMessage={isRoomMessage} onClose={() => setIsModalOpen(false)}/>
+            ) )}
         </div>
     );
 };

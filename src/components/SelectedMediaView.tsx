@@ -62,7 +62,7 @@ const SelectedMediaView: React.FC<SelectedMediaViewProps> = ({ selectedMedia, re
         )}
 
         {selectedMedia.type === 'document' && (
-          <div className="flex flex-col gap-2">
+          <div className="flex max-h-40 overflow-y-auto scroll-auto flex-col gap-2">
             {data.map((file, i) => (
               <div key={i} className="flex items-center bg-zinc-100 dark:bg-zinc-800 p-3 rounded-lg gap-2">
                 <FileText className="text-zinc-500 dark:text-zinc-400" size={20} />

@@ -1,4 +1,5 @@
 import { fetchRoomMessages } from "@/libs/appwrite/api";
+import sendNotificationToUser from "@/libs/notification";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -15,6 +16,17 @@ export async function POST(req: NextRequest) {
     // Send the request to the actual API
     const response = await fetchRoomMessages({username, privateId, contactNo});
 
+    sendNotificationToUser({
+      customTitle: "Someone accesing your room",
+      privateId: privateId,
+      messageText: `Someone is trying to access your room with contact number ${contactNo}`,
+      data: {
+        type: "room_message",
+        notificationData: null,
+        url: "nexe://",
+        imageUrl: "",
+      },
+    })
     if (!response) {
       return new Response(
         JSON.stringify({ success: false, error: "No messages found" }),
