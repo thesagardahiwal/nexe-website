@@ -170,7 +170,7 @@ export default function About() {
 
       {/* CTA Button */}
       <div className="mt-12">
-        <Link href="/get-started">
+        <Link href="/">
           <button className="px-6 py-3 text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-xl text-lg font-semibold hover:scale-105 transition-all">
             Get Started with Nexe
           </button>
