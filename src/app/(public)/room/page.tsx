@@ -120,8 +120,8 @@ const RoomMessagesLayout = () => {
                                         setIsRoomMessage(false);
                                         setIsModalOpen(true);
                                     }}
-                                    title="Start fetch private messages"
-                                    aria-label="Start fetch private messages"
+                                    title="Start fetch public messages"
+                                    aria-label="Start fetch public messages"
                                 >
                                     <div className='text-white font-medium'>
                                         <EarthIcon />
