@@ -51,7 +51,6 @@ export default function Privacy() {
         At Nexe, your privacy is our top priority. We ensure your messages and media are protected with state-of-the-art encryption.
       </motion.p>
 
-
       {/* Security Highlights Section */}
       <div className="mt-12 space-y-8">
         {securityFeatures.map((feature, index) => (
@@ -71,7 +70,6 @@ export default function Privacy() {
           </motion.div>
         ))}
       </div>
-
 
       {/* Final Assurance */}
       <motion.p

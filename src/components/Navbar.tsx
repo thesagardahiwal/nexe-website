@@ -19,7 +19,7 @@ function Navbar() {
     { name: 'Features', path: '/features' },
     { name: 'Privacy', path: '/privacy' },
     { name: 'About', path: '/about' },
-    { name: 'Blog', path: '/blog' },
+    // { name: 'Blog', path: '/blog' },
   ];
 
   return (

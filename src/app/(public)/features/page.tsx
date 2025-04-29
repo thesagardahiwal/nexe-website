@@ -11,7 +11,7 @@ export default function Features() {
           description: {
             core: "Share messages and media using private IDs—**no OTPs, no sign-ups, no hassle**.",
             detail: "Simply enter a private ID, send messages, and instantly share files across devices.",
-            usability: "Perfect for quick and anonymous communication.",
+            usability: "Perfect for quick and anonymous communication."
           },
           benefit: "Quick and easy sharing without creating an account.",
           security: "Private ID-based delivery with no stored metadata."
@@ -71,9 +71,9 @@ export default function Features() {
           benefit: "No lag, no waiting—instant updates everywhere.",
           security: "WebSockets-based real-time updates with low latency."
         }
-      ];
+    ];
 
-      const nexeFeaturesContent = {
+    const nexeFeaturesContent = {
         title: "Nexe Features",
         subtitle: "Seamless & Secure Messaging",
         gradientColors: {
@@ -89,9 +89,8 @@ export default function Features() {
             "Lightning-fast message delivery."
           ]
         }
-      };
-      
-      
+    };
+
     return (
         <div className="flex flex-col items-center w-full max-w-6xl mx-auto px-6 pb-20 text-center relative overflow-hidden">
 
@@ -139,7 +138,6 @@ export default function Features() {
                     ))}
                 </div>
             </motion.div>
-
 
             {/* Features Section - Floating & Natural */}
             <motion.div
@@ -194,8 +192,6 @@ export default function Features() {
                     ))}
                 </div>
             </motion.div>
-
-
 
             {/* Download CTA - Floating & Glowing */}
             <motion.div

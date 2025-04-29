@@ -37,20 +37,22 @@ export default function AppDownload() {
           transition={{ delay: 0.6, type: 'spring', stiffness: 100 }}
           className="w-full max-w-md p-4 bg-white rounded-lg shadow-lg dark:bg-gray-900"
         >
-          <Image
-            src={appIcon} // Example app image (adjust path as needed)
-            alt="Nexe App Image"
-            width={350}
-            height={650}
-            className="w-full dark:hidden h-auto rounded-lg shadow-xl"
-          />
-          <Image
-            src={darkModeIcon} // Example app image (adjust path as needed)
-            alt="Nexe app image"
-            width={350}
-            height={650}
-            className="w-full dark:block hidden h-auto rounded-lg shadow-xl"
-          />
+          <div className="relative">
+            <Image
+              src={appIcon} // Example app image (adjust path as needed)
+              alt="Nexe App Image"
+              width={350}
+              height={650}
+              className="w-full dark:hidden h-auto rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300"
+            />
+            <Image
+              src={darkModeIcon} // Example app image (adjust path as needed)
+              alt="Nexe app image"
+              width={350}
+              height={650}
+              className="w-full dark:block hidden h-auto rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300"
+            />
+          </div>
         </motion.div>
 
         {/* Play Store Button */}
