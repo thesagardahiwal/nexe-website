@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import RoomFormModal from '@/features/room/components/RoomFormModal'; // You'll create this
-import { JoystickIcon, LucideDelete, SendIcon, GalleryVerticalEnd } from 'lucide-react';
-import { fetchRoomMessages } from "@/features/room/libs/api"
+import { LucideDelete, SendIcon, GalleryVerticalEnd, EarthIcon } from 'lucide-react';
+import { fetchPublicRoomMessages, fetchRoomMessages } from "@/features/room/libs/api"
 import toast from 'react-hot-toast';
 import { RoomMessage } from '@/types';
 import RoomMessageCard from '@/features/room/components/RoomMessages';
@@ -16,12 +16,13 @@ const RoomMessagesLayout = () => {
     const [roomMessages, setRoomMessages] = useState<RoomMessage[]>([]);
     const [loading, setLoading] = useState<boolean>(false);               // 🆕 loading flag
     const [isRoomMessage, setIsRoomMessage] = useState<boolean>(false);       // 🆕 room message flag
-    const handleSubmit = async (data: { username: string; privateId: string; contactNo: string }) => {
+    const [isPublic, setIsPublic] = useState<boolean>(false);
+    const handleSubmit = async (data: { username: string; privateId: string; contactNo: string, publicId?: string }) => {
         try {
             setLoading(true);                                        // start
-            const response = await fetchRoomMessages(data);
+            const response = data.publicId ? await fetchPublicRoomMessages({publicId: data.publicId}) : await fetchRoomMessages(data);
             if (!response || !response.success) {
-                toast.error('Unable to fetch messages');
+                toast.error(response?.message || 'Unable to fetch messages');
                 return;
             }
             if (response && response.success) {
@@ -97,19 +98,36 @@ const RoomMessagesLayout = () => {
                                 </div>
                             </button>
                         ) : (
-                            <button
-                                className="text-transparent cursor-pointer bg-gradient-to-r from-blue-600/50 to-pink-400 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
-                                onClick={() => {
-                                    setIsModalOpen(true)
-                                    setIsRoomMessage(false);
-                                }}
-                                title="Start fetch private messages"
-                                aria-label="Start fetch private messages"
-                            >
-                                <div className='text-white font-medium'>
-                                    <GalleryVerticalEnd />
-                                </div>
-                            </button>
+                            <>
+                                <button
+                                    className="text-transparent cursor-pointer bg-gradient-to-r from-blue-600/50 to-pink-400 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
+                                    onClick={() => {
+                                        setIsRoomMessage(false);
+                                        setIsPublic(false);
+                                        setIsModalOpen(true)
+                                    }}
+                                    title="Start fetch private messages"
+                                    aria-label="Start fetch private messages"
+                                >
+                                    <div className='text-white font-medium'>
+                                        <GalleryVerticalEnd />
+                                    </div>
+                                </button>
+                                <button
+                                    className="text-transparent cursor-pointer bg-gradient-to-r from-blue-600/50 to-pink-400 px-3 py-2 rounded-lg hover:bg-blue-500/90 focus:ring-2 focus:ring-blue-400/90 transition-all flex items-center justify-center"
+                                    onClick={() => {
+                                        setIsPublic(true);
+                                        setIsRoomMessage(false);
+                                        setIsModalOpen(true);
+                                    }}
+                                    title="Start fetch private messages"
+                                    aria-label="Start fetch private messages"
+                                >
+                                    <div className='text-white font-medium'>
+                                        <EarthIcon />
+                                    </div>
+                                </button>
+                            </>
                         )}
                     </div>
                 </div>
@@ -145,7 +163,7 @@ const RoomMessagesLayout = () => {
 
             {/* Modal */}
             {isModalOpen && (!isRoomMessage ? (
-                <RoomFormModal onSubmit={handleSubmit} onClose={() => setIsModalOpen(false)} />
+                <RoomFormModal isPublic={isPublic} onSubmit={handleSubmit} onClose={() => setIsModalOpen(false)} />
             ) : (
                 <MessageForm isRoomMessage={isRoomMessage} onClose={() => setIsModalOpen(false)}/>
             ) )}

@@ -6,10 +6,11 @@ import toast from 'react-hot-toast';
 
 interface RoomFormModalProps {
   onClose: () => void;
-  onSubmit: (data: { username: string; privateId: string; contactNo: string }) => void;
+  onSubmit: (data: { username: string; privateId: string; contactNo: string, publicId?: string }) => void;
+  isPublic: boolean;
 }
 
-const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
+const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPublic }) => {
   const [username, setUsername] = useState('');
   const [privateId, setPrivateId] = useState('');
   const [contactNo, setContactNo] = useState('');
@@ -17,11 +18,18 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
   const [loading, setLoading] = useState(false);
 
   const validateInputs = () => {
-    const trimmedUsername = username.trim().toLowerCase().replace(/\s/g, '');
     const trimmedPrivateId = privateId.trim().toLowerCase().replace(/\s/g, '');
+    const newErrors: { username?: string; privateId?: string; contactNo?: string } = {};
+    if (!trimmedPrivateId || trimmedPrivateId.length < 6) {
+      newErrors.privateId = 'Private ID must be at least 6 characters long.';
+    }
+    setErrors(newErrors);
+    if (isPublic) {
+      return true;
+    }
+    const trimmedUsername = username.trim().toLowerCase().replace(/\s/g, '');
     const trimmedPhone = contactNo.trim();
 
-    const newErrors: { username?: string; privateId?: string; contactNo?: string } = {};
 
     if (!trimmedUsername || trimmedUsername.length < 3) {
       newErrors.username = 'Username must be at least 3 characters long.';
@@ -31,9 +39,6 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
       newErrors.username = 'Username cannot start with a number.';
     }
 
-    if (!trimmedPrivateId || trimmedPrivateId.length < 6) {
-      newErrors.privateId = 'Private ID must be at least 6 characters long.';
-    }
 
     if (!/^\d{10}$/.test(trimmedPhone)) {
       newErrors.contactNo = 'Phone number must be exactly 10 digits.';
@@ -51,9 +56,10 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
 
     setLoading(true);
     onSubmit({
-      username: username.trim(),
-      privateId: privateId.trim().toLowerCase().replace(/\s/g, ''),
-      contactNo: contactNo.trim(),
+      username: isPublic ? "" : username.trim(),
+      privateId: isPublic ? "" : privateId.trim().toLowerCase().replace(/\s/g, ''),
+      contactNo: isPublic ? "" : contactNo.trim(),
+      ...(isPublic ? {publicId: privateId} : {})
     });
     setLoading(false);
     onClose();
@@ -70,24 +76,26 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
         <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Enter Room Info</h2>
 
         <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => {
-                const value = e.target.value.toLowerCase().replace(/\s/g, '');
-                setUsername(value);
-                if (errors.username) setErrors(prev => ({ ...prev, username: undefined }));
-              }}
-              placeholder="Enter your name"
-              className="w-full p-3 rounded-lg bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-600 focus:outline-none"
-            />
-            {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
-          </div>
+          {!isPublic && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => {
+                    const value = e.target.value.toLowerCase().replace(/\s/g, '');
+                    setUsername(value);
+                    if (errors.username) setErrors(prev => ({ ...prev, username: undefined }));
+                  }}
+                  placeholder="Enter your name"
+                  className="w-full p-3 rounded-lg bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-600 focus:outline-none"
+                />
+                {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
+              </div>
+          )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Private ID</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{isPublic ? "Public" : "Private"} ID</label>
             <input
               type="text"
               value={privateId}
@@ -95,28 +103,30 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
                 setPrivateId(e.target.value.toLowerCase().replace(/\s/g, ''));
                 if (errors.privateId) setErrors(prev => ({ ...prev, privateId: undefined }));
               }}
-              placeholder="Enter Private ID"
+              placeholder={`Enter ${isPublic ? "Public" : "Private"} ID`}
               className="w-full p-3 rounded-lg bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-600 focus:outline-none"
             />
             {errors.privateId && <p className="text-red-500 text-sm mt-1">{errors.privateId}</p>}
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone No</label>
-            <input
-              type="text"
-              value={contactNo}
-              onChange={(e) => {
-                const value = e.target.value.replace(/\D/g, ''); // remove non-digit characters
-                setContactNo(value);
-                if (errors.contactNo) setErrors(prev => ({ ...prev, contactNo: undefined }));
-              }}
-              placeholder="Enter contact number"
-              inputMode="numeric"
-              className="w-full p-3 rounded-lg bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-600 focus:outline-none"
-            />
-            {errors.contactNo && <p className="text-red-500 text-sm mt-1">{errors.contactNo}</p>}
-          </div>
+          
+          {!isPublic && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone No</label>
+              <input
+                type="text"
+                value={contactNo}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, ''); // remove non-digit characters
+                  setContactNo(value);
+                  if (errors.contactNo) setErrors(prev => ({ ...prev, contactNo: undefined }));
+                }}
+                placeholder="Enter contact number"
+                inputMode="numeric"
+                className="w-full p-3 rounded-lg bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-600 focus:outline-none"
+              />
+              {errors.contactNo && <p className="text-red-500 text-sm mt-1">{errors.contactNo}</p>}
+            </div>
+          )}
         </div>
 
         <div className="flex justify-between gap-3 pt-4">
@@ -128,7 +138,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit }) => {
           </button>
           <button
             onClick={handleSubmit}
-            disabled={loading || !username.trim() || !privateId.trim() || !contactNo.trim()}
+            disabled={loading || !privateId.trim() || (!isPublic && (!username.trim() || !contactNo.trim()))}
             className="flex-1 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-medium disabled:opacity-50"
           >
             {loading ? 'Submitting...' : 'Submit'}

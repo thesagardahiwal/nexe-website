@@ -106,3 +106,51 @@ export const fetchRoomMessages  = async ({
         console.log("Error fetching room messages:", error);
     }
 };
+
+export const fetchPublicRoomMessages  = async ({
+    privateId
+} : {privateId: string}) : Promise<RoomMessage[] | undefined> => {
+    try {
+
+        const result = await databases.listDocuments(
+            databaseId,
+            guestCollectionId,
+            [
+                Query.and([
+                    Query.equal("room", true),
+                    Query.equal("public", true),
+                    Query.equal("privateId", privateId),
+                ])
+            ]
+        );
+        if (!result) {
+            console.log("No messages found for this room.");
+            return;
+        };
+        const messages = toRoomMessages(result.documents);
+        return messages;
+    } catch (error) {
+        console.log("Error fetching room messages:", error);
+    }
+};
+
+export const fetchUserByPublicId = async({publicId} : {publicId: string}) => {
+    try {
+        const userSnap = await databases.listDocuments(
+            databaseId,
+            userCollectionId,
+            [
+                Query.equal("publicId", publicId),
+            ]
+        );
+
+        if (userSnap.total === 0) {
+            console.log("User not exist for this public ID!");
+            return;
+        }; 
+        
+        return userSnap.documents[0];
+    } catch (error) {
+        console.log(error)
+    }
+}
