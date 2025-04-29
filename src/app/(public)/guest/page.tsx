@@ -29,7 +29,7 @@ const GuestMessagesLayout = () => {
 
             {/* Message Form Modal */}
             {isModalOpen &&
-                <MessageForm onClose={() => setIsModalOpen(false)} />
+                <MessageForm isRoomMessage={false} onClose={() => setIsModalOpen(false)} />
             }
         </div>
     );
