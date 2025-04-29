@@ -93,7 +93,7 @@ export default function MessageForm({ onClose, isRoomMessage=false }: MessageFor
     } finally {
       setUploading(false);
     }
-  }, [chat, privateId, selectedMedia, uploadMedia, resetMedia]);
+  }, [chat, privateId, selectedMedia, isRoomMessage, uploadMedia, resetMedia]);
 
   /* -------------------- UI -------------------- */
   return (
