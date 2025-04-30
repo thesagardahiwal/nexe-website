@@ -1,4 +1,4 @@
-import { sendGuestMessage } from "@/libs/appwrite/api";
+import { uploadMessage } from "@/libs/appwrite/api";
 import sendNotificationToUser from "@/libs/notification";
 import { NextRequest } from "next/server";
 
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   const { content, privateId, mediaType, mediaUrl, room } = await req.json();
   try {
     // Send the request to the actual API
-    const response = await sendGuestMessage({ content, privateId, mediaType, mediaUrl, room });
+    const response = await uploadMessage({ content, privateId, mediaType, mediaUrl, room });
 
     if (!response) {
       return new Response(

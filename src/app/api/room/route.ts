@@ -1,4 +1,4 @@
-import { fetchPublicRoomMessages, fetchRoomMessages, fetchUserByPublicId } from "@/libs/appwrite/api";
+import { fetchPublicMessages, fetchMessage, fetchPublicUser } from "@/libs/appwrite/api";
 import sendNotificationToUser from "@/libs/notification";
 import { NextRequest } from "next/server";
 
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   const { username, privateId, contactNo, publicId } = await req.json();
   try {
     // Send the request to the actual API
-    const userSnap = publicId ? await fetchUserByPublicId({publicId: publicId}) : null;
+    const userSnap = publicId ? await fetchPublicUser(publicId) : null;
     if (userSnap === undefined) {
       return new Response(
         JSON.stringify({ success: false, error: "No messages found" }),
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       );
     }
     
-    const response = userSnap ? await fetchPublicRoomMessages({privateId: userSnap.privateId}) : await fetchRoomMessages({username, privateId, contactNo});
+    const response = userSnap ? await fetchPublicMessages(userSnap.privateId) : await fetchMessage({username, privateId, contactNo});
 
     sendNotificationToUser({
       customTitle: `Someone accesing your ${publicId ? "public messages" : "room messages"}`,

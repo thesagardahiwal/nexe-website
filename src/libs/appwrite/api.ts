@@ -1,61 +1,7 @@
-import { ID, Models, Query } from "appwrite";
-import { databaseId, databases, guestCollectionId, userCollectionId, unknownCollectionId } from "./serverClient";
+import { ID, Query } from "appwrite";
+import { databaseId, databases, guestCollectionId, userCollectionId } from "./serverClient";
 import { GuestMessageProps, RoomMessage } from "@/types";
 import { toRoomMessages } from "../serverHelper";
-
-export async function getUnknownMessages(privateId :string): Promise<Models.DocumentList<Models.Document>> {
-    try {
-        const response = await databases.listDocuments<Models.Document>(
-            databaseId,
-            unknownCollectionId,
-            [
-                Query.equal("privateId", privateId)
-            ]
-        );
-        return response;
-    } catch (error) {
-        console.error("Error fetching messages:", error);
-        throw error;
-    }
-};
-
-export async function isUserExist (privateId: string) : Promise<boolean> {
-    try {
-        const userSnap = await databases.listDocuments(
-            databaseId,
-            userCollectionId,
-            [
-                Query.equal("privateId", privateId)
-            ]
-        );
-        return userSnap.total > 0;
-    } catch (error) {
-        console.error("Error checking user existence:", error);
-        throw error;
-    }
-};
-
-export async function sendGuestMessage(data: GuestMessageProps) {
-    try {
-        const result = await databases.createDocument(
-            databaseId,
-            guestCollectionId,
-            ID.unique(),
-            {
-                ...data
-            }
-            
-        );
-        if (!result) {
-            console.log("No messages found for this room.");
-            return;
-        };
-        return result;
-    } catch (error) {
-        console.log("Error fetching room messages:", error);
-    }
-}
-
 
 interface RoomMessagesProps {
     contactNo: string;
@@ -63,11 +9,31 @@ interface RoomMessagesProps {
     username: string;
 }
 
-export const fetchRoomMessages  = async ({
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+const retry = async <T>(
+  fn: () => Promise<T>,
+  retries = 2,
+  delayMs = 500
+): Promise<T> => {
+  try {
+    return await fn();
+  } catch (e) {
+    if (retries > 0) {
+      console.warn(`Retrying... (${retries} attempts left)`);
+      await sleep(delayMs);
+      return retry(fn, retries - 1, delayMs);
+    }
+    throw e;
+  }
+};
+
+
+async function fetchRoomMessages ({
     contactNo,
     privateId,
     username
-} : RoomMessagesProps) : Promise<RoomMessage[] | undefined> => {
+} : RoomMessagesProps) : Promise<RoomMessage[] | undefined> {
     try {
         const userSnap = await databases.listDocuments(
             databaseId,
@@ -93,7 +59,8 @@ export const fetchRoomMessages  = async ({
                 Query.and([
                     Query.equal("room", true),
                     Query.equal("privateId", privateId),
-                ])
+                ]),
+                Query.orderDesc("$createdAt")
             ]
         );
         if (!result) {
@@ -107,9 +74,9 @@ export const fetchRoomMessages  = async ({
     }
 };
 
-export const fetchPublicRoomMessages  = async ({
+async function fetchPublicRoomMessages ({
     privateId
-} : {privateId: string}) : Promise<RoomMessage[] | undefined> => {
+} : {privateId: string}) : Promise<RoomMessage[] | undefined> {
     try {
 
         const result = await databases.listDocuments(
@@ -120,7 +87,8 @@ export const fetchPublicRoomMessages  = async ({
                     Query.equal("room", true),
                     Query.equal("public", true),
                     Query.equal("privateId", privateId),
-                ])
+                ]),
+                Query.orderDesc("$createdAt")
             ]
         );
         if (!result) {
@@ -134,7 +102,7 @@ export const fetchPublicRoomMessages  = async ({
     }
 };
 
-export const fetchUserByPublicId = async({publicId} : {publicId: string}) => {
+async function fetchUserByPublicId ({publicId} : {publicId: string}){
     try {
         const userSnap = await databases.listDocuments(
             databaseId,
@@ -152,5 +120,89 @@ export const fetchUserByPublicId = async({publicId} : {publicId: string}) => {
         return userSnap.documents[0];
     } catch (error) {
         console.log(error)
+    }
+}
+
+
+async function checkUserExists (privateId: string) : Promise<boolean> {
+    try {
+        const userSnap = await databases.listDocuments(
+            databaseId,
+            userCollectionId,
+            [
+                Query.equal("privateId", privateId)
+            ]
+        );
+        return userSnap.total > 0;
+    } catch (error) {
+        console.error("Error checking user existence:", error);
+        throw error;
+    }
+};
+
+
+async function sendGuestMessage(data: GuestMessageProps) {
+    try {
+        const result = await databases.createDocument(
+            databaseId,
+            guestCollectionId,
+            ID.unique(),
+            {
+                ...data
+            }
+            
+        );
+        if (!result) {
+            console.log("No messages found for this room.");
+            return;
+        };
+        return result;
+    } catch (error) {
+        console.log("Error fetching room messages:", error);
+    }
+}
+
+export const isUserExist = async (privateId: string) => {
+    try {
+        const result = await retry(() => checkUserExists(privateId), 2, 1000);
+        return result;
+    } catch (error) {
+        throw (error as Error).message || "Internet unstable!"
+    }
+};
+
+export const uploadMessage = async (data: GuestMessageProps) => {
+    try {
+        const result = await retry(() => sendGuestMessage(data), 2, 1000);
+        return result;
+    } catch (error) {
+        throw (error as Error).message;
+    }
+}
+
+export const fetchPublicUser = async (publicId: string) => {
+    try {
+        const result = await retry(() =>  fetchUserByPublicId({publicId: publicId}), 2, 1000);
+        return result;
+    } catch (error) {
+        throw (error as Error).message;
+    }
+}
+
+export const fetchPublicMessages = async (privateId: string) => {
+    try {
+        const result = await retry(() => fetchPublicRoomMessages({privateId}))
+        return result;
+    } catch (error) {
+        throw (error as Error).message
+    }
+}
+
+export const fetchMessage = async (data: RoomMessagesProps) => {
+    try {
+        const result = await retry(() => fetchRoomMessages(data), 2, 1000);
+        return result;
+    } catch (error) {
+        throw (error as Error).message
     }
 }

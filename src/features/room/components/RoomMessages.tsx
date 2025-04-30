@@ -13,13 +13,14 @@ import {
 
 interface Props {
   message: RoomMessage;
+  downloadingFileId: string | null;
+  downloadedFileIds: Set<string>;
   onDownload(fileId: string, fileName: string): Promise<void>;
 }
 
-function RoomMessageCard({ message, onDownload }: Props) {
+function RoomMessageCard({ message, onDownload, downloadingFileId, downloadedFileIds }: Props) {
   const { content, mediaData = [], mediaType, createdAt } = message;
 
-  /* memoise expensive / stable values */
   const TypeIcon = useMemo(() => {
     switch (mediaType) {
       case 'image':
@@ -54,25 +55,64 @@ function RoomMessageCard({ message, onDownload }: Props) {
       {/* ------- attachments ------- */}
       {mediaData.length > 0 && (
         <ul className="space-y-2">
-          {mediaData.map(({ fileId, fileName }) => (
-            <li
-              key={fileId}
-              className="flex items-center gap-2 rounded-2xl p-2"
-            >
-              <TypeIcon className="h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400" />
-              <span className="flex-1 truncate text-sm text-gray-800 dark:text-gray-100">
-                {fileName}
-              </span>
-              <button
-                type="button"
-                onClick={() => onDownload(fileId, fileName)}
-                title="Download"
-                className="rounded-2xl p-1 transition hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:hover:bg-zinc-700"
+          {mediaData.map(({ fileId, fileName }) => {
+            const isDownloading = downloadingFileId === fileId;
+            const isDownloaded = downloadedFileIds.has(fileId);
+
+            return (
+              <li
+                key={fileId}
+                className="flex items-center gap-2 rounded-2xl p-2"
               >
-                <Download className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              </button>
-            </li>
-          ))}
+                <TypeIcon className="h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400" />
+                <span className="flex-1 truncate text-sm text-gray-800 dark:text-gray-100">
+                  {fileName}
+                </span>
+                <button
+                  onClick={() => onDownload(fileId, fileName)}
+                  disabled={isDownloading}
+                  className={`group relative overflow-hidden flex items-center min-w-[140px] cursor-pointer gap-2 px-3 py-2 rounded-lg transition text-white focus:outline-none
+                    ${isDownloaded
+                      ? 'bg-indigo-950 hover:bg-indigo-900'
+                      : 'bg-gradient-to-r from-indigo-950 to-pink-950 hover:opacity-90'}
+                    `}
+                >
+                  {/* Ripple background when downloading */}
+                  {isDownloading && (
+                    <div className="absolute inset-0 animate-pulse bg-white/10" />
+                  )}
+
+                  {/* Spinner, Checkmark or Download Icon */}
+                  <span className="relative z-10 flex items-center gap-2">
+                    {isDownloading ? (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : isDownloaded ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-4 h-4 text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    ) : (
+                      <Download className="w-4 h-4" />
+                    )}
+                    <span className="text-sm">
+                      {isDownloaded ? 'Downloaded' : isDownloading ? 'Preparing...' : 'Download'}
+                    </span>
+                  </span>
+                </button>
+
+              </li>
+            );
+          })}
         </ul>
       )}
 
