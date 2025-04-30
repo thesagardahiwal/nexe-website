@@ -21,8 +21,7 @@ const RoomMessagesLayout = () => {
     const slowTimerRef = useRef<NodeJS.Timeout | null>(null);
     const [downloadingFileId, setDownloadingFileId] = useState<string | null>(null);
     const [downloadedFileIds, setDownloadedFileIds] = useState<Set<string>>(new Set());
-
-
+    const [downloadProgress, setDownloadProgress] = useState<number | null>(null);
     useEffect(() => {
         if (loading) {
             slowTimerRef.current = setTimeout(() => {
@@ -64,30 +63,77 @@ const RoomMessagesLayout = () => {
 
     const handleDownload = async (fileId: string, fileName: string) => {
         setDownloadingFileId(fileId);
-        const toastId = toast.loading('Preparing your download...');
+        setDownloadProgress(0);
+      
+        const toastId = toast.loading(`Downloading ${fileName}...`);
       
         try {
-          const res = await fetch(`/api/appwrite/download?id=${fileId}&name=${encodeURIComponent(fileName)}`);
-          if (!res.ok) throw new Error('Failed to get file URL');
+          const encodedFileName = encodeURIComponent(fileName); // Ensure filename is URL-encoded
+          const res = await fetch(`/api/appwrite/download?id=${fileId}&name=${encodedFileName}`);
       
-          const url = await res.text();
+          if (!res.ok || !res.body) {
+            throw new Error('Failed to download file');
+          }
+      
+          const contentLength = res.headers.get('Content-Length');
+          const total = contentLength ? parseInt(contentLength, 10) : null;
+      
+          const reader = res.body.getReader();
+          let received = 0;
+          const chunks: Uint8Array[] = [];
+      
+          // Read file stream and update progress
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+      
+            if (value) {
+              chunks.push(value);
+              received += value.length;
+      
+              if (total) {
+                const percent = Math.round((received / total) * 100);
+                setDownloadProgress(percent);
+      
+                // Update toast progress
+                toast.loading(`Downloading ${fileName}... ${percent}%`, {
+                  id: toastId,
+                });
+              }
+            }
+          }
+      
+          // Create blob from chunks
+          const blob = new Blob(chunks);
+          const blobUrl = window.URL.createObjectURL(blob);
+      
+          // Create a download link and trigger the download
           const a = document.createElement('a');
-          a.href = url;
-          a.download = fileName;
+          a.href = blobUrl;
+          a.download = fileName; // Ensure the filename is set correctly
           document.body.appendChild(a);
-          a.click();
-          a.remove();
+          a.click(); // Trigger the download
+          a.remove(); // Remove the element from the DOM
       
-          // ✅ Track downloaded file
+          // Clean up the URL object after download
+          window.URL.revokeObjectURL(blobUrl);
+      
+          // Mark the file as downloaded
           setDownloadedFileIds(prev => new Set(prev).add(fileId));
-          toast.success('Download started!', { id: toastId });
+      
+          // Show success toast
+          toast.success(`Downloaded ${fileName}`, { id: toastId });
         } catch (error) {
-          console.error(error);
-          toast.error('Failed to download file', { id: toastId });
+          console.error('Download error:', error);
+          toast.error(`Failed to download ${fileName}`, { id: toastId });
         } finally {
+          setDownloadProgress(null);
           setDownloadingFileId(null);
         }
       };
+      
+      
+      
       
     
 
@@ -192,6 +238,7 @@ const RoomMessagesLayout = () => {
                     ) : (
                         roomMessages.map((msg) => (
                             <RoomMessageCard 
+                                downloadProgress={downloadProgress}
                                 downloadingFileId={downloadingFileId} 
                                 key={msg.createdAt} 
                                 message={msg} 

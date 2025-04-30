@@ -13,12 +13,19 @@ import {
 
 interface Props {
   message: RoomMessage;
+  downloadProgress: number | null;
   downloadingFileId: string | null;
   downloadedFileIds: Set<string>;
   onDownload(fileId: string, fileName: string): Promise<void>;
 }
 
-function RoomMessageCard({ message, onDownload, downloadingFileId, downloadedFileIds }: Props) {
+function RoomMessageCard({ 
+  message, 
+  onDownload, 
+  downloadingFileId, 
+  downloadedFileIds,
+  downloadProgress,
+ }: Props) {
   const { content, mediaData = [], mediaType, createdAt } = message;
 
   const TypeIcon = useMemo(() => {
@@ -105,7 +112,13 @@ function RoomMessageCard({ message, onDownload, downloadingFileId, downloadedFil
                       <Download className="w-4 h-4" />
                     )}
                     <span className="text-sm">
-                      {isDownloaded ? 'Downloaded' : isDownloading ? 'Preparing...' : 'Download'}
+                      {isDownloading ? (
+                        `${downloadProgress}%`
+                      ) : isDownloaded ? (
+                        'Downloaded'
+                      ) : (
+                        'Download'
+                      )}
                     </span>
                   </span>
                 </button>
