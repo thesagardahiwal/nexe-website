@@ -46,15 +46,15 @@ export async function GET(req: NextRequest) {
       throw new Error('File stream is empty');
     }
 
-    const buffer = await streamToBuffer(body);
+
     const encodedFileName = encodeURIComponent(fileName); // URL-encode to handle special characters
 
-    return new Response(buffer, {
+    return new Response(body, {
       status: 200,
       headers: {
         'Content-Type': 'application/octet-stream',
         'Content-Disposition': `attachment; filename="${encodedFileName}"`,
-        'Content-Length': buffer.length.toString(),
+        // 'Content-Length': buffer.length.toString(),
       },
     });
   } catch (err) {
