@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     sendNotificationToUser({
       customTitle: `Someone accesing your ${publicId ? "public messages" : "room messages"}`,
       privateId: userSnap ? userSnap.privateId : privateId,
-      messageText: `Someone is trying to access your room with contact number ${contactNo}`,
+      messageText: `Someone is trying to access your ${userSnap ? "public messages" : "room with contact number "+contactNo}`,
       data: {
         type: "room_message",
         notificationData: null,
