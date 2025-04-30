@@ -1,85 +1,92 @@
-'use client';
+import React from "react";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-
-export default function Privacy() {
-  const securityFeatures = [
-    {
-      title: "End-to-End Encryption",
-      description: "Every message and media file you send is encrypted, ensuring that only the recipient can access it.",
-      icon: "🔐",
-      delay: 0.7
-    },
-    {
-      title: "No Data Collection",
-      description: "We do not store or track your messages, media, or user activity—your data remains completely private.",
-      icon: "🕵️",
-      delay: 1
-    },
-    {
-      title: "No OTPs, No Signups",
-      description: "You can share files and messages instantly using a private ID, without the hassle of signups, logins, or OTP verification.",
-      icon: "❌",
-      delay: 1.3
-    }
-  ];
-  
+export default function PrivacyPolicy() {
   return (
-    <div className="flex p-10 flex-col items-center w-full max-w-6xl mx-auto px-6 pb-20 text-center relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-10 left-1/4 w-[200px] h-[200px] bg-gradient-to-r from-blue-400 to-green-400 blur-3xl opacity-30 animate-pulse" />
-        <div className="absolute bottom-10 right-1/4 w-[150px] h-[150px] bg-gradient-to-r from-pink-400 to-purple-500 blur-3xl opacity-20 animate-pulse" />
-      </div>
+    <div className="min-h-screen bg-white dark:bg-[#0d0d0d] text-gray-800 dark:text-gray-100 px-6 py-12 max-w-4xl mx-auto">
+      <h1 className="text-4xl font-bold mb-8 text-blue-600 dark:text-blue-400">Privacy Policy for Nexe</h1>
 
-      {/* Main Header */}
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', damping: 12, stiffness: 100, delay: 0.3 }}
-        className="text-6xl font-extrabold tracking-wide bg-gradient-to-r from-green-400 to-blue-500 dark:from-pink-400 text-transparent bg-clip-text"
-      >
-        Privacy & Security
-      </motion.h1>
-      
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', damping: 15, stiffness: 100, delay: 0.5 }}
-        className="font-medium text-gray-900 dark:text-gray-300 mt-4 leading-relaxed text-center md:text-left text-lg tracking-wide"
-      >
-        At Nexe, your privacy is our top priority. We ensure your messages and media are protected with state-of-the-art encryption.
-      </motion.p>
+      <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">Last Updated: April 30, 2025</p>
 
-      {/* Security Highlights Section */}
-      <div className="mt-12 space-y-8">
-        {securityFeatures.map((feature, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', damping: 20, stiffness: 100, delay: feature.delay }}
-            className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md"
-          >
-            <h2 className="text-2xl font-semibold text-blue-600 dark:text-violet-400 flex items-center gap-3">
-              <span>{feature.icon}</span> {feature.title}
-            </h2>
-            <p className="mt-2 text-gray-600 dark:text-gray-300">
-              {feature.description}
-            </p>
-          </motion.div>
-        ))}
-      </div>
+      <p className="mb-6">
+        Welcome to <strong>Nexe</strong>. Your privacy and security are at the core of our values. This Privacy Policy
+        describes how we collect, use, and protect your information when you use our application and services.
+      </p>
 
-      {/* Final Assurance */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, type: 'spring', stiffness: 100 }}
-        className="mt-12 text-lg text-white text-center"
-      >
-        With Nexe, you stay in control of your privacy. We believe in a secure and frictionless communication experience.
-      </motion.p>
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-4">Information We Collect</h2>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>
+            <strong>Account Information:</strong> We collect your Private ID and Username. If you use Google or GitHub
+            login, your email is used solely for authentication.
+          </li>
+          <li>
+            <strong>Guest Messages:</strong> Stored temporarily for delivery. No sender data is saved.
+          </li>
+          <li>
+            <strong>Media Files:</strong> Securely stored for recipient access only. No scanning or usage beyond delivery.
+          </li>
+          <li>
+            <strong>Room Access:</strong> Web access requires Private ID, Username, and Contact No. Not stored permanently.
+          </li>
+          <li>
+            <strong>Usage Data:</strong> Optional and anonymized, only used to improve the app.
+          </li>
+        </ul>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-4">How We Use Your Data</h2>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>Authenticate users</li>
+          <li>Deliver messages and media</li>
+          <li>Improve performance and features</li>
+          <li>Provide cross-device syncing (Room access)</li>
+        </ul>
+        <p className="mt-4">We do not sell your data, track you, or show advertisements.</p>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-4">Third-Party Services</h2>
+        <p>
+          We use services from Google, GitHub, Appwrite, Expo, and Firebase. They have their own privacy policies for
+          data handling.
+        </p>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-4">Data Security</h2>
+        <p>
+          We use end-to-end encryption, secure HTTPS, and regular security audits. While we do our best, no system is
+          100% secure.
+        </p>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-4">Data Retention</h2>
+        <p>
+          We keep data only as long as needed. Deleting your Private ID or account deletes your data. Guest messages are
+          not stored permanently.
+        </p>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-4">Your Rights</h2>
+        <p>You can delete your account at any time. You can also contact us to request data deletion.</p>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
+        <p>Email: <a className="text-blue-600 dark:text-blue-400 underline" href="mailto:nexemessages@gmail.com">nexemessages@gmail.com</a></p>
+        <p>Website: <a className="text-blue-600 dark:text-blue-400 underline" href="https://nexe.vercel.app">https://nexe.vercel.app</a></p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Changes to This Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. You’ll be notified via the app or our website in case of
+          major changes.
+        </p>
+      </section>
     </div>
   );
 }

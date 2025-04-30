@@ -2,25 +2,25 @@ import { NextRequest } from 'next/server';
 import { storage, storeId } from '@/libs/appwrite/serverClient';
 
 // Helper function to convert stream to Buffer
-async function streamToBuffer(stream: ReadableStream<Uint8Array> | null): Promise<Buffer> {
-  if (!stream) {
-    throw new Error('Stream is null');
-  }
+// async function streamToBuffer(stream: ReadableStream<Uint8Array> | null): Promise<Buffer> {
+//   if (!stream) {
+//     throw new Error('Stream is null');
+//   }
 
-  const reader = stream.getReader();
-  const chunks: Uint8Array[] = [];
-  let done, value;
+//   const reader = stream.getReader();
+//   const chunks: Uint8Array[] = [];
+//   let done, value;
 
-  // Read the stream until it's done
-  while ({ done, value } = await reader.read(), !done) {
-    if (value) {
-      chunks.push(value);
-    }
-  }
+//   // Read the stream until it's done
+//   while ({ done, value } = await reader.read(), !done) {
+//     if (value) {
+//       chunks.push(value);
+//     }
+//   }
 
-  // Concatenate all chunks into a single buffer
-  return Buffer.concat(chunks);
-}
+//   // Concatenate all chunks into a single buffer
+//   return Buffer.concat(chunks);
+// }
 
 export async function GET(req: NextRequest) {
   const fileId = req.nextUrl.searchParams.get('id');
