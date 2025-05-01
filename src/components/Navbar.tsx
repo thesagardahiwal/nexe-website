@@ -18,6 +18,7 @@ function Navbar() {
     { name: 'Room', path: '/room' },
     { name: 'Features', path: '/features' },
     { name: 'Privacy', path: '/privacy' },
+    { name: 'Documentation', path: '/doc' },
     { name: 'About', path: '/about' },
     // { name: 'Blog', path: '/blog' },
   ];

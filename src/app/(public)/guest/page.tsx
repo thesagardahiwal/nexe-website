@@ -14,6 +14,7 @@ const GuestMessagesLayout = () => {
                 <div className="absolute top-10 left-1/4 w-[200px] h-[200px] bg-gradient-to-r from-blue-400 to-green-400 blur-3xl opacity-30 animate-pulse" />
                 <div className="absolute bottom-10 right-1/4 w-[150px] h-[150px] bg-gradient-to-r from-pink-400 to-purple-500 blur-3xl opacity-20 animate-pulse" />
             </div>
+
             {/* Top Bar */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -28,9 +29,16 @@ const GuestMessagesLayout = () => {
             </motion.div>
 
             {/* Message Form Modal */}
-            {isModalOpen &&
-                <MessageForm isRoomMessage={false} onClose={() => setIsModalOpen(false)} />
-            }
+            {isModalOpen && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ type: 'spring', damping: 12, stiffness: 100, delay: 0.3 }}
+                    className="absolute inset-0 flex justify-center items-center z-20"
+                >
+                    <MessageForm isRoomMessage={false} onClose={() => setIsModalOpen(false)} />
+                </motion.div>
+            )}
         </div>
     );
 };
