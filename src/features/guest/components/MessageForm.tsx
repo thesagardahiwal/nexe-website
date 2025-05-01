@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
@@ -7,16 +5,17 @@ import { Paperclip } from 'lucide-react';
 import { validateMessageForm } from '@/utils/validation';
 import { isUserExist, sendGuestMessage } from '../libs/api';
 import useMediaPicker from '@/hooks/useMediaPicker';
+import { encryptMessage } from '@/utils/encription'; // Import the encryption function
 
 const MediaPickerModal  = dynamic(() => import('@/components/MediaPickerModal'), { ssr: false });
 const SelectedMediaView = dynamic(() => import('@/components/SelectedMediaView'), { ssr: false });
 
 interface MessageFormProps { 
-  onClose(): void
-  isRoomMessage: boolean
- }
+  onClose(): void;
+  isRoomMessage: boolean;
+}
 
-export default function MessageForm({ onClose, isRoomMessage=false }: MessageFormProps) {
+export default function MessageForm({ onClose, isRoomMessage = false }: MessageFormProps) {
   const [chat, setChat] = useState('');
   const [privateId, setPrivateId] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -28,8 +27,8 @@ export default function MessageForm({ onClose, isRoomMessage=false }: MessageFor
   const handleMediaSelection = useCallback(
     (type: 'image' | 'video' | 'document') => {
       const input = document.createElement('input');
-      input.type     = 'file';
-      input.accept   = type === 'image' ? 'image/*' : type === 'video' ? 'video/*' : '*';
+      input.type = 'file';
+      input.accept = type === 'image' ? 'image/*' : type === 'video' ? 'video/*' : '*';
       input.multiple = true;
       input.onchange = (e) =>
         pickMedia(e as unknown as React.ChangeEvent<HTMLInputElement>, type);
@@ -50,7 +49,7 @@ export default function MessageForm({ onClose, isRoomMessage=false }: MessageFor
       const user = await isUserExist(privateId.trim());
       if (!user?.success) {
         (await getToast()).error(
-          'Unknown Private ID\nWe couldn’t find a user with that ID.'
+          'Unknown Private ID\nWe couldn’t find a user with that ID.'
         );
         return;
       }
@@ -60,8 +59,10 @@ export default function MessageForm({ onClose, isRoomMessage=false }: MessageFor
         mediaUrl = await uploadMedia({ selectedMedia });
       }
 
+      // Encrypt the message content before sending
+      const encryptedMessage = encryptMessage(chat.trim());
       const { message, success } = await sendGuestMessage({
-        content: chat.trim(),
+        content: encryptedMessage, // Send encrypted message
         privateId: privateId.trim(),
         room: isRoomMessage,
         ...(mediaUrl.length > 0 && selectedMedia.type !== 'cancel'

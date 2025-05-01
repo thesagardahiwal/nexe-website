@@ -26,7 +26,7 @@ function Navbar() {
     <>
       <div className="flex sticky top-0 z-10 items-center justify-between w-full px-6 py-4 bg-white dark:bg-[#00011c]">
         {/* Logo Section */}
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex w-1/6 items-center gap-2">
           <Image
             src={darkModeLogo}
             className="hidden dark:block"
@@ -41,14 +41,13 @@ function Navbar() {
             height={50}
             width={50}
           />
-          <Link href="/" className="font-bold text-3xl tracking-wide text-[#00011c] dark:text-white">
+          <div className="font-bold text-3xl tracking-wide text-[#00011c] dark:text-white">
             Nexe
-          </Link>
-        </div>
+          </div>
+        </Link>
 
         {/* Navbar Items for Medium Screens and Above */}
-        <nav className="hidden md:flex-1 md:flex items-center gap-8" aria-label="Main navigation">
-          <div className="w-[1px] h-[30px] bg-slate-600" aria-hidden="true" />
+        <nav className="hidden md:flex-1 md:flex items-center" aria-label="Main navigation">
           <ul className="flex font-medium items-center gap-8 text-lg" role="menubar">
             {navItems.map(({ name, path }, index) => (
               <li key={index} className="relative group" role="none">
@@ -91,9 +90,9 @@ function Navbar() {
         {/* Hamburger Menu for Small Screens */}
         <div className="md:hidden flex items-center gap-3">
           <button
-            className="px-5 py-2 rounded-full font-bold bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md hover:scale-105 transition-all"
+            className="px-5 py-2 rounded-full flex items-center justify-center font-bold bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md hover:scale-105 transition-all"
             aria-label="Download app"
-            style={{ minWidth: '120px', height: '40px' }}  // Ensuring proper touch target size
+            style={{ maxWidth: '100px', minWidth: '80px', height: '40px' }}  // Ensuring proper touch target size
           >
             <Link href="/advertise">Download</Link>
           </button>

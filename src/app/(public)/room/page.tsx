@@ -15,6 +15,7 @@ import MessageForm from '@/features/guest/components/MessageForm';
 
 import { fetchPublicRoomMessages, fetchRoomMessages } from "@/features/room/libs/api";
 import { RoomMessage } from '@/types';
+import { decryptFile, getCryptoKey } from '@/utils/encription';
 
 const RoomMessagesLayout = () => {
   // 🔧 UI state
@@ -99,11 +100,14 @@ const RoomMessagesLayout = () => {
         }
       }
 
-      const blob = new Blob(chunks);
-      const blobUrl = URL.createObjectURL(blob);
+      const encryptedBlob = new Blob(chunks);
+      const key = await getCryptoKey();
+      const decryptedBlob = await decryptFile(encryptedBlob, key);
+      const decryptedFileName = fileName.replace('.enc', '');
+      const blobUrl = URL.createObjectURL(decryptedBlob);
       const a = document.createElement('a');
       a.href = blobUrl;
-      a.download = fileName;
+      a.download = decryptedFileName;
       document.body.appendChild(a);
       a.click();
       a.remove();

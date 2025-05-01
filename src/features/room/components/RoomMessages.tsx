@@ -10,6 +10,7 @@ import {
   Download,
   MessageCircle,
 } from 'lucide-react';
+import { decryptMessage } from '@/utils/encription';
 
 interface Props {
   message: RoomMessage;
@@ -26,8 +27,8 @@ function RoomMessageCard({
   downloadedFileIds,
   downloadProgress,
  }: Props) {
-  const { content, mediaData = [], mediaType, createdAt } = message;
-
+  const { mediaData = [], mediaType, createdAt } = message;
+  const content = decryptMessage(message.content);
   const TypeIcon = useMemo(() => {
     switch (mediaType) {
       case 'image':
