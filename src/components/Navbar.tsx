@@ -18,16 +18,15 @@ function Navbar() {
     { name: 'Room', path: '/room' },
     { name: 'Features', path: '/features' },
     { name: 'Privacy', path: '/privacy' },
-    { name: 'Documentation', path: '/doc' },
+    { name: 'Docs', path: '/doc' },
     { name: 'About', path: '/about' },
-    // { name: 'Blog', path: '/blog' },
   ];
 
   return (
     <>
-      <div className="flex items-center justify-between w-full px-6 py-4 bg-white dark:bg-[#00011c]">
+      <div className="flex sticky top-0 z-10 items-center justify-between w-full px-6 py-4 bg-white dark:bg-[#00011c]">
         {/* Logo Section */}
-        <div className="flex w-[200px] items-center gap-2">
+        <div className="flex items-center gap-2">
           <Image
             src={darkModeLogo}
             className="hidden dark:block"
@@ -47,19 +46,17 @@ function Navbar() {
           </Link>
         </div>
 
-        {/* Navbar Items for Large Screens */}
+        {/* Navbar Items for Medium Screens and Above */}
         <nav className="hidden md:flex-1 md:flex items-center gap-8" aria-label="Main navigation">
-          {/* Divider */}
           <div className="w-[1px] h-[30px] bg-slate-600" aria-hidden="true" />
-
           <ul className="flex font-medium items-center gap-8 text-lg" role="menubar">
             {navItems.map(({ name, path }, index) => (
               <li key={index} className="relative group" role="none">
                 <Link
                   href={path}
                   className={`inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-2 
-            text-gray-700 dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white 
-            ${pathname === path ? 'font-bold' : ''}`}
+                    text-gray-700 dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white 
+                    ${pathname === path ? 'font-bold' : ''}`}
                   aria-current={pathname === path ? 'page' : undefined}
                   role="menuitem"
                   aria-label={`Navigate to ${name}`}
@@ -67,17 +64,16 @@ function Navbar() {
                   {name}
                 </Link>
 
-                {/* Underline: Visible on hover & if active */}
+                {/* Underline for Active and Hover States */}
                 <motion.div
                   className={`absolute left-0 -bottom-1 h-[2px] bg-pink-600 w-full transition-transform duration-300 
-            ${pathname === path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}
+                    ${pathname === path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}
                   aria-hidden="true"
                 />
               </li>
             ))}
           </ul>
         </nav>
-
 
         {/* Download Button */}
         <div className="md:flex hidden items-center gap-4">
@@ -93,7 +89,7 @@ function Navbar() {
         </div>
 
         {/* Hamburger Menu for Small Screens */}
-        <div className="md:hidden flex gap-3 items-center">
+        <div className="md:hidden flex items-center gap-3">
           <button
             className="px-5 py-2 rounded-full font-bold bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md hover:scale-105 transition-all"
             aria-label="Download app"

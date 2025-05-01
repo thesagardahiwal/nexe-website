@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { StaticImageData } from "next/image";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   home,
   public_messaging,
@@ -40,6 +40,7 @@ import {
   added_message_in_room,
 } from "@/assets/images/hero_images/index";
 import { delete_forward, get_started_with_nexe, public_message, room_messages, send_guest, setup_account } from "@/constant/data";
+import CaptionPoints from "@/components/RenderCaption";
 
 const dummyImage = web_room_tab;
 
@@ -75,7 +76,7 @@ const Section: FC<SectionProps> = ({
 
       {imageSrc && !Array.isArray(imageSrc) && (
         <div
-          className={`w-full max-w-xl mx-auto ${
+          className={`w-full md:flex items-start max-w-xl mx-auto ${
             imageRatio === "9:16" ? "aspect-[9/16] h-[450px]" : "aspect-[16/10]"
           } relative`}
         >
@@ -87,21 +88,19 @@ const Section: FC<SectionProps> = ({
           />
           {/* Ensure caption is displayed below the image */}
           {captions && captions[0] && (
-            <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-300">
-              {captions[0]}
-            </p>
+            <CaptionPoints captions={captions} idx={0} />
           )}
         </div>
       )}
 
       {Array.isArray(imageSrc) && step && (
-        <div className="w-full flex flex-col gap-6">
+        <div className="w-full md:flex flex-col gap-6">
           {imageSrc.map((img, idx) => (
             <div
               key={idx}
-              className=" p-2"
+              className=" md:flex items-start p-2"
             >
-              <div className={`w-full max-w-xl mx-auto ${
+              <div className={`w-full flex-1 max-w-xl mx-auto ${
                 imageRatio === "9:16" ? "aspect-[9/16] h-52 w-52" : "aspect-[16/10]"
               } relative`}>
                 <Image
@@ -115,11 +114,7 @@ const Section: FC<SectionProps> = ({
                 </div>
               </div>
                {/* Ensure captions appear below the images */}
-               {captions && captions[idx] && (
-                <p className="mt-4 text-left text-pretty text-sm text-gray-600 dark:text-gray-300">
-                  {captions[idx]}
-                </p>
-              )}
+               {captions && <CaptionPoints captions={captions} idx={idx} />}
             </div>
           ))}
         </div>
@@ -204,17 +199,41 @@ const sections = [
 ];
 
 const Documentation: FC = () => {
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-50% 0px -50% 0px" } // Adjust based on your layout
+    );
+
+    sections.forEach((section) => {
+      const el = document.getElementById(section.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [sections]);
   return (
-    <div className="flex flex-col md:flex-row min-h-screen">
+    <div className="flex relative flex-col md:flex-row min-h-screen">
       {/* Sidebar */}
-      <aside className="hidden md:block w-full md:w-[225px] px-4 py-10 sticky top-0 h-screen overflow-y-auto border-r border-gray-200 dark:border-gray-700 bg-transparent">
+      <aside className="hidden md:block w-full md:w-[225px] px-4 py-10 sticky top-20 h-screen overflow-y-auto border-r border-gray-200 dark:border-gray-700 bg-transparent">
         <nav className="space-y-4 text-gray-800 dark:text-gray-200 text-sm font-medium">
           <h2 className="text-lg font-semibold mb-4">Documentation</h2>
           {sections.map((section) => (
             <a
               key={section.id}
               href={`#${section.id}`}
-              className="block transition-colors"
+              className={`block font-thin transition-colors ${activeSection === section.id
+                  ? "text-orange-500 font-semibold"
+                  : "text-gray-800 dark:text-gray-200 hover:text-white"
+                }`}
             >
               {section.title}
             </a>
