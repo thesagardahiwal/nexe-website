@@ -27,6 +27,7 @@ const SelectedMediaView: React.FC<SelectedMediaViewProps> = ({ selectedMedia, re
             resetMedia();
             toast.success('Media selection cleared');
           }}
+          aria-label="Close room form"
           className="p-1.5 cursor-pointer bg-red-500 hover:bg-red-600 rounded-full text-white"
         >
           <XCircle size={18} />

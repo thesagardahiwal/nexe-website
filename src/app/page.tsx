@@ -1,28 +1,6 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function Home() {
-  const [shouldAnimate, setShouldAnimate] = useState(false);
-
-  useEffect(() => {
-    const hasVisited = sessionStorage.getItem('nexeHomeAnimated');
-    if (!hasVisited) {
-      setShouldAnimate(true);
-      sessionStorage.setItem('nexeHomeAnimated', 'true');
-    }
-  }, []);
-
-  const animatedProps = (base: any, delay: number = 0) =>
-    shouldAnimate
-      ? {
-          initial: base.initial,
-          animate: base.animate,
-          transition: { ...base.transition, delay },
-        }
-      : {};
 
   return (
     <main
@@ -37,36 +15,24 @@ export default function Home() {
       </div>
 
       {/* Welcome Section */}
-      <motion.section
-        {...animatedProps(
-          { initial: { opacity: 0, y: -20 }, animate: { opacity: 1, y: 0 }, transition: { type: 'spring', damping: 12, stiffness: 100 } },
-          0.3
-        )}
+      <div
         className="mt-24 text-center z-10"
         role="region"
         aria-labelledby="welcome-heading"
       >
         <p className="text-gray-900 dark:text-gray-200 text-2xl" id="welcome-heading">Welcome to</p>
-        <motion.h1
-          {...animatedProps(
-            { initial: { opacity: 0, scale: 0.8 }, animate: { opacity: 1, scale: 1 }, transition: { type: 'spring', damping: 10 } },
-            0.7
-          )}
+        <div
           className="font-extrabold text-8xl tracking-wide bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text dark:from-pink-400"
         >
           Nexe
-        </motion.h1>
+        </div>
         <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-xl mx-auto" aria-label="Home Page Description">
           A seamless way to share messages and media securely.
         </p>
-      </motion.section>
+      </div>
 
       {/* CTA Button - Mobile */}
-      <motion.section
-        {...animatedProps(
-          { initial: { opacity: 0, y: 30 }, animate: { opacity: 1, y: 0 }, transition: { type: 'spring', damping: 15 } },
-          0.6
-        )}
+      <div
         className="mt-16 md:hidden relative z-10"
         role="region"
         aria-labelledby="get-started-mobile"
@@ -82,7 +48,7 @@ export default function Home() {
         >
           Get Started
         </Link>
-      </motion.section>
+      </div>
 
       {/* Features Section */}
       <section
@@ -96,12 +62,8 @@ export default function Home() {
           { title: "Secure & Private", description: "End-to-end encryption for total security." },
           { title: "Guest Messaging", description: "Send media to private IDs instantly." },
         ].map((feature, index) => (
-          <motion.article
-            key={index}
-            {...animatedProps(
-              { initial: { opacity: 0, y: 30 }, animate: { opacity: 1, y: 0 }, transition: { type: 'spring', damping: 15 } },
-              0.1 + index * 0.2
-            )}
+          <div
+          key={index}
             className="relative text-center max-w-sm"
             aria-labelledby={`feature-${index}-title`}
           >
@@ -109,16 +71,12 @@ export default function Home() {
               {feature.title}
             </h3>
             <p className="text-gray-600 dark:text-gray-300 mt-2">{feature.description}</p>
-          </motion.article>
+          </div>
         ))}
       </section>
 
       {/* CTA Button - Desktop */}
-      <motion.section
-        {...animatedProps(
-          { initial: { opacity: 0, y: 30 }, animate: { opacity: 1, y: 0 }, transition: { type: 'spring', damping: 15 } },
-          0.6
-        )}
+      <div
         className="mt-16 hidden md:block relative z-10"
         role="region"
         aria-labelledby="get-started-desktop"
@@ -134,7 +92,7 @@ export default function Home() {
         >
           Get Started
         </Link>
-      </motion.section>
+      </div>
     </main>
   );
 }

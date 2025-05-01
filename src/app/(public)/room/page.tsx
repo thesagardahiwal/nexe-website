@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import {
   LucideDelete,
@@ -162,10 +161,7 @@ const RoomMessagesLayout = () => {
       </div>
 
       {/* 🔝 Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', damping: 12, stiffness: 100, delay: 0.3 }}
+      <div
         className="w-full max-w-5xl p-1 bg-transparent dark:bg-gray-800 rounded-b-xl shadow-lg"
       >
         <div className="flex justify-between items-center p-4">
@@ -218,7 +214,7 @@ const RoomMessagesLayout = () => {
             )}
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* 📄 Message Overview */}
       <div className="flex flex-col gap-4 w-full max-w-5xl mt-4">
