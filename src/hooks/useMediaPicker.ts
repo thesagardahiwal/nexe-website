@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { uploadFileWithProgress } from "@/libs/helper";
-import { encryptFile, getCryptoKey } from "@/utils/encription";
+import { encryptFile } from "@/utils/encryption";
 
 export interface SelectedMediaProp {
   image: File[] | null;
@@ -58,10 +58,7 @@ function useMediaPicker() {
       toast(`⬆️ Uploading ${file.name}...`);
   
       try {
-        const key = await getCryptoKey();
-        console.log("KEY@", key);
-        const encryptedFile = await encryptFile(file, key);
-        console.log("ENCRYPE@", file);
+        const encryptedFile = await encryptFile(file);
         const url = await uploadFileWithProgress(encryptedFile, (progress) => {
           toast.loading(`📤 ${file.name} – ${progress.toFixed(0)}%`, { id: file.name });
         });

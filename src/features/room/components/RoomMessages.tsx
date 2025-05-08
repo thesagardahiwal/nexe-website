@@ -10,7 +10,7 @@ import {
   Download,
   MessageCircle,
 } from 'lucide-react';
-import { decryptMessage } from '@/utils/encription';
+import { decryptMessage } from '@/utils/encryption';
 
 interface Props {
   message: RoomMessage;

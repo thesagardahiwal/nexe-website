@@ -5,7 +5,7 @@ import { Paperclip } from 'lucide-react';
 import { validateMessageForm } from '@/utils/validation';
 import { isUserExist, sendGuestMessage } from '../libs/api';
 import useMediaPicker from '@/hooks/useMediaPicker';
-import { encryptMessage } from '@/utils/encription'; // Import the encryption function
+import { encryptMessage } from '@/utils/encryption'; // Import the encryption function
 
 const MediaPickerModal  = dynamic(() => import('@/components/MediaPickerModal'), { ssr: false });
 const SelectedMediaView = dynamic(() => import('@/components/SelectedMediaView'), { ssr: false });
