@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/theme-provider";
 import Navbar from "@/components/Navbar";
 import ToastPortal  from "@/components/ToastPortal";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 export const metadata: Metadata = {
   title: "Nexe",
   description: "Nexe: Share Media",
@@ -24,6 +24,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Navbar />
           {children}
+          <SpeedInsights />
           <ToastPortal/>
         </ThemeProvider>
         {/* </AuthProvider> */}
