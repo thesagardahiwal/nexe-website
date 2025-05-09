@@ -219,7 +219,7 @@ const Documentation: FC = () => {
     });
 
     return () => observer.disconnect();
-  }, [sections]);
+  }, []);
   return (
     <div className="flex relative flex-col md:flex-row min-h-screen">
       {/* Sidebar */}

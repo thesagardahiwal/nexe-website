@@ -13,7 +13,7 @@ const CaptionPoints: React.FC<CaptionPointsProps> = ({ captions, idx }) => {
       .split(". ")
       .map(point => point.trim())
       .filter(Boolean)
-      .map((point, i) => (point.endsWith(".") ? point : point + "."));
+      .map((point) => (point.endsWith(".") ? point : point + "."));
   
     return (
       <ul className="mt-4 md:w-1/2 list-disc pl-5 text-left text-pretty text-sm text-gray-600 dark:text-gray-300">
