@@ -28,6 +28,8 @@ export default function RootLayout({
           <ToastPortal/>
         </ThemeProvider>
         {/* </AuthProvider> */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8352205427716619"
+          crossOrigin="anonymous"></script>
       </body>
     </html>
   );
