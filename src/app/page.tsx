@@ -9,14 +9,14 @@ export default function Home() {
       aria-label="Nexe Home Page"
     >
       {/* Animated Gradient Background */}
-      <div aria-hidden="true" className="absolute inset-0 pointer-events-none z-0">
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none ">
         <div className="absolute top-10 left-1/4 w-[200px] h-[200px] bg-gradient-to-r from-blue-400 to-green-400 blur-3xl opacity-30 animate-pulse" />
         <div className="absolute bottom-10 right-1/4 w-[150px] h-[150px] bg-gradient-to-r from-pink-400 to-purple-500 blur-3xl opacity-20 animate-pulse" />
       </div>
 
       {/* Welcome Section */}
       <div
-        className="mt-24 text-center z-10"
+        className="mt-24 text-center "
         role="region"
         aria-labelledby="welcome-heading"
       >
@@ -33,7 +33,7 @@ export default function Home() {
 
       {/* CTA Button - Mobile */}
       <div
-        className="mt-16 md:hidden relative z-10"
+        className="mt-16 md:hidden relative "
         role="region"
         aria-labelledby="get-started-mobile"
       >
@@ -52,7 +52,7 @@ export default function Home() {
 
       {/* Features Section */}
       <section
-        className="mt-16 flex flex-wrap justify-center gap-16 w-full max-w-5xl z-10"
+        className="mt-16 flex flex-wrap justify-center gap-16 w-full max-w-5xl "
         role="region"
         aria-labelledby="features-heading"
       >
@@ -77,7 +77,7 @@ export default function Home() {
 
       {/* CTA Button - Desktop */}
       <div
-        className="mt-16 hidden md:block relative z-10"
+        className="mt-16 hidden md:block relative"
         role="region"
         aria-labelledby="get-started-desktop"
       >
