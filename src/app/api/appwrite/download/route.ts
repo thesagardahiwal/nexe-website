@@ -9,8 +9,9 @@ export async function GET(req: NextRequest) {
 
   try {
 
+    const decryptFileId = fileId;
     // Get the file download URL from Appwrite
-    const fileDownloadUrl = storage.getFileDownload(storeId, fileId);
+    const fileDownloadUrl = storage.getFileDownload(storeId, decryptFileId);
 
     // Fetch the file from the URL
     const response = await fetch(fileDownloadUrl);

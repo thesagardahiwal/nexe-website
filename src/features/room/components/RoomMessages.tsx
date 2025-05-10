@@ -66,7 +66,7 @@ function RoomMessageCard({
           {mediaData.map(({ fileId, fileName }) => {
             const isDownloading = downloadingFileId === fileId;
             const isDownloaded = downloadedFileIds.has(fileId);
-
+            const decryptedFileName = decryptMessage(fileName);
             return (
               <li
                 key={fileId}
@@ -74,10 +74,10 @@ function RoomMessageCard({
               >
                 <TypeIcon className="h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400" />
                 <span className="flex-1 truncate text-sm text-gray-800 dark:text-gray-100">
-                  {fileName}
+                  {decryptedFileName}
                 </span>
                 <button
-                  onClick={() => onDownload(fileId, fileName)}
+                  onClick={() => onDownload(fileId, decryptedFileName)}
                   disabled={isDownloading}
                   className={`group relative overflow-hidden flex items-center min-w-[140px] cursor-pointer gap-2 px-3 py-2 rounded-lg transition text-white focus:outline-none
                     ${isDownloaded

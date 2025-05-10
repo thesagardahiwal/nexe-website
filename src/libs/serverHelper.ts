@@ -1,6 +1,7 @@
 import { Models } from 'appwrite';
 import { storage, storeId } from '@/libs/appwrite/serverClient';
 import { RoomMessage, MediaItem } from '@/types';
+import { encryptMessage } from '@/utils/encryption';
 
 /* ───────────────────────── helpers ───────────────────────── */
 
@@ -51,9 +52,9 @@ export async function toRoomMessages(
       .map(id => {
         const m = metaMap.get(id!);
         return m && {
-          fileId:   m.$id,
-          fileName: m.name,
-          mimeType: m.mimeType,
+          fileId:   encryptMessage(m.$id),
+          fileName: encryptMessage(m.name),
+          mimeType: encryptMessage(m.mimeType),
           size:     m.sizeOriginal,
         };
       })

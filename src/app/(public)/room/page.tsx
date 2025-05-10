@@ -15,7 +15,7 @@ import MessageForm from '@/features/guest/components/MessageForm';
 
 import { fetchPublicRoomMessages, fetchRoomMessages } from "@/features/room/libs/api";
 import { RoomMessage } from '@/types';
-import { decryptFile } from '@/utils/encryption';
+import { decryptFile, decryptMessage, encryptMessage } from '@/utils/encryption';
 
 const RoomMessagesLayout = () => {
   // 🔧 UI state
@@ -60,6 +60,7 @@ const RoomMessagesLayout = () => {
 
       setRoomMessages(response.data);
       toast.success('Messages fetched successfully');
+      setIsModalOpen(false);
     } catch (err) {
       console.error('Error fetching room messages:', err);
       toast.error('Unable to fetch messages');
@@ -76,7 +77,8 @@ const RoomMessagesLayout = () => {
 
     try {
       const encodedFileName = encodeURIComponent(fileName);
-      const res = await fetch(`/api/appwrite/download?id=${fileId}&name=${encodedFileName}`);
+      const decryptFileId = decryptMessage(fileId);
+      const res = await fetch(`/api/appwrite/download?id=${decryptFileId}&name=${encodedFileName}`);
 
       if (!res.ok || !res.body) throw new Error('Failed to download file');
 
@@ -238,7 +240,7 @@ const RoomMessagesLayout = () => {
       {isModalOpen && (
         isRoomMessage
           ? <MessageForm isRoomMessage onClose={() => setIsModalOpen(false)} />
-          : <RoomFormModal isPublic={isPublic} onSubmit={handleSubmit} onClose={() => setIsModalOpen(false)} />
+          : <RoomFormModal loading={loading} isPublic={isPublic} onSubmit={handleSubmit} onClose={() => setIsModalOpen(false)} />
       )}
     </div>
   );

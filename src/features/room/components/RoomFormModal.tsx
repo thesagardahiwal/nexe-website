@@ -8,14 +8,14 @@ interface RoomFormModalProps {
   onClose: () => void;
   onSubmit: (data: { username: string; privateId: string; contactNo: string, publicId?: string }) => void;
   isPublic: boolean;
+  loading:boolean
 }
 
-const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPublic }) => {
+const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPublic, loading }) => {
   const [username, setUsername] = useState('');
   const [privateId, setPrivateId] = useState('');
   const [contactNo, setContactNo] = useState('');
   const [errors, setErrors] = useState<{ username?: string; privateId?: string; contactNo?: string }>({});
-  const [loading, setLoading] = useState(false);
 
   const validateInputs = () => {
     const trimmedPrivateId = privateId.trim().toLowerCase().replace(/\s/g, '');
@@ -53,16 +53,12 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
       toast.error('Please fix the errors in the form.');
       return;
     }
-
-    setLoading(true);
     onSubmit({
       username: isPublic ? "" : username.trim(),
       privateId: isPublic ? "" : privateId.trim().toLowerCase().replace(/\s/g, ''),
       contactNo: isPublic ? "" : contactNo.trim(),
       ...(isPublic ? {publicId: privateId} : {})
     });
-    setLoading(false);
-    onClose();
   };
 
   return (

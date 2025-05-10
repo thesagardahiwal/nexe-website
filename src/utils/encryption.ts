@@ -1,11 +1,11 @@
 import CryptoJS from 'crypto-js';
 
 const SECRET_KEY = process.env.NEXT_PUBLIC_ENCRIPTION_SECRET_KEY || 'nexe-is-great-app-made-by-sagar-dahiwal';
-
 // Text-based encryption (still using CryptoJS AES)
 const encryptMessage = (message: string): string => {
   return CryptoJS.AES.encrypt(message, SECRET_KEY).toString();
 };
+
 
 const decryptMessage = (encryptedMessage: string): string => {
   try {
@@ -72,5 +72,5 @@ export {
   decryptMessage,
   encryptFile,
   decryptFile,
-  getCryptoKey
+  getCryptoKey,
 };

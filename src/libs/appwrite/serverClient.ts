@@ -24,7 +24,7 @@ import {
   export const messageCollectionId = process.env.NEXT_PUBLIC_APPWRITE_MESSAGE_COLLECTION_ID!;
   export const unknownCollectionId = process.env.NEXT_PUBLIC_APPWRITE_UNKNOWN_COLLECTION_ID!;
   export const notificationUrl     = process.env.NEXT_PUBLIC_APPWRITE_NOTIFICATION_URL!;
-  
+  export const serverEncryptEey    = process.env.NEXE_PUBLIC_SERVER_ENCRYPTION_KEY!;
   /* -------------------------------------------------------------------------- */
   /*  Create & configure the server SDK                                         */
   /* -------------------------------------------------------------------------- */
