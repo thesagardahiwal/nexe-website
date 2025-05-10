@@ -15,7 +15,7 @@ import MessageForm from '@/features/guest/components/MessageForm';
 
 import { fetchPublicRoomMessages, fetchRoomMessages } from "@/features/room/libs/api";
 import { RoomMessage } from '@/types';
-import { decryptFile, decryptMessage, encryptMessage } from '@/utils/encryption';
+import { decryptFile, decryptMessage } from '@/utils/encryption';
 
 const RoomMessagesLayout = () => {
   // 🔧 UI state

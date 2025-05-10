@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { uploadFileWithProgress } from "@/libs/helper";
 import { encryptFile } from "@/utils/encryption";
+const MAX_FILE_SIZE = 45 * 1024 * 1024;
 
 export interface SelectedMediaProp {
   image: File[] | null;
@@ -24,11 +25,24 @@ function useMediaPicker() {
 
     const files = Array.from(event.target.files);
 
-    setSelectedMedia((prev) => ({
-      ...prev,
-      [type]: files,
-      type,
-    }));
+    // Filter out files that exceed the size limit
+    const validFiles = files.filter(file => file.size <= MAX_FILE_SIZE);
+    const invalidFiles = files.filter(file => file.size > MAX_FILE_SIZE);
+
+    if (invalidFiles.length > 0) {
+      invalidFiles.forEach(file => {
+        toast.error(`❌ File "${file.name}" is too large! Max size is 45 MB.`);
+      });
+    }
+
+    // If there are valid files, update the state
+    if (validFiles.length > 0) {
+      setSelectedMedia((prev) => ({
+        ...prev,
+        [type]: validFiles,
+        type,
+      }));
+    }
   };
 
   const resetMedia = () => {
@@ -55,10 +69,11 @@ function useMediaPicker() {
     const uploadedUrls: string[] = [];
   
     for (const file of files) {
-      toast(`⬆️ Uploading ${file.name}...`);
-  
+      toast(`⬆️ Encrypting ${file.name}...`);
+      
       try {
         const encryptedFile = await encryptFile(file);
+        toast(`⬆️ Uploading ${file.name}...`);
         const url = await uploadFileWithProgress(encryptedFile, (progress) => {
           toast.loading(`📤 ${file.name} – ${progress.toFixed(0)}%`, { id: file.name });
         });

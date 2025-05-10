@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-
+const CHUNK_SIZE = 1 * 1024 * 1024;
 const SECRET_KEY = process.env.NEXT_PUBLIC_ENCRIPTION_SECRET_KEY || 'nexe-is-great-app-made-by-sagar-dahiwal';
 // Text-based encryption (still using CryptoJS AES)
 const encryptMessage = (message: string): string => {
@@ -36,35 +36,54 @@ async function getCryptoKey(): Promise<CryptoKey> {
 
 // Encrypt file with AES-CBC and prepend IV
 async function encryptFile(file: File): Promise<File> {
-  const arrayBuffer = await file.arrayBuffer();
-  const base64 = Buffer.from(arrayBuffer).toString("base64");
+  const encryptedChunks: string[] = [];
+  let offset = 0;
 
-  const encrypted = CryptoJS.AES.encrypt(base64, SECRET_KEY).toString();
+  while (offset < file.size) {
+    const chunk = file.slice(offset, offset + CHUNK_SIZE);
+    const buffer = await chunk.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString("base64");
+    const encrypted = CryptoJS.AES.encrypt(base64, SECRET_KEY).toString();
+    encryptedChunks.push(encrypted);
+    offset += CHUNK_SIZE;
+  }
 
-  // Create a new File with encrypted content
-  const encryptedBlob = new Blob([encrypted], { type: "text/plain" });
-  const encryptedFile = new File([encryptedBlob], file.name, {
+  // Join encrypted chunks with delimiter and create encrypted file
+  const encryptedContent = encryptedChunks.join("::CHUNK::");
+  const blob = new Blob([encryptedContent], { type: "text/plain" });
+  return new File([blob], file.name, {
     type: "text/plain",
     lastModified: Date.now(),
   });
-
-  return encryptedFile;
 }
 
 /**
  * Decrypts a Blob (AES-encrypted content) and returns a decrypted Blob.
  */
-async function decryptFile(blob: Blob): Promise<Blob> {
-  const encryptedText = await blob.text(); // UTF-8 string
+async function decryptFile(encryptedBlob: Blob): Promise<Blob> {
+  const encryptedText = await encryptedBlob.text();
+  const encryptedChunks = encryptedText.split("::CHUNK::");
 
-  const bytes = CryptoJS.AES.decrypt(encryptedText, SECRET_KEY);
-  const decryptedBase64 = bytes.toString(CryptoJS.enc.Utf8);
-  if (!decryptedBase64) throw new Error("Invalid decryption or secret key.");
+  const decryptedParts: Uint8Array[] = [];
 
-  const binaryData = Buffer.from(decryptedBase64, "base64");
+  for (const chunk of encryptedChunks) {
+    const bytes = CryptoJS.AES.decrypt(chunk, SECRET_KEY);
+    const base64 = bytes.toString(CryptoJS.enc.Utf8);
+    if (!base64) throw new Error("Decryption failed. Possibly wrong key.");
+    const binary = Buffer.from(base64, "base64");
+    decryptedParts.push(binary);
+  }
 
-  // Create a new Blob from the decrypted binary
-  return new Blob([binaryData]);
+  // Combine all decrypted parts
+  const totalLength = decryptedParts.reduce((sum, b) => sum + b.length, 0);
+  const result = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const part of decryptedParts) {
+    result.set(part, offset);
+    offset += part.length;
+  }
+
+  return new Blob([result]);
 }
 
 export {
