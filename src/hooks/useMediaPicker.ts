@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { uploadFileWithProgress } from "@/libs/helper";
-import { encryptFile } from "@/utils/encryption";
-const MAX_FILE_SIZE = 45 * 1024 * 1024;
+
+const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
 export interface SelectedMediaProp {
   image: File[] | null;
@@ -31,7 +31,7 @@ function useMediaPicker() {
 
     if (invalidFiles.length > 0) {
       invalidFiles.forEach(file => {
-        toast.error(`❌ File "${file.name}" is too large! Max size is 45 MB.`);
+        toast.error(`❌ File "${file.name}" is too large! Max size is 50 MB.`);
       });
     }
 
