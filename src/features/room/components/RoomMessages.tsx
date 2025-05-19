@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { RoomMessage } from '@/types';
 import {
@@ -9,6 +9,7 @@ import {
   FileText,
   Download,
   MessageCircle,
+  Copy,
 } from 'lucide-react';
 import { decryptMessage } from '@/utils/encryption';
 
@@ -40,6 +41,18 @@ function RoomMessageCard({
     }
   }, [mediaType]);
 
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset "Copied" after 2s
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
   const createdLabel = useMemo(
     () => new Date(createdAt).toLocaleString(),
     [createdAt]
@@ -53,11 +66,23 @@ function RoomMessageCard({
       className="w-full space-y-4 rounded-xl bg-white/70 p-4 shadow-sm backdrop-blur dark:bg-zinc-800/10"
     >
       {/* ------- content row ------- */}
-      <header className="flex items-start gap-3">
+      <header className="flex items-start gap-3 relative group">
         <MessageCircle className="h-6 w-6 flex-shrink-0 text-blue-600 dark:text-blue-400" />
-        <p className="break-words text-gray-800 dark:text-gray-100 flex-1">
+        <p className="break-words line-clamp-4 text-gray-800 dark:text-gray-100 w-10/12">
           {content}
         </p>
+        <button
+          onClick={handleCopy}
+          className="absolute cursor-pointer top-0 right-0 opacity-50 group-hover:opacity-100 transition-opacity p-1 rounded-md text-gray-600 hover:text-black dark:text-gray-300 dark:hover:text-white"
+          title="Copy to clipboard"
+        >
+          <Copy className="w-4 h-4" />
+        </button>
+        {copied && (
+          <span className="absolute -bottom-5 right-0 text-xs text-green-500">
+            Copied!
+          </span>
+        )}
       </header>
 
       {/* ------- attachments ------- */}

@@ -72,9 +72,9 @@ function useMediaPicker() {
       toast(`⬆️ Encrypting ${file.name}...`);
       
       try {
-        const encryptedFile = await encryptFile(file);
+        // const encryptedFile = await encryptFile(file);
         toast(`⬆️ Uploading ${file.name}...`);
-        const url = await uploadFileWithProgress(encryptedFile, (progress) => {
+        const url = await uploadFileWithProgress(file, (progress) => {
           toast.loading(`📤 ${file.name} – ${progress.toFixed(0)}%`, { id: file.name });
         });
   

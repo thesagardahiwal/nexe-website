@@ -105,9 +105,9 @@ const RoomMessagesLayout = () => {
       const encryptedBlob = new Blob(
         chunks.map(chunk => new Uint8Array(chunk)) // recreate to ensure safe ArrayBufferView
       );
-      const decryptedBlob = await decryptFile(encryptedBlob);
+      // const decryptedBlob = await decryptFile(encryptedBlob);
       const decryptedFileName = fileName.replace('.enc', '');
-      const blobUrl = URL.createObjectURL(decryptedBlob);
+      const blobUrl = URL.createObjectURL(encryptedBlob);
       const a = document.createElement('a');
       a.href = blobUrl;
       a.download = decryptedFileName;

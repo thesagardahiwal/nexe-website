@@ -1,5 +1,6 @@
 import { uploadMessage } from "@/libs/appwrite/api";
 import sendNotificationToUser from "@/libs/notification";
+import { decryptMessage } from "@/utils/encryption";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     sendNotificationToUser({
       privateId: privateId,
-      messageText: content,
+      messageText: decryptMessage(content),
       customTitle: room ? "New Room Message" : "New Guest Message",
       data: {
         type: room ? "room_message" : "guest_message",
