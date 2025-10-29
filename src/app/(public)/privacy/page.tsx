@@ -96,10 +96,10 @@ export default function PrivacyPolicy() {
       <section className="mb-10 relative ">
         <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
         <p>
-          Email: <a className="text-blue-600 dark:text-blue-400 underline" href="mailto:dahiwalsagar07@gmail.com">dahiwalsagar07@gmail.com</a>
+          Email: <a className="text-blue-600 dark:text-blue-400 underline" href="mailto:dahiwalsagar07@gmail.com">support@nexe.co.in</a>
         </p>
         <p>
-          Website: <a className="text-blue-600 dark:text-blue-400 underline" href="https://nexe.vercel.app">https://nexe.vercel.app</a>
+          Website: <a className="text-blue-600 dark:text-blue-400 underline" href="https://nexe.in">https://nexe.in</a>
         </p>
       </section>
 
