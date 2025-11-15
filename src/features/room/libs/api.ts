@@ -1,17 +1,14 @@
 interface RoomMessagesProps {
-    contactNo: string;
     privateId: string;
     username: string;
 }
 
 export const fetchRoomMessages = async ({
-    contactNo,
     privateId,
     username
 } : RoomMessagesProps) => {
     try {
         const payload = {
-            contactNo,
             privateId,
             username
         }

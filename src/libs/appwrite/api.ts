@@ -4,7 +4,6 @@ import { GuestMessageProps, RoomMessage } from "@/types";
 import { toRoomMessages } from "../serverHelper";
 
 interface RoomMessagesProps {
-    contactNo: string;
     privateId: string;
     username: string;
 }
@@ -30,7 +29,6 @@ const retry = async <T>(
 
 
 async function fetchRoomMessages ({
-    contactNo,
     privateId,
     username
 } : RoomMessagesProps) : Promise<RoomMessage[] | undefined> {
@@ -42,7 +40,6 @@ async function fetchRoomMessages ({
                 Query.and([
                     Query.equal("privateId", privateId),
                     Query.equal("username", username),
-                    Query.equal("phone", contactNo),
                 ])
             ]
         );

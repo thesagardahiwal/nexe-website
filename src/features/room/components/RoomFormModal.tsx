@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 
 interface RoomFormModalProps {
   onClose: () => void;
-  onSubmit: (data: { username: string; privateId: string; contactNo: string, publicId?: string }) => void;
+  onSubmit: (data: { username: string; privateId: string; publicId?: string }) => void;
   isPublic: boolean;
   loading:boolean
 }
@@ -14,7 +14,6 @@ interface RoomFormModalProps {
 const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPublic, loading }) => {
   const [username, setUsername] = useState('');
   const [privateId, setPrivateId] = useState('');
-  const [contactNo, setContactNo] = useState('');
   const [errors, setErrors] = useState<{ username?: string; privateId?: string; contactNo?: string }>({});
 
   const validateInputs = () => {
@@ -28,7 +27,6 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
       return true;
     }
     const trimmedUsername = username.trim().toLowerCase().replace(/\s/g, '');
-    const trimmedPhone = contactNo.trim();
 
 
     if (!trimmedUsername || trimmedUsername.length < 3) {
@@ -39,10 +37,6 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
       newErrors.username = 'Username cannot start with a number.';
     }
 
-
-    if (!/^\d{10}$/.test(trimmedPhone)) {
-      newErrors.contactNo = 'Phone number must be exactly 10 digits.';
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -56,7 +50,6 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
     onSubmit({
       username: isPublic ? "" : username.trim(),
       privateId: isPublic ? "" : privateId.trim().toLowerCase().replace(/\s/g, ''),
-      contactNo: isPublic ? "" : contactNo.trim(),
       ...(isPublic ? {publicId: privateId} : {})
     });
   };
@@ -104,25 +97,6 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
             />
             {errors.privateId && <p className="text-red-500 text-sm mt-1">{errors.privateId}</p>}
           </div>
-          
-          {!isPublic && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone No</label>
-              <input
-                type="text"
-                value={contactNo}
-                onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, ''); // remove non-digit characters
-                  setContactNo(value);
-                  if (errors.contactNo) setErrors(prev => ({ ...prev, contactNo: undefined }));
-                }}
-                placeholder="Enter contact number"
-                inputMode="numeric"
-                className="w-full p-3 rounded-lg bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-600 focus:outline-none"
-              />
-              {errors.contactNo && <p className="text-red-500 text-sm mt-1">{errors.contactNo}</p>}
-            </div>
-          )}
         </div>
 
         <div className="flex justify-between gap-3 pt-4">
@@ -134,7 +108,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
           </button>
           <button
             onClick={handleSubmit}
-            disabled={loading || !privateId.trim() || (!isPublic && (!username.trim() || !contactNo.trim()))}
+            disabled={loading || !privateId.trim() || (!isPublic && (!username.trim()))}
             className="flex-1 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-medium disabled:opacity-50"
           >
             {loading ? 'Submitting...' : 'Submit'}

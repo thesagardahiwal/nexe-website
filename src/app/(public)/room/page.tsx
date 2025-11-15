@@ -46,7 +46,7 @@ const RoomMessagesLayout = () => {
   }, [loading]);
 
   // 🚀 Form submit (room/private/public)
-  const handleSubmit = async (data: { username: string; privateId: string; contactNo: string, publicId?: string }) => {
+  const handleSubmit = async (data: { username: string; privateId: string; publicId?: string }) => {
     try {
       setLoading(true);
       const response = data.publicId
