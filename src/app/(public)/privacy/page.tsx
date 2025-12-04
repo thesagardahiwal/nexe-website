@@ -12,34 +12,34 @@ export default function PrivacyPolicy() {
       </div>
 
       <h1 className="text-4xl font-bold mb-8 text-blue-600 dark:text-blue-400 relative ">
-        Privacy Policy for Nexe
+        Privacy Policy for NEXE
       </h1>
 
       <p className="mb-4 text-sm text-gray-500 dark:text-gray-400 relative ">
-        Last Updated: April 30, 2025
+        Last Updated: December 4, 2025
       </p>
 
       <p className="mb-6 relative">
-        Welcome to <strong>Nexe</strong>. We take your privacy seriously. This policy outlines how we collect, store, and use your information while ensuring full transparency and user control.
+        Welcome to <strong>NEXE</strong>. We are committed to providing a secure and anonymous messaging platform. This policy explains how we protect your privacy and handle your data while giving you full control over your identity.
       </p>
 
       <section className="mb-10 relative ">
         <h2 className="text-2xl font-semibold mb-4">Information We Collect</h2>
         <ul className="list-disc pl-6 space-y-2">
           <li>
-            <strong>Private ID & Username:</strong> Required for communication. These are never made public or shared without your action.
+            <strong>Private ID & Public ID:</strong> Used to separate your private and public communications. These IDs are never linked to personal identifiers.
           </li>
           <li>
-            <strong>Guest Messages:</strong> Temporarily stored for delivery and never permanently saved or analyzed.
+            <strong>Username:</strong> Only required for account access. No email or phone number is needed.
           </li>
           <li>
-            <strong>Media Files:</strong> Encrypted and accessible only to the intended recipient.
+            <strong>Guest Messages:</strong> Temporarily stored for delivery and encrypted. Guests do not need accounts to send messages.
           </li>
           <li>
-            <strong>Room Access:</strong> Requires Private ID, Username, and Contact Number; data is used momentarily and never retained.
+            <strong>Files & Attachments:</strong> Encrypted and accessible only to the intended recipient (up to 50MB per file).
           </li>
           <li>
-            <strong>Optional Usage Data:</strong> Anonymized for improving performance. Never sold or linked to your identity.
+            <strong>Optional Usage Data:</strong> Fully anonymized, used only to improve app performance. Never linked to your identity or sold.
           </li>
         </ul>
       </section>
@@ -47,56 +47,55 @@ export default function PrivacyPolicy() {
       <section className="mb-10 relative ">
         <h2 className="text-2xl font-semibold mb-4">How We Use Your Data</h2>
         <ul className="list-disc pl-6 space-y-2">
-          <li>To verify users and allow access to services</li>
-          <li>To deliver messages and files securely</li>
-          <li>To improve app reliability and performance</li>
-          <li>To support temporary cross-device access (Room)</li>
+          <li>Enable anonymous communication and message delivery</li>
+          <li>Support cross-device message access</li>
+          <li>Ensure security through encryption and authentication</li>
+          <li>Maintain ephemeral guest data only for session duration</li>
         </ul>
         <p className="mt-4">
-          We <strong>do not track you</strong>, and we <strong>never sell or rent your data</strong>.
+          We <strong>do not collect personal identifiers</strong> and <strong>never sell or rent your data</strong>.
         </p>
       </section>
 
       <section className="mb-10 relative ">
         <h2 className="text-2xl font-semibold mb-4">Third-Party Services</h2>
         <p>
-          We use trusted services such as Google, GitHub, Appwrite, Expo, and Firebase to enable functionality. These providers handle data according to their own privacy policies.
+          NEXE uses trusted services such as Firebase, Vercel, and other secure platforms to enable functionality. These providers manage data according to their own privacy policies.
         </p>
       </section>
 
       <section className="mb-10 relative ">
         <h2 className="text-2xl font-semibold mb-4">Data Security</h2>
         <p>
-          Nexe uses end-to-end encryption, HTTPS, and secure storage practices. While no system is entirely immune, we follow best practices to safeguard your data.
+          All messages and files are protected with end-to-end encryption. We use secure storage practices and HTTPS connections. You remain in control of your data at all times, including remote deletion capabilities.
         </p>
       </section>
 
       <section className="mb-10 relative">
         <h2 className="text-2xl font-semibold mb-4">Data Retention</h2>
         <p>
-          We store data only as long as it is needed for operation. Guest messages are deleted after delivery. Deleting your Private ID or account removes all associated data.
+          Messages and files are stored only as long as necessary for delivery. Users can delete messages at any time, and guest messages are automatically cleared after viewing. Deleting your account removes all associated data permanently.
         </p>
       </section>
 
       <section className="mb-10 relative">
         <h2 className="text-2xl font-semibold mb-4">Your Rights</h2>
         <p>
-          You may delete your account and associated data at any time. You can also contact us to request data deletion or ask questions about our practices.
+          You may delete your account or any messages at any time. Contact us to request data deletion or inquire about privacy practices.
         </p>
       </section>
 
       <section className="mb-10 relative">
-        <h2 className="text-2xl font-semibold mb-4">Sharing of Private ID and Public ID</h2>
+        <h2 className="text-2xl font-semibold mb-4">Using Private & Public IDs</h2>
         <p>
-          <strong>Do not share your Private ID or Public ID with strangers.</strong> These IDs are meant to help students and teachers exchange files and academic materials securely.
-          Nexe is designed for use in an educational context—not for private or sensitive communication.
+          Your <strong>Private ID</strong> is for secure, personal communication, while your <strong>Public ID</strong> can share select messages publicly. Do not share your Private ID with unknown parties. Public messages are visible to anyone with your Public ID.
         </p>
       </section>
 
       <section className="mb-10 relative ">
         <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
         <p>
-          Email: <a className="text-blue-600 dark:text-blue-400 underline" href="mailto:dahiwalsagar07@gmail.com">support@nexe.co.in</a>
+          Email: <a className="text-blue-600 dark:text-blue-400 underline" href="mailto:thesagardahiwal@gmail.com">thesagardahiwal@gmail.com</a>
         </p>
         <p>
           Website: <a className="text-blue-600 dark:text-blue-400 underline" href="https://nexe.in">https://nexe.in</a>
@@ -106,7 +105,7 @@ export default function PrivacyPolicy() {
       <section className="relative ">
         <h2 className="text-2xl font-semibold mb-4">Changes to This Policy</h2>
         <p>
-          We may update this Privacy Policy as our app evolves. Any significant changes will be communicated via our app or website.
+          We may update this Privacy Policy as the platform evolves. Significant changes will be communicated via our app or website.
         </p>
       </section>
     </div>

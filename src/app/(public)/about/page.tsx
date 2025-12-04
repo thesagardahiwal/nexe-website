@@ -7,35 +7,35 @@ export default function About() {
   const missionContent = {
     title: "Our Mission",
     description:
-      "We believe in privacy-first messaging. With our private ID-based system, you can instantly connect without compromising your personal data.",
+      "We are committed to privacy-first messaging. With NEXE, you can connect instantly using private IDs while keeping your personal data fully secure and anonymous.",
     emphasis:
-      "Empowering seamless communication with full anonymity and security.",
+      "Empowering seamless communication with complete anonymity, security, and control.",
     coreValues: [
       {
         key: "privacy",
         label: "Privacy",
         detail:
-          "No personal data collection, no tracking, complete anonymity.",
+          "No email or phone required. Messages are tied only to IDs, never personal data.",
         icon: "🛡️",
       },
       {
         key: "security",
         label: "Security",
-        detail: "End-to-end encryption ensures total confidentiality.",
+        detail: "End-to-end encryption ensures total confidentiality of messages and files.",
         icon: "🔐",
       },
       {
         key: "accessibility",
         label: "Accessibility",
-        detail: "Instant connection without sign-ups or logins.",
+        detail: "Access messages anywhere, on any device, with seamless cross-device sync.",
         icon: "⚡",
       },
       {
-        key: "innovation",
-        label: "Innovation",
+        key: "control",
+        label: "User Control",
         detail:
-          "Revolutionizing digital interactions with next-gen privacy tech.",
-        icon: "🚀",
+          "Remote delete and message management let you decide what stays and what goes.",
+        icon: "🗑️",
       },
     ],
     animation: { opacity: 0, y: 40 },
@@ -43,77 +43,68 @@ export default function About() {
   };
 
   const aboutNexe = {
-    title: "About Nexe",
-    tagline: "Revolutionizing communication with privacy-first technology.",
+    title: "About NEXE",
+    tagline: "Revolutionizing messaging with privacy-first technology",
     description:
-      "Nexe is a cutting-edge private messaging platform designed for seamless, secure, and unrestricted communication. No logins, no passwords—just pure connectivity. You can communicate with ease using a private ID, and enjoy features like guest messaging and secure media sharing.",
+      "NEXE is a secure anonymous messaging platform that allows users to communicate freely using Private and Public IDs. No logins, no passwords—just secure, encrypted messaging and file sharing across devices. Features include guest messaging, private/public rooms, secure attachments, cross-device sync, and remote delete for full control.",
     highlights: [
       {
-        key: "no-login",
-        label: "No Logins Required",
+        key: "anonymous-messaging",
+        label: "Anonymous Messaging",
         detail:
-          "Communicate freely without creating an account or remembering passwords.",
-        icon: "🔓",
+          "Communicate freely without revealing your identity. Perfect for self-expression or confidential feedback.",
+        icon: "🕵️‍♂️",
       },
       {
-        key: "private-ids",
-        label: "Private ID-Based Messaging",
+        key: "guest-messaging",
+        label: "Guest Messaging",
         detail:
-          "Send messages securely using private IDs instead of phone numbers or emails.",
-        icon: "🆔",
+          "Receive messages or files from anyone using just your Private ID—no account required.",
+        icon: "📩",
       },
       {
-        key: "end-to-end",
-        label: "End-to-End Encryption",
-        detail: "Every message is encrypted, ensuring total privacy.",
-        icon: "🔐",
+        key: "private-public-rooms",
+        label: "Private & Public Rooms",
+        detail:
+          "Organize messages into Private or Public spaces. Decide which messages are confidential or shareable.",
+        icon: "🔑",
       },
       {
-        key: "global-access",
-        label: "Global Accessibility",
+        key: "secure-files",
+        label: "Secure File Sharing",
         detail:
-          "Use Nexe anywhere, on any device, without restrictions.",
-        icon: "🌍",
+          "Send files up to 50MB securely. All media is encrypted and accessible only to intended recipients.",
+        icon: "🔒",
+      },
+      {
+        key: "cross-device",
+        label: "Cross-Device Sync",
+        detail:
+          "Access messages and files across multiple devices without logging in.",
+        icon: "📱💻",
+      },
+      {
+        key: "remote-delete",
+        label: "Remote Delete",
+        detail:
+          "Delete messages from guest devices instantly to maintain complete privacy.",
+        icon: "🗑️",
       },
     ],
     animation: { opacity: 0, y: -30 },
     transition: { type: "spring", damping: 12, stiffness: 100, delay: 0.3 },
   };
 
-  const features = [
-    {
-      icon: "🚀",
-      title: "No Sign-ups, No Hassle",
-      description:
-        "Start messaging instantly using just a private ID—no accounts required.",
-    },
-    {
-      icon: "🔒",
-      title: "End-to-End Encryption",
-      description:
-        "Your data is fully secured and private, safe from third parties.",
-    },
-    {
-      icon: "📁",
-      title: "Instant Media Sharing",
-      description:
-        "Send files, images, and videos without any size restrictions.",
-    },
-    {
-      icon: "🌍",
-      title: "Global Access, No Barriers",
-      description:
-        "Works seamlessly across all devices, ensuring universal connectivity.",
-    },
-  ];
-
   return (
     <div className="relative flex flex-col items-center w-full max-w-5xl mx-auto px-6 pb-24 text-center overflow-hidden">
+
+      {/* Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-10 left-1/4 w-[200px] h-[200px] bg-gradient-to-r from-green-400 to-blue-500 blur-[120px] opacity-40 animate-pulse" />
         <div className="absolute bottom-10 right-1/4 w-[180px] h-[180px] bg-gradient-to-r from-pink-400 to-purple-500 blur-[100px] opacity-30 animate-pulse" />
       </div>
 
+      {/* About Section */}
       <motion.div
         initial={aboutNexe.animation}
         animate={{ opacity: 1, y: 0 }}
@@ -139,7 +130,7 @@ export default function About() {
               key={highlight.key}
               className="flex items-center p-5 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-transform transform hover:scale-105"
             >
-              <span className="text-3xl">{highlight.icon}</span>
+              {/* <span className="text-3xl">{highlight.icon}</span> */}
               <div className="ml-4">
                 <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">
                   {highlight.label}
@@ -153,6 +144,7 @@ export default function About() {
         </div>
       </motion.div>
 
+      {/* Mission Section */}
       <motion.div
         initial={missionContent.animation}
         animate={{ opacity: 1, y: 0 }}
@@ -178,7 +170,7 @@ export default function About() {
               key={value.key}
               className="flex items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-transform transform hover:scale-105"
             >
-              <span className="text-3xl">{value.icon}</span>
+              {/* <span className="text-3xl">{value.icon}</span> */}
               <div className="ml-4">
                 <h3 className="text-lg md:text-xl font-medium text-gray-900 dark:text-white">
                   {value.label}
@@ -192,6 +184,7 @@ export default function About() {
         </div>
       </motion.div>
 
+      {/* Why Choose NEXE */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -199,32 +192,76 @@ export default function About() {
         className="mt-12 max-w-3xl"
       >
         <h2 className="text-3xl font-semibold text-gray-900 dark:text-white">
-          Why Choose Nexe?
+          Why Choose NEXE?
         </h2>
 
         <div className="mt-6 space-y-6 text-lg text-gray-700 dark:text-gray-300">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8 + index * 0.2, type: "spring", damping: 15 }}
-              className="flex items-start space-x-4"
-            >
-              <span className="text-3xl">{feature.icon}</span>
-              <div>
-                <h3 className="font-semibold text-left text-xl">{feature.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
-              </div>
-            </motion.div>
-          ))}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.0, type: "spring", damping: 15 }}
+            className="flex items-start space-x-4"
+          >
+            {/* <span className="text-3xl">🕵️‍♂️</span> */}
+            <div>
+              <h3 className="font-semibold text-left text-xl">Full Anonymity</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Communicate using Private and Public IDs—no email, phone, or PII required.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.2, type: "spring", damping: 15 }}
+            className="flex items-start space-x-4"
+          >
+            {/* <span className="text-3xl">🔐</span> */}
+            <div>
+              <h3 className="font-semibold text-left text-xl">Secure & Encrypted</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                End-to-end encryption ensures that your messages and files are fully private.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.4, type: "spring", damping: 15 }}
+            className="flex items-start space-x-4"
+          >
+            {/* <span className="text-3xl">📱💻</span> */}
+            <div>
+              <h3 className="font-semibold text-left text-xl">Cross-Device Sync</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Access your messages and files securely on any device in real-time.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.6, type: "spring", damping: 15 }}
+            className="flex items-start space-x-4"
+          >
+            {/* <span className="text-3xl">🗑️</span> */}
+            <div>
+              <h3 className="font-semibold text-left text-xl">Remote Delete</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Instantly delete messages from guest devices for complete privacy control.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
 
       <div className="mt-12">
         <Link href="/">
           <button className="px-6 py-3 text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-xl text-lg font-semibold hover:scale-105 transition-all">
-            Get Started with Nexe
+            Get Started with NEXE
           </button>
         </Link>
       </div>
