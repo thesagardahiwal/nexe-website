@@ -25,18 +25,24 @@ export default function AuthChoice() {
         </h1>
       </div>
 
-      {/* Subtitle */}
+      {/* Subtitle
       <p
         className="z-10 max-w-xl text-center text-lg text-gray-700 dark:text-gray-300 mb-8"
         aria-label="authentication options description"
       >
-        Continue as a guest or sign in (on Mobile) to unlock full features.
-      </p>
+        Register
+      </p> */}
 
       {/* Buttons */}
       <section className="w-full max-w-sm z-10" role="region" aria-labelledby="auth-options">
         <h2 id="auth-options" className="sr-only">Authentication Options</h2>
         <div className="flex flex-col space-y-4">
+          <Link href={"/auth/register"}
+            className="w-full bg-blue-700 text-white px-6 py-3 rounded-full shadow-md font-semibold text-center hover:scale-105 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            aria-label="Register for an Account"
+          >
+            Register
+          </Link>
           <Link href={"/guest"}
             className="w-full bg-gray-700 text-white px-6 py-3 rounded-full shadow-md font-semibold text-center hover:scale-105 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label="Continue as Guest"

@@ -203,3 +203,71 @@ export const fetchMessage = async (data: RoomMessagesProps) => {
         throw (error as Error).message
     }
 }
+
+export const usernameExists = async (username: string) : Promise<boolean> => {
+    try {
+        const userSnap = await databases.listDocuments(
+            databaseId,
+            userCollectionId,
+            [
+                Query.equal("username", username)
+            ]
+        );
+        return userSnap.total > 0;
+    } catch (error) {
+        console.error("Error checking username existence:", error);
+        throw error;
+    }
+};
+
+export const privateIdExists = async (privateId: string) : Promise<boolean> => {
+    try {
+        const userSnap = await databases.listDocuments(
+            databaseId,
+            userCollectionId,
+            [
+                Query.equal("privateId", privateId)
+            ]
+        );
+        return userSnap.total > 0;
+    } catch (error) {
+        console.error("Error checking privateId existence:", error);
+        throw error;
+    }
+};
+
+export const publicIdExists = async (publicId: string) : Promise<boolean> => {
+    try {
+        const userSnap = await databases.listDocuments(
+            databaseId,
+            userCollectionId,
+            [
+                Query.equal("publicId", publicId)
+            ]
+        );
+        return userSnap.total > 0;
+    } catch (error) {
+        console.error("Error checking publicId existence:", error);
+        throw error;
+    }
+}
+
+export const registerUser = async (privateId: string, publicId: string, username: string, password: string) => {
+    try {
+        const result = await databases.createDocument(
+            databaseId,
+            userCollectionId,
+            ID.unique(),
+            {
+                privateId,
+                publicId,
+                username,
+                password,
+            }
+        );
+        return result;
+    } catch (error) {
+        console.error("Error registering user:", error);
+        throw (error as Error).message;
+    }
+}
