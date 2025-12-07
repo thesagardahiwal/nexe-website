@@ -341,7 +341,7 @@ export default function RegisterPage() {
 
         {/* Small note */}
         <p className="mt-6 text-xs text-gray-500 dark:text-gray-400">
-          By creating an account you agree to Nexe's Terms and Privacy Policy.
+          By creating an account you agree to Nexe&apos;s Terms and Privacy Policy.
         </p>
       </div>
     </main>

@@ -1,4 +1,4 @@
-import { ID } from "appwrite";
+import { AppwriteException, ID } from "appwrite";
 import { storage, storeId } from "./appwrite/serverClient";
 import toast from "react-hot-toast";
 
@@ -54,8 +54,8 @@ export const uploadFileWithProgress = (file: File, onProgress: (progress: number
     return `http://localhost:${process.env.PORT ?? 3000}`;
   }
 
-export function parseAppwriteError(error: any): string {
-  const type = error?.type || "";
+export function parseAppwriteError(error: unknown): string {
+  const type = (error as AppwriteException)?.type || "";
 
   if (type.includes("user_invalid_credentials")) {
     return "Invalid username or password.";
