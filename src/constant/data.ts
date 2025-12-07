@@ -93,3 +93,6 @@ export const public_message = [
     // Image 12
     "The final screen shows the result of the fetch: public messages have been successfully retrieved and are now visible on the website. ✅ These messages were originally marked public in the app, and now anyone with the associated Public ID can view them. 📖 This feature is ideal for sharing class assignments, event notifications, or collaborative notes across a wide audience, including people using shared lab devices or public computers 💻."
 ]
+
+
+export const NEXESUFFIX = "@nexeusers.com";

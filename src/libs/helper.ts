@@ -53,3 +53,19 @@ export const uploadFileWithProgress = (file: File, onProgress: (progress: number
     // ② When previewing locally (`next dev`) fall back to localhost
     return `http://localhost:${process.env.PORT ?? 3000}`;
   }
+
+export function parseAppwriteError(error: any): string {
+  const type = error?.type || "";
+
+  if (type.includes("user_invalid_credentials")) {
+    return "Invalid username or password.";
+  }
+  if (type.includes("user_already_exists")) {
+    return "This username is already taken.";
+  }
+  if (type.includes("general_unauthorized_scope")) {
+    return "Access denied. Please contact support.";
+  }
+
+  return "Something went wrong. Please try again later.";
+}

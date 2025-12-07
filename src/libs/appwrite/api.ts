@@ -1,7 +1,9 @@
 import { ID, Query } from "appwrite";
-import { databaseId, databases, guestCollectionId, userCollectionId } from "./serverClient";
+import { account, databaseId, databases, guestCollectionId, userCollectionId } from "./serverClient";
 import { GuestMessageProps, RoomMessage } from "@/types";
 import { toRoomMessages } from "../serverHelper";
+import { NEXESUFFIX } from "@/constant/data";
+import { parseAppwriteError } from "../helper";
 
 interface RoomMessagesProps {
     privateId: string;
@@ -10,264 +12,159 @@ interface RoomMessagesProps {
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const retry = async <T>(
-  fn: () => Promise<T>,
-  retries = 2,
-  delayMs = 500
-): Promise<T> => {
-  try {
-    return await fn();
-  } catch (e) {
-    if (retries > 0) {
-      console.warn(`Retrying... (${retries} attempts left)`);
-      await sleep(delayMs);
-      return retry(fn, retries - 1, delayMs);
-    }
-    throw e;
-  }
-};
-
-
-async function fetchRoomMessages ({
-    privateId,
-    username
-} : RoomMessagesProps) : Promise<RoomMessage[] | undefined> {
+const retry = async <T>(fn: () => Promise<T>, retries = 2, delayMs = 500): Promise<T> => {
     try {
-        const userSnap = await databases.listDocuments(
-            databaseId,
-            userCollectionId,
-            [
-                Query.and([
-                    Query.equal("privateId", privateId),
-                    Query.equal("username", username),
-                ])
-            ]
-        );
-
-        if (userSnap.total === 0) {
-            console.log("User not exist for this private ID!");
-            return;
-        }; 
-
-        const result = await databases.listDocuments(
-            databaseId,
-            guestCollectionId,
-            [
-                Query.and([
-                    Query.equal("room", true),
-                    Query.equal("privateId", privateId),
-                ]),
-                Query.orderDesc("$createdAt")
-            ]
-        );
-        if (!result) {
-            console.log("No messages found for this room.");
-            return;
-        };
-        const messages = toRoomMessages(result.documents);
-        return messages;
+        return await fn();
     } catch (error) {
-        console.log("Error fetching room messages:", error);
-    }
-};
-
-async function fetchPublicRoomMessages ({
-    privateId
-} : {privateId: string}) : Promise<RoomMessage[] | undefined> {
-    try {
-
-        const result = await databases.listDocuments(
-            databaseId,
-            guestCollectionId,
-            [
-                Query.and([
-                    Query.equal("room", true),
-                    Query.equal("public", true),
-                    Query.equal("privateId", privateId),
-                ]),
-                Query.orderDesc("$createdAt")
-            ]
-        );
-        if (!result) {
-            console.log("No messages found for this room.");
-            return;
-        };
-        const messages = toRoomMessages(result.documents);
-        return messages;
-    } catch (error) {
-        console.log("Error fetching room messages:", error);
-    }
-};
-
-async function fetchUserByPublicId ({publicId} : {publicId: string}){
-    try {
-        const userSnap = await databases.listDocuments(
-            databaseId,
-            userCollectionId,
-            [
-                Query.equal("publicId", publicId),
-            ]
-        );
-
-        if (userSnap.total === 0) {
-            console.log("User not exist for this public ID!");
-            return;
-        }; 
-        
-        return userSnap.documents[0];
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-
-async function checkUserExists (privateId: string) : Promise<boolean> {
-    try {
-        const userSnap = await databases.listDocuments(
-            databaseId,
-            userCollectionId,
-            [
-                Query.equal("privateId", privateId)
-            ]
-        );
-        return userSnap.total > 0;
-    } catch (error) {
-        console.error("Error checking user existence:", error);
+        if (retries > 0) {
+            console.warn(`Retrying... (${retries} attempts left)`);
+            await sleep(delayMs);
+            return retry(fn, retries - 1, delayMs);
+        }
         throw error;
     }
 };
 
+async function fetchRoomMessages({ privateId, username }: RoomMessagesProps): Promise<RoomMessage[] | undefined> {
+    try {
+        const accountnap = await databases.listDocuments(databaseId, userCollectionId, [
+            Query.and([Query.equal("privateId", privateId), Query.equal("username", username)])
+        ]);
+
+        if (accountnap.total === 0) return undefined;
+
+        const result = await databases.listDocuments(databaseId, guestCollectionId, [
+            Query.and([Query.equal("room", true), Query.equal("privateId", privateId)]),
+            Query.orderDesc("$createdAt")
+        ]);
+
+        return result ? toRoomMessages(result.documents) : undefined;
+    } catch (error) {
+        throw new Error(parseAppwriteError(error));
+    }
+}
+
+async function fetchPublicRoomMessages({ privateId }: { privateId: string }): Promise<RoomMessage[] | undefined> {
+    try {
+        const result = await databases.listDocuments(databaseId, guestCollectionId, [
+            Query.and([Query.equal("room", true), Query.equal("public", true), Query.equal("privateId", privateId)]),
+            Query.orderDesc("$createdAt")
+        ]);
+
+        return result ? toRoomMessages(result.documents) : undefined;
+    } catch (error) {
+        throw new Error(parseAppwriteError(error));
+    }
+}
+
+async function fetchUserByPublicId({ publicId }: { publicId: string }) {
+    try {
+        const userSnap = await databases.listDocuments(databaseId, userCollectionId, [
+            Query.equal("publicId", publicId)
+        ]);
+
+        return userSnap.total > 0 ? userSnap.documents[0] : undefined;
+    } catch (error) {
+        throw new Error(parseAppwriteError(error));
+    }
+}
+
+async function checkUserExists(privateId: string): Promise<boolean> {
+    try {
+        const userSnap = await databases.listDocuments(databaseId, userCollectionId, [
+            Query.equal("privateId", privateId)
+        ]);
+        return userSnap.total > 0;
+    } catch (error) {
+        throw new Error(parseAppwriteError(error));
+    }
+}
 
 async function sendGuestMessage(data: GuestMessageProps) {
     try {
-        const result = await databases.createDocument(
-            databaseId,
-            guestCollectionId,
-            ID.unique(),
-            {
-                ...data
-            }
-            
-        );
-        if (!result) {
-            console.log("No messages found for this room.");
-            return;
-        };
-        return result;
+        return await databases.createDocument(databaseId, guestCollectionId, ID.unique(), data);
     } catch (error) {
-        console.log("Error fetching room messages:", error);
+        throw new Error(parseAppwriteError(error));
     }
 }
 
 export const isUserExist = async (privateId: string) => {
-    try {
-        const result = await retry(() => checkUserExists(privateId), 2, 1000);
-        return result;
-    } catch (error) {
-        throw (error as Error).message || "Internet unstable!"
-    }
+    return retry(() => checkUserExists(privateId), 2, 1000).catch(error => {
+        throw new Error(parseAppwriteError(error));
+    });
 };
 
 export const uploadMessage = async (data: GuestMessageProps) => {
-    try {
-        const result = await retry(() => sendGuestMessage(data), 2, 1000);
-        return result;
-    } catch (error) {
-        throw (error as Error).message;
-    }
-}
+    return retry(() => sendGuestMessage(data), 2, 1000).catch(error => {
+        throw new Error(parseAppwriteError(error));
+    });
+};
 
 export const fetchPublicUser = async (publicId: string) => {
-    try {
-        const result = await retry(() =>  fetchUserByPublicId({publicId: publicId}), 2, 1000);
-        return result;
-    } catch (error) {
-        throw (error as Error).message;
-    }
-}
+    return retry(() => fetchUserByPublicId({ publicId }), 2, 1000).catch(error => {
+        throw new Error(parseAppwriteError(error));
+    });
+};
 
 export const fetchPublicMessages = async (privateId: string) => {
-    try {
-        const result = await retry(() => fetchPublicRoomMessages({privateId}))
-        return result;
-    } catch (error) {
-        throw (error as Error).message
-    }
-}
+    return retry(() => fetchPublicRoomMessages({ privateId }), 2, 1000).catch(error => {
+        throw new Error(parseAppwriteError(error));
+    });
+};
 
 export const fetchMessage = async (data: RoomMessagesProps) => {
-    try {
-        const result = await retry(() => fetchRoomMessages(data), 2, 1000);
-        return result;
-    } catch (error) {
-        throw (error as Error).message
-    }
-}
+    return retry(() => fetchRoomMessages(data), 2, 1000).catch(error => {
+        throw new Error(parseAppwriteError(error));
+    });
+};
 
-export const usernameExists = async (username: string) : Promise<boolean> => {
+export const usernameExists = async (username: string): Promise<boolean> => {
     try {
-        const userSnap = await databases.listDocuments(
-            databaseId,
-            userCollectionId,
-            [
-                Query.equal("username", username)
-            ]
-        );
+        const userSnap = await databases.listDocuments(databaseId, userCollectionId, [
+            Query.equal("username", username)
+        ]);
         return userSnap.total > 0;
     } catch (error) {
-        console.error("Error checking username existence:", error);
-        throw error;
+        throw new Error(parseAppwriteError(error));
     }
 };
 
-export const privateIdExists = async (privateId: string) : Promise<boolean> => {
+export const privateIdExists = async (privateId: string): Promise<boolean> => {
     try {
-        const userSnap = await databases.listDocuments(
-            databaseId,
-            userCollectionId,
-            [
-                Query.equal("privateId", privateId)
-            ]
-        );
+        const userSnap = await databases.listDocuments(databaseId, userCollectionId, [
+            Query.equal("privateId", privateId)
+        ]);
         return userSnap.total > 0;
     } catch (error) {
-        console.error("Error checking privateId existence:", error);
-        throw error;
+        throw new Error(parseAppwriteError(error));
     }
 };
 
-export const publicIdExists = async (publicId: string) : Promise<boolean> => {
+export const publicIdExists = async (publicId: string): Promise<boolean> => {
     try {
-        const userSnap = await databases.listDocuments(
-            databaseId,
-            userCollectionId,
-            [
-                Query.equal("publicId", publicId)
-            ]
-        );
+        const userSnap = await databases.listDocuments(databaseId, userCollectionId, [
+            Query.equal("publicId", publicId)
+        ]);
         return userSnap.total > 0;
     } catch (error) {
-        console.error("Error checking publicId existence:", error);
-        throw error;
+        throw new Error(parseAppwriteError(error));
     }
-}
+};
 
 export const registerUser = async (privateId: string, publicId: string, username: string, password: string) => {
     try {
-        const result = await databases.createDocument(
-            databaseId,
-            userCollectionId,
-            ID.unique(),
-            {
-                privateId,
-                publicId,
-                username,
-                password,
-            }
-        );
-        return result;
+        const emailAddress = `${username}${NEXESUFFIX}`;
+
+        const user = await account.create(ID.unique(), emailAddress, password);
+
+        return databases.createDocument(databaseId, userCollectionId, ID.unique(), {
+            id: user.$id,
+            privateId,
+            publicId,
+            username,
+        });
     } catch (error) {
-        console.error("Error registering user:", error);
-        throw (error as Error).message;
+        console.error("❌ Registration error:", error);
+        throw new Error(parseAppwriteError(error));
     }
-}
+};

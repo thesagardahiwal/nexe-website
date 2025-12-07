@@ -61,9 +61,10 @@ export default function MessageForm({ onClose, isRoomMessage = false }: MessageF
 
       // Encrypt the message content before sending
       const encryptedMessage = encryptMessage(chat.trim());
+      const encryptedPrivateId = encryptMessage(privateId.trim());
       const { message, success } = await sendGuestMessage({
         content: encryptedMessage, // Send encrypted message
-        privateId: privateId.trim(),
+        privateId: encryptedPrivateId, // Send encrypted privateId
         room: isRoomMessage,
         ...(mediaUrl.length > 0 && selectedMedia.type !== 'cancel'
           ? { mediaUrl, mediaType: selectedMedia.type }

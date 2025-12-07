@@ -3,6 +3,11 @@
 import { encryptMessage } from '@/utils/encryption';
 import React, { useState } from 'react';
 
+import PasswordInput from '@/components/PasswordInput';
+import StepIndicator from '@/components/StepIndicator';
+import IDInputField from '@/components/IDInputField';
+import TextInput from '@/components/TextInput';
+
 type Step = 1 | 2;
 
 interface FormState {
@@ -130,7 +135,7 @@ export default function RegisterPage() {
 
   const handleChange =
     (key: keyof FormState) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setForm((prev) => ({ ...prev, [key]: e.target.value }));
       setErrors((prev) => ({ ...prev, [key]: undefined }));
     };
@@ -168,15 +173,13 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      // Example payload. The backend should hash the password, enforce uniqueness, etc.
       const payload = {
-        username: form.username.trim(),
-        password: form.password,
-        privateId: form.privateId.trim(),
-        publicId: form.publicId.trim(),
+        username: encryptMessage(form.username.trim()),
+        password: encryptMessage(form.password.trim()),
+        privateId: encryptMessage(form.privateId.trim()),
+        publicId: encryptMessage(form.publicId.trim()),
       };
 
-      // Replace endpoint with your real API route
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -184,7 +187,7 @@ export default function RegisterPage() {
       });
 
       if (res.ok) {
-        setMessage('Account created successfully. You can now sign in.');
+        setMessage('Account created successfully.');
         setForm({
           username: '',
           password: '',
@@ -205,117 +208,70 @@ export default function RegisterPage() {
     }
   };
 
+  const steps = [
+    { label: 'Step 1 — Account', description: 'Basic credentials' },
+    { label: 'Step 2 — IDs', description: 'Private & Public IDs' }
+  ];
+
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-transparent p-6">
-      <div className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-        <header className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+    <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-transparent p-4 sm:p-6">
+      <div className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 md:p-8">
+        <header className="mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
             Create your Nexe account
           </h1>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          <p className="mt-1 sm:mt-2 text-sm text-gray-600 dark:text-gray-300">
             Two-step secure and anonymous account setup. You control your IDs.
           </p>
         </header>
 
-        <div className="mb-6">
-          <nav className="flex items-center gap-4">
-            <div
-              className={`flex-1 py-2 px-3 rounded-lg text-center ${
-                step === 1
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'
-              }`}
-            >
-              Step 1 — Account
-            </div>
-            <div
-              className={`flex-1 py-2 px-3 rounded-lg text-center ${
-                step === 2
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'
-              }`}
-            >
-              Step 2 — IDs
-            </div>
-          </nav>
-        </div>
+        <StepIndicator currentStep={step} steps={steps} />
 
         {/* Form area */}
         <form onSubmit={handleSubmit} className="space-y-6">
           {step === 1 && (
             <section aria-labelledby="step-1-title">
-              <h2 id="step-1-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+              <h2 id="step-1-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 Account details
               </h2>
 
-              <div className="grid grid-cols-1 gap-4">
-                <label className="block">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                    Username
-                  </span>
-                  <input
-                    type="text"
-                    value={form.username}
-                    onChange={handleChange('username')}
-                    aria-invalid={!!errors.username}
-                    aria-describedby={errors.username ? 'username-error' : undefined}
-                    className="mt-1 block w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="choose a username"
-                    autoComplete="off"
-                  />
-                  {errors.username && (
-                    <p id="username-error" className="mt-1 text-sm text-red-600">
-                      {errors.username}
-                    </p>
-                  )}
-                </label>
+              <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                <TextInput
+                  label="Username"
+                  value={form.username}
+                  onChange={handleChange('username')}
+                  error={errors.username}
+                  placeholder="choose a username"
+                  id="username"
+                  required
+                />
 
-                <label className="block">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Password</span>
-                  <input
-                    type="password"
-                    value={form.password}
-                    onChange={handleChange('password')}
-                    aria-invalid={!!errors.password}
-                    aria-describedby={errors.password ? 'password-error' : undefined}
-                    className="mt-1 block w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="At least 8 characters"
-                  />
-                  {errors.password && (
-                    <p id="password-error" className="mt-1 text-sm text-red-600">
-                      {errors.password}
-                    </p>
-                  )}
-                  <p className="mt-1 text-xs text-gray-500">
-                    Use at least 8 characters with uppercase, lowercase, and a number.
-                  </p>
-                </label>
+                <PasswordInput
+                  label="Password"
+                  value={form.password}
+                  onChange={handleChange('password')}
+                  error={errors.password}
+                  placeholder="At least 8 characters"
+                  id="password"
+                  showStrength={true}
+                />
 
-                <label className="block">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Confirm Password</span>
-                  <input
-                    type="password"
-                    value={form.confirmPassword}
-                    onChange={handleChange('confirmPassword')}
-                    aria-invalid={!!errors.confirmPassword}
-                    aria-describedby={errors.confirmPassword ? 'confirm-error' : undefined}
-                    className="mt-1 block w-full border rounded-md border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Repeat your password"
-                  />
-                  {errors.confirmPassword && (
-                    <p id="confirm-error" className="mt-1 text-sm text-red-600">
-                      {errors.confirmPassword}
-                    </p>
-                  )}
-                </label>
+                <PasswordInput
+                  label="Confirm Password"
+                  value={form.confirmPassword}
+                  onChange={handleChange('confirmPassword')}
+                  error={errors.confirmPassword}
+                  placeholder="Repeat your password"
+                  id="confirmPassword"
+                />
               </div>
 
-              <div className="flex items-center justify-between mt-4">
+              <div className="flex items-center justify-between mt-6 sm:mt-8">
                 <div />
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="px-5 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition"
+                  className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors text-sm sm:text-base"
                 >
                   Continue to IDs
                 </button>
@@ -325,106 +281,52 @@ export default function RegisterPage() {
 
           {step === 2 && (
             <section aria-labelledby="step-2-title">
-              <h2 id="step-2-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+              <h2 id="step-2-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 Choose your IDs
               </h2>
 
-              <div className="grid grid-cols-1 gap-4">
-                <label className="block">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Private ID</span>
-                  <div className="mt-1 flex gap-2">
-                    <input
-                      type="text"
-                      value={form.privateId}
-                      onChange={handleChange('privateId')}
-                      aria-invalid={!!errors.privateId}
-                      aria-describedby={errors.privateId ? 'privateId-error' : undefined}
-                      className="flex-1 rounded-md border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                      placeholder="e.g., pvt-yourid (6-40 chars)"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleGeneratePrivateId}
-                      className="px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-sm"
-                    >
-                      Generate
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy(form.privateId)}
-                      disabled={!form.privateId}
-                      className="px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-sm disabled:opacity-50"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                  {errors.privateId && (
-                    <p id="privateId-error" className="mt-1 text-sm text-red-600">
-                      {errors.privateId}
-                    </p>
-                  )}
-                  <p className="mt-1 text-xs text-gray-500">
-                    Keep your Private ID secret — it is used to receive private messages and files.
-                  </p>
-                </label>
+              <div className="grid grid-cols-1 gap-6 sm:gap-8">
+                <IDInputField
+                  label="Private ID"
+                  value={form.privateId}
+                  onChange={handleChange('privateId')}
+                  onGenerate={handleGeneratePrivateId}
+                  onCopy={() => handleCopy(form.privateId)}
+                  error={errors.privateId}
+                  placeholder="e.g., pvt-yourid (6-40 chars)"
+                  description="Keep your Private ID secret — it is used to receive private messages and files."
+                  id="privateId"
+                />
 
-                <label className="block">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Public ID</span>
-                  <div className="mt-1 flex gap-2">
-                    <input
-                      type="text"
-                      value={form.publicId}
-                      onChange={handleChange('publicId')}
-                      aria-invalid={!!errors.publicId}
-                      aria-describedby={errors.publicId ? 'publicId-error' : undefined}
-                      className="flex-1 rounded-md border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                      placeholder="e.g., publicname (4-40 chars)"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleGeneratePublicId}
-                      className="px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-sm"
-                    >
-                      Generate
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy(form.publicId)}
-                      disabled={!form.publicId}
-                      className="px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-sm disabled:opacity-50"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                  {errors.publicId && (
-                    <p id="publicId-error" className="mt-1 text-sm text-red-600">
-                      {errors.publicId}
-                    </p>
-                  )}
-                  <p className="mt-1 text-xs text-gray-500">
-                    Public ID is optional for sharing public messages. Choose carefully — it will be visible to others.
-                  </p>
-                </label>
+                <IDInputField
+                  label="Public ID"
+                  value={form.publicId}
+                  onChange={handleChange('publicId')}
+                  onGenerate={handleGeneratePublicId}
+                  onCopy={() => handleCopy(form.publicId)}
+                  error={errors.publicId}
+                  placeholder="e.g., publicname (4-40 chars)"
+                  description="Public ID is optional for sharing public messages. Choose carefully — it will be visible to others."
+                  id="publicId"
+                />
               </div>
 
-              <div className="flex items-center justify-between mt-4">
+              <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 mt-8">
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="px-5 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200"
+                  className="w-full sm:w-auto px-4 sm:px-5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm sm:text-base"
                 >
                   Back
                 </button>
 
-                <div className="flex items-center gap-3">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="px-5 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition disabled:opacity-60"
-                  >
-                    {loading ? 'Creating account...' : 'Create Account'}
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full sm:w-auto px-4 sm:px-5 py-2.5 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base"
+                >
+                  {loading ? 'Creating account...' : 'Create Account'}
+                </button>
               </div>
             </section>
           )}
@@ -438,7 +340,7 @@ export default function RegisterPage() {
         )}
 
         {/* Small note */}
-        <p className="mt-6 text-xs text-gray-500">
+        <p className="mt-6 text-xs text-gray-500 dark:text-gray-400">
           By creating an account you agree to Nexe's Terms and Privacy Policy.
         </p>
       </div>

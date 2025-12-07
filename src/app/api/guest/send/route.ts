@@ -4,28 +4,29 @@ import { decryptMessage } from "@/utils/encryption";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { method } = req;
-
-  if (method !== "POST") {
+  if (req.method !== "POST") {
     return new Response(
-      JSON.stringify({ success: false, error: "Method Not Allowed" }),
+      JSON.stringify({ success: false, message: "Method Not Allowed" }),
       { status: 405 }
     );
   }
-  const { content, privateId, mediaType, mediaUrl, room } = await req.json();
+
   try {
-    // Send the request to the actual API
-    const response = await uploadMessage({ content, privateId, mediaType, mediaUrl, room });
+    const { content, privateId, mediaType, mediaUrl, room } = await req.json();
+    const decryptedPrivateId = decryptMessage(privateId);
 
-    if (!response) {
+    if (!decryptedPrivateId) {
       return new Response(
-        JSON.stringify({ success: false, message: "Internet Error found!" }),
-        { status: 404 }
+        JSON.stringify({ success: false, message: "Invalid Private ID" }),
+        { status: 400 }
       );
-    };
+    }
+    // Upload to Appwrite
+    const response = await uploadMessage({ content, privateId: decryptMessage(privateId), mediaType, mediaUrl, room });
 
-    sendNotificationToUser({
-      privateId: privateId,
+    // Send Notification
+    await sendNotificationToUser({
+      privateId: decryptMessage(privateId),
       messageText: decryptMessage(content),
       customTitle: room ? "New Room Message" : "New Guest Message",
       data: {
@@ -35,15 +36,19 @@ export async function POST(req: NextRequest) {
         imageUrl: mediaUrl?.[0],
       }
     });
-    // Return the response from the actual API
+
     return new Response(
-      JSON.stringify({ success: true, message: "Guest message sent successfully" }),
+      JSON.stringify({ success: true, message: "Message sent successfully!" }),
       { status: 200 }
     );
+
   } catch (error) {
-    console.error("Error in sending notification:", error);
+    console.error("❌ Message/Notification Error:", error);
     return new Response(
-      JSON.stringify({ success: false, error: (error as Error).message }),
+      JSON.stringify({
+        success: false,
+        message: "Something went wrong. Please try again."
+      }),
       { status: 500 }
     );
   }

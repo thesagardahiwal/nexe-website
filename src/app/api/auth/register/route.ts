@@ -12,9 +12,9 @@ export async function POST(req: Request) {
           { status: 405 },
         );
       };
-      
+
       const { username, password, publicId, privateId } = await req.json();
-    
+      
       const payload = { 
         username : decryptMessage(username), 
         password : decryptMessage(password), 

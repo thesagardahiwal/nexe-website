@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { encryptMessage } from '@/utils/encryption';
 
 interface RoomFormModalProps {
   onClose: () => void;
@@ -37,7 +38,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
       newErrors.username = 'Username cannot start with a number.';
     }
 
-
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -48,9 +49,9 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
       return;
     }
     onSubmit({
-      username: isPublic ? "" : username.trim(),
-      privateId: isPublic ? "" : privateId.trim().toLowerCase().replace(/\s/g, ''),
-      ...(isPublic ? {publicId: privateId} : {})
+      username: isPublic ? "" : encryptMessage(username.trim()),
+      privateId: isPublic ? "" : encryptMessage(privateId.trim().toLowerCase().replace(/\s/g, '')),
+      ...(isPublic ? {publicId: encryptMessage(privateId.trim().toLowerCase().replace(/\s/g, ''))} : {})
     });
   };
 

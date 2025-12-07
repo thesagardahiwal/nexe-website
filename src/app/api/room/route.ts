@@ -1,5 +1,6 @@
 import { fetchPublicMessages, fetchMessage, fetchPublicUser } from "@/libs/appwrite/api";
 import sendNotificationToUser from "@/libs/notification";
+import { decryptMessage } from "@/utils/encryption";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -14,19 +15,29 @@ export async function POST(req: NextRequest) {
   const { username, privateId, publicId } = await req.json();
   try {
     // Send the request to the actual API
-    const userSnap = publicId ? await fetchPublicUser(publicId) : null;
-    if (userSnap === undefined) {
+    const decryptedPrivateId = decryptMessage(privateId);
+    const decryptedUsername = decryptMessage(username);
+    const decryptedPublicId = publicId ? decryptMessage(publicId) : null;
+
+    
+    const userSnap = decryptedPublicId ? await fetchPublicUser(decryptedPublicId) : null;
+    if (!userSnap && !decryptedUsername) {
       return new Response(
         JSON.stringify({ success: false, error: "No messages found" }),
         { status: 404 }
       );
     }
     
-    const response = userSnap ? await fetchPublicMessages(userSnap.privateId) : await fetchMessage({username, privateId});
+    let response;
+    if (decryptedPublicId && userSnap) {
+      response = await fetchPublicMessages(userSnap.privateId);
+    } else {
+      response = await fetchMessage({username: decryptedUsername, privateId: decryptedPrivateId }) || [];
+    };
 
     sendNotificationToUser({
-      customTitle: `Someone accesing your ${publicId ? "public messages" : "room messages"}`,
-      privateId: userSnap ? userSnap.privateId : privateId,
+      customTitle: `Someone accesing your ${decryptedPublicId ? "public messages" : "room messages"}`,
+      privateId: userSnap ? userSnap.privateId : decryptedPrivateId,
       messageText: `Someone is trying to access your ${userSnap ? "public messages" : "room"}`,
       data: {
         type: "room_message",
