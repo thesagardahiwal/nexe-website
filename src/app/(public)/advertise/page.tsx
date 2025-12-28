@@ -57,7 +57,7 @@ export default function AppDownload() {
 
         {/* Play Store Button */}
         <motion.a
-          href="https://expo.dev/artifacts/eas/sGraXwVFMcxJTVMWuWNbGB.apk" // Replace with actual link to Play Store
+          href="https://expo.dev/artifacts/eas/7qDcgfPjnnSm61WVZWQqUH.apk" // Replace with actual link to Play Store
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 40 }}
