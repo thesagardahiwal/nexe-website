@@ -31,22 +31,35 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
+  const validateEmail = (username: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(username + "@nexeusers.com");
+  };
+
+  const validateUsername = (username: string) => {
+    const usernameRegex = /^[a-zA-Z][a-zA-Z0-9._]{2,19}$/;
+    return usernameRegex.test(username);
+  };
+
+  const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   // --- Validation helpers ---
   const validateStep1 = async (): Promise<boolean> => {
     const e: Partial<Record<keyof FormState, string>> = {};
 
     if (!form.username.trim()) {
       e.username = 'Username is required.';
-    } else if (!/^[a-zA-Z0-9_.-]{3,30}$/.test(form.username)) {
-      e.username = 'Username must be 3–30 characters and contain only letters, numbers, . _ -';
+    } else if (!validateUsername(form.username.trim())) {
+      e.username = 'Username must be 3–30 characters and contain only letters, numbers, dots or underscores, starting with a letter.';
     }
 
     if (!form.password) {
       e.password = 'Password is required.';
     } else {
-      // password strength: min 8 chars, at least one uppercase, lowercase, digit
-      const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-      if (!strong.test(form.password)) {
+      if (!validatePassword(form.password)) {
         e.password =
           'Password must be at least 8 characters with uppercase, lowercase and a number.';
       }
@@ -86,7 +99,9 @@ export default function RegisterPage() {
       e.publicId = 'Public ID is required.';
     } else if (!/^[a-zA-Z0-9_-]{4,40}$/.test(form.publicId)) {
       e.publicId = 'Public ID must be 4–40 chars, letters/numbers/_/- only.';
-    }
+    };
+
+
 
     const response = await fetch('/api/auth/av', {
       method: 'POST',
@@ -133,10 +148,12 @@ export default function RegisterPage() {
     setStep(1);
   };
 
+  
+
   const handleChange =
     (key: keyof FormState) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setForm((prev) => ({ ...prev, [key]: e.target.value }));
+      setForm((prev) => ({ ...prev, [key]: key === 'username' ? e.target.value.toLowerCase() : e.target.value }));
       setErrors((prev) => ({ ...prev, [key]: undefined }));
     };
 
