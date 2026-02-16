@@ -97,25 +97,22 @@ export const public_message = [
 
 export const NEXESUFFIX = "@nexeusers.com";
 
-export const INNOVATION_LAB_FORM_URL =
+export const STUDENT_PROGRAM_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSclzYIQxYk_XzAekOs_5T6iDRvVHonIu5jqPIxpTaZbCPouZA/viewform?usp=publish-editor&embedded=true";
 
-export const INNOVATION_LAB_ACCESS_CODE = "INVITE-ONLY";
-
-export const innovationLabIntro = {
-  headline: "Welcome to the Innovation Lab",
+export const studentProgramIntro = {
+  headline: "Student Innovation Program – Cycle 01",
   subtext:
-    "A curated showcase of privacy-first engineering, structured product thinking, and system architecture research.",
+    "Nexe Technologies invites students to showcase structured, privacy-conscious, and technically sound projects.",
 };
 
-export const innovationLabWhy = [
-  "Privacy-first infrastructure requires clarity, not obscurity.",
-  "Architecture deserves documentation that is structured and decision-ready.",
-  "Products earn trust when their thinking is visible.",
-  "Innovation should be visible without compromising protection.",
+export const studentProgramAbout = [
+  "Students can submit individual or team projects.",
+  "All submissions must follow our structured innovation framework.",
+  "Selected projects receive certificates, public recognition, and feature placement.",
 ];
 
-export const innovationLabInside = [
+export const studentProgramFramework = [
   "Problem Statement",
   "Market Gap",
   "System Architecture",
@@ -125,18 +122,24 @@ export const innovationLabInside = [
   "Future Vision",
 ];
 
-export const innovationLabSecurity = [
-  "No personal data beyond necessary registration fields.",
-  "Data used only for access approval and identity verification.",
-  "No marketing spam or third-party sharing.",
-  "Privacy-first principles maintained across every release.",
+export const studentProgramTimeline = [
+  { label: "Submission Opens", value: "February 16, 2026" },
+  { label: "Submission Closes", value: "February 28, 2026" },
+  { label: "Evaluation Period", value: "20 days" },
+  { label: "Results Announced", value: "March 20, 2026" },
 ];
 
-export const innovationLabAccessPolicy = [
-  "Access is granted to developers, researchers, collaborators, and partners.",
-  "Approval is handled manually to protect sensitive information.",
-  "Approved access is delivered via email with a unique access code.",
-  "Requests are reviewed within a reasonable timeframe.",
+export const studentProgramRecognition = [
+  "Top projects receive an official Nexe Technologies Certificate of Recognition.",
+  "Selected submissions may be featured on the Innovation Showcase.",
+  "Recognition is based on technical depth and structured thinking.",
+];
+
+export const studentProgramSecurity = [
+  "No personal data beyond necessary submission fields.",
+  "Data used only for evaluation and recognition.",
+  "No marketing spam or third-party sharing.",
+  "Privacy-first principles maintained across every release.",
 ];
 
 export const innovationShowcase = [

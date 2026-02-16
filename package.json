@@ -21,7 +21,7 @@
     "react-dom": "19.2.1",
     "react-hot-toast": "^2.5.2",
     "react-server-dom-webpack": "^19.1.0",
-    "vercel": "^48.6.6"
+    "vercel": "^50.17.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

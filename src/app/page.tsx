@@ -248,8 +248,8 @@ export default function Home() {
                 Innovation Showcase
               </h2>
               <p className="mt-4 text-slate-300">
-                A curated preview of our Innovation Lab, highlighting how we
-                document privacy-first engineering decisions.
+                A curated preview of our Student Innovation Program, highlighting
+                how we document privacy-first engineering decisions.
               </p>
             </div>
             <Link

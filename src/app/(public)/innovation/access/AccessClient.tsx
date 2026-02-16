@@ -1,7 +1,10 @@
-import type { Metadata } from "next";
+'use client';
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import PageBackground from "@/components/PageBackground";
 import {
+  STUDENT_PROGRAM_FORM_URL,
   studentProgramIntro,
   studentProgramAbout,
   studentProgramFramework,
@@ -10,13 +13,23 @@ import {
   studentProgramSecurity,
 } from "@/constant/data";
 
-export const metadata: Metadata = {
-  title: "Student Innovation Program",
-  description:
-    "Nexe Technologies Student Innovation Program – Cycle 01 for structured, privacy-conscious engineering submissions.",
-};
+const SUBMISSION_KEY = "nexeStudentProgramSubmitted";
 
-export default function InnovationIntroPage() {
+export default function AccessClient() {
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(SUBMISSION_KEY);
+    if (stored === "true") {
+      setSubmitted(true);
+    }
+  }, []);
+
+  const handleSubmitted = () => {
+    localStorage.setItem(SUBMISSION_KEY, "true");
+    setSubmitted(true);
+  };
+
   return (
     <main className="page-shell">
       <PageBackground />
@@ -25,7 +38,7 @@ export default function InnovationIntroPage() {
         <div className="page-container">
           <div className="max-w-3xl animate-fade-up">
             <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">
-              Innovation Program
+              Student Innovation Program
             </div>
             <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-white">
               {studentProgramIntro.headline}
@@ -34,18 +47,18 @@ export default function InnovationIntroPage() {
               {studentProgramIntro.subtext}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/innovation/access"
+              <a
+                href="#submission-form"
                 className="px-6 py-3 rounded-full bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/20 hover:bg-cyan-400 transition"
               >
                 Submit Your Project
-              </Link>
-              <Link
+              </a>
+              <a
                 href="#framework"
                 className="px-6 py-3 rounded-full border border-white/10 text-slate-200 hover:border-white/30 hover:text-white transition"
               >
                 View Guidelines
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -58,8 +71,8 @@ export default function InnovationIntroPage() {
               About the Program
             </h2>
             <p className="mt-5 text-slate-300 text-lg">
-              This is a structured student innovation program focused on
-              technical clarity, security-aware design, and product thinking.
+              This program is designed for students who can communicate structured
+              product thinking, system architecture, and security-aware design.
             </p>
           </div>
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
@@ -81,8 +94,8 @@ export default function InnovationIntroPage() {
             Structured Innovation Framework
           </h2>
           <p className="mt-4 text-slate-300 max-w-2xl">
-            Every submission must follow our structured framework to ensure
-            clear, comparable engineering decisions.
+            Submissions must follow this framework to ensure consistency and
+            evaluation clarity.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {studentProgramFramework.map((item) => (
@@ -119,8 +132,8 @@ export default function InnovationIntroPage() {
               Recognition & Certification
             </h2>
             <p className="mt-4 text-slate-300">
-              Selected projects receive official recognition based on technical
-              depth and structured thinking.
+              Selected projects will receive official recognition from Nexe
+              Technologies.
             </p>
           </div>
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
@@ -136,29 +149,85 @@ export default function InnovationIntroPage() {
         </div>
       </section>
 
+      <section id="submission-form" className="page-section">
+        <div className="page-container grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="glass-card-lg p-6 md:p-8 animate-fade-up">
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-500">
+              Submission Form
+            </div>
+            <div className="mt-4 rounded-2xl border border-white/10 bg-black/40 overflow-hidden">
+              <iframe
+                title="Student Innovation Program Submission"
+                src={STUDENT_PROGRAM_FORM_URL}
+                className="w-full min-h-[620px]"
+              />
+            </div>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <button
+                type="button"
+                onClick={handleSubmitted}
+                className="px-6 py-3 rounded-full bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition"
+              >
+                I&apos;ve submitted my project
+              </button>
+              <span className="text-sm text-slate-400">
+                We will review your submission and respond by email.
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="glass-card p-6 animate-fade-up anim-delay-200">
+              <h2 className="text-xl font-semibold text-white">Privacy Note</h2>
+              <ul className="mt-4 space-y-3 text-sm text-slate-300">
+                {studentProgramSecurity.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="glass-card p-6 animate-fade-up anim-delay-300">
+              <h2 className="text-xl font-semibold text-white">Submission Status</h2>
+              {submitted ? (
+                <div className="mt-4 text-slate-300">
+                  <div className="text-sm uppercase tracking-[0.3em] text-cyan-300/80">
+                    Submission Received
+                  </div>
+                  <p className="mt-3 text-sm">
+                    Thank you. Our team will review your submission.
+                  </p>
+                  <Link
+                    href="/innovation/lab"
+                    className="mt-4 inline-flex text-sm text-cyan-200 hover:text-white"
+                  >
+                    Explore the Innovation Showcase →
+                  </Link>
+                </div>
+              ) : (
+                <p className="mt-4 text-sm text-slate-300">
+                  Submit the form to complete your entry.
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="page-section">
         <div className="page-container">
           <div className="glass-card-lg p-10 bg-gradient-to-r from-white/5 via-white/5 to-cyan-500/10 animate-fade-up">
-            <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">
-              Privacy Commitment
-            </div>
-            <h2 className="mt-4 text-2xl sm:text-3xl font-semibold text-white">
-              Transparency without compromising protection
+            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+              Privacy-first. Innovation-driven. Structured by design.
             </h2>
-            <ul className="mt-6 space-y-3 text-sm text-slate-300">
-              {studentProgramSecurity.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-6 flex flex-wrap gap-4">
               <Link
-                href="/innovation/access"
-                className="px-6 py-3 rounded-full bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition"
+                href="/innovation"
+                className="px-6 py-3 rounded-full border border-white/20 text-slate-200 hover:border-white/40 hover:text-white transition"
               >
-                Submit Your Project
+                Back to Innovation
               </Link>
               <Link
                 href="/announce"
