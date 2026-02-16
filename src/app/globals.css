@@ -1,51 +1,136 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --background: #05070c;
+  --foreground: #e8f0ff;
+  --muted: #9fb0c9;
+  --accent: #22d3ee;
+  --accent-strong: #38bdf8;
+  --card: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.12);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
-}
-
-
-html {
-  scrollbar-width: thin;  /* Firefox */
-  scrollbar-color: #00011c #f0f0f0;  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #1f2937 #05070c;
 }
 
 /* For Webkit-based browsers like Chrome and Safari */
 html::-webkit-scrollbar {
-  width: 10px;  /* Width of the scrollbar */
+  width: 10px;
 }
 
 html::-webkit-scrollbar-track {
-  background: #f0f0f0;  /* Background of the scrollbar track */
+  background: #05070c;
 }
 
 html::-webkit-scrollbar-thumb {
-  background-color: #00011c;  /* Color of the scrollbar thumb */
-  border-radius: 10px;  /* Rounded corners for the scrollbar thumb */
-  border: 3px solid #f0f0f0;  /* Border around the scrollbar thumb */
+  background-color: #1f2937;
+  border-radius: 10px;
+  border: 2px solid #05070c;
+}
+
+@keyframes fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .page-shell {
+    @apply relative min-h-screen overflow-hidden;
+  }
+
+  .page-hero {
+    @apply relative pt-24 pb-16;
+  }
+
+  .page-section {
+    @apply relative py-20 border-t border-white/10;
+  }
+
+  .page-container {
+    @apply max-w-6xl mx-auto px-6;
+  }
+
+  .page-container-narrow {
+    @apply max-w-4xl mx-auto px-6;
+  }
+
+  .glass-card {
+    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur;
+  }
+
+  .glass-card-lg {
+    @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur;
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fade-up 0.8s ease forwards;
+  }
+
+  .animate-fade-in {
+    opacity: 0;
+    animation: fade-in 0.6s ease forwards;
+  }
+
+  .anim-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .anim-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .anim-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .anim-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .anim-delay-500 {
+    animation-delay: 500ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }

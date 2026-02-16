@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -8,25 +8,41 @@ import Image from 'next/image';
 import lightModeLogo from "@/assets/Light-Mode.ico";
 import darkModeLogo from "@/assets/Dark-Mode.ico";
 
+type MenuKey = "products" | "company";
+
 function Navbar() {
   const pathname = usePathname(); // Get current route
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<MenuKey | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'Guest', path: '/guest' },
-    { name: 'Room', path: '/room' },
-    { name: 'Features', path: '/features' },
-    { name: 'Privacy', path: '/privacy' },
-    { name: 'Docs', path: '/doc' },
-    { name: 'About', path: '/about' },
-  ];
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleMenuBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+      setOpenMenu(null);
+    }
+  };
 
   return (
     <>
-      <div className="flex sticky top-0 z-10 items-center justify-between w-full px-6 py-4 bg-white dark:bg-[#00011c]">
-        {/* Logo Section */}
-        <Link href="/" className="flex w-1/6 items-center gap-2">
+      <header
+        className={`sticky top-0 z-50 transition-colors duration-300 ${
+          isScrolled
+            ? "bg-[#05070c]/80 backdrop-blur border-b border-white/10"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
+          {/* Logo Section */}
+          <Link href="/" className="flex items-center gap-3">
           <Image
             src={darkModeLogo}
             className="hidden dark:block"
@@ -41,74 +57,207 @@ function Navbar() {
             height={50}
             width={50}
           />
-          <div className="font-bold text-3xl tracking-wide text-[#00011c] dark:text-white">
-            Nexe
+          <div className="flex flex-col leading-tight">
+            <span className="font-semibold text-xl tracking-wide text-white">
+              Nexe Technologies
+            </span>
+            <span className="text-xs uppercase tracking-[0.2em] text-cyan-300/70">
+              Sprition Company
+            </span>
           </div>
-        </Link>
-
-        {/* Navbar Items for Medium Screens and Above */}
-        <nav className="hidden md:flex-1 md:flex items-center" aria-label="Main navigation">
-          <ul className="flex font-medium items-center gap-8 text-lg" role="menubar">
-            {navItems.map(({ name, path }, index) => (
-              <li key={index} className="relative group" role="none">
-                <Link
-                  href={path}
-                  className={`inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-2 
-                    text-gray-700 dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white 
-                    ${pathname === path ? 'font-bold' : ''}`}
-                  aria-current={pathname === path ? 'page' : undefined}
-                  role="menuitem"
-                  aria-label={`Navigate to ${name}`}
-                >
-                  {name}
-                </Link>
-
-                {/* Underline for Active and Hover States */}
-                <motion.div
-                  className={`absolute left-0 -bottom-1 h-[2px] bg-pink-600 w-full transition-transform duration-300 
-                    ${pathname === path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}
-                  aria-hidden="true"
-                />
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        {/* Download Button */}
-        <div className="md:flex hidden items-center gap-4">
-          <Link href="/advertise" passHref legacyBehavior>
-            <a
-              className="min-w-[140px] h-[48px] px-6 py-2 rounded-full font-bold bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md hover:scale-105 transition-all flex items-center justify-center"
-              role="button"
-              aria-label="Download the app from advertise page"
-            >
-              Download
-            </a>
           </Link>
-        </div>
+
+          {/* Navbar Items for Medium Screens and Above */}
+          <nav className="hidden md:flex-1 md:flex items-center justify-center" aria-label="Main navigation">
+            <div className="flex items-center gap-8 text-sm font-medium text-slate-300">
+              <div
+                className="relative"
+                onMouseEnter={() => setOpenMenu("products")}
+                onMouseLeave={() => setOpenMenu(null)}
+                onFocusCapture={() => setOpenMenu("products")}
+                onBlurCapture={handleMenuBlur}
+              >
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 px-2 py-2 text-slate-200 hover:text-white transition-colors"
+                  aria-haspopup="true"
+                  aria-expanded={openMenu === "products"}
+                >
+                  Products
+                  <svg
+                    className={`h-4 w-4 transition-transform ${openMenu === "products" ? "rotate-180" : ""}`}
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M5.25 7.5l4.75 4.75L14.75 7.5" />
+                  </svg>
+                </button>
+                {openMenu === "products" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-1/2 top-full mt-4 w-[480px] -translate-x-1/2 rounded-3xl border border-cyan-400/20 bg-black/70 p-6 shadow-[0_0_40px_rgba(34,211,238,0.18)] backdrop-blur"
+                    role="menu"
+                  >
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <Link
+                        href="/nexe"
+                        className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(34,211,238,0.25)]"
+                        role="menuitem"
+                      >
+                        <div className="text-white text-lg font-semibold">Nexe</div>
+                        <p className="mt-2 text-sm text-slate-300">
+                          Anonymous Secure Sharing
+                        </p>
+                        <span className="mt-4 inline-flex text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                          Product
+                        </span>
+                      </Link>
+                      <a
+                        href="https://nexconnect-sigma.vercel.app/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(34,211,238,0.25)]"
+                        role="menuitem"
+                      >
+                        <div className="text-white text-lg font-semibold">NexConnect</div>
+                        <p className="mt-2 text-sm text-slate-300">
+                          Anonymous Communication Platform
+                        </p>
+                        <span className="mt-4 inline-flex text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                          Live Product
+                        </span>
+                      </a>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+
+              <Link
+                href="/security"
+                className={`px-2 py-2 transition-colors ${
+                  pathname.startsWith("/security") ? "text-white" : "text-slate-300 hover:text-white"
+                }`}
+              >
+                Security
+              </Link>
+
+              <div
+                className="relative"
+                onMouseEnter={() => setOpenMenu("company")}
+                onMouseLeave={() => setOpenMenu(null)}
+                onFocusCapture={() => setOpenMenu("company")}
+                onBlurCapture={handleMenuBlur}
+              >
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 px-2 py-2 text-slate-200 hover:text-white transition-colors"
+                  aria-haspopup="true"
+                  aria-expanded={openMenu === "company"}
+                >
+                  Company
+                  <svg
+                    className={`h-4 w-4 transition-transform ${openMenu === "company" ? "rotate-180" : ""}`}
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M5.25 7.5l4.75 4.75L14.75 7.5" />
+                  </svg>
+                </button>
+                {openMenu === "company" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-1/2 top-full mt-4 w-64 -translate-x-1/2 rounded-2xl border border-cyan-400/20 bg-black/70 p-4 shadow-[0_0_30px_rgba(34,211,238,0.18)] backdrop-blur"
+                    role="menu"
+                  >
+                    <div className="flex flex-col gap-3 text-sm text-slate-300">
+                      <Link
+                        href="/about"
+                        className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white"
+                        role="menuitem"
+                      >
+                        About Us
+                      </Link>
+                      <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
+                        <div className="text-[11px] uppercase tracking-[0.3em] text-slate-500">
+                          Innovation
+                        </div>
+                        <div className="mt-2 space-y-1">
+                          <Link
+                            href="/innovation/lab"
+                            className="block rounded-lg px-2 py-1 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white"
+                            role="menuitem"
+                          >
+                            Innovation Showcase
+                          </Link>
+                          <Link
+                            href="/announce"
+                            className="block rounded-lg px-2 py-1 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white"
+                            role="menuitem"
+                          >
+                            Announcement
+                          </Link>
+                        </div>
+                      </div>
+                      <a
+                        href="https://sprition.netlify.app"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white"
+                        role="menuitem"
+                      >
+                        Parent Company (Sprition)
+                      </a>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+          </nav>
+
+          {/* CTA Button */}
+          <div className="md:flex hidden items-center gap-4">
+            <Link
+              href="/nexe"
+              className="min-w-[140px] h-[44px] px-6 rounded-full font-semibold bg-cyan-500 text-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:bg-cyan-400 transition-all flex items-center justify-center"
+              role="button"
+              aria-label="Get started with Nexe"
+            >
+              Get Started
+            </Link>
+          </div>
 
         {/* Hamburger Menu for Small Screens */}
-        <div className="md:hidden flex items-center gap-3">
-          <button
-            className="px-5 py-2 rounded-full flex items-center justify-center font-bold bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md hover:scale-105 transition-all"
-            aria-label="Download app"
-            style={{ maxWidth: '100px', minWidth: '80px', height: '40px' }}  // Ensuring proper touch target size
-          >
-            <Link href="/advertise">Download</Link>
-          </button>
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-gray-900 dark:text-white"
-            aria-label="Toggle mobile menu"
-            aria-expanded={isMobileMenuOpen ? 'true' : 'false'}
-            style={{ minWidth: '40px', height: '40px' }} // Ensuring button has good size
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+          <div className="md:hidden flex items-center gap-3">
+            <Link
+              href="/nexe"
+              className="px-4 py-2 rounded-full flex items-center justify-center font-semibold bg-cyan-500 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:bg-cyan-400 transition-all"
+              aria-label="Get Started"
+              style={{ maxWidth: '120px', minWidth: '90px', height: '40px' }}
+            >
+              Get Started
+            </Link>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-white"
+              aria-label="Toggle mobile menu"
+              aria-expanded={isMobileMenuOpen ? 'true' : 'false'}
+              style={{ minWidth: '40px', height: '40px' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
@@ -117,32 +266,88 @@ function Navbar() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
           transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-          className="fixed inset-0 top-0 left-0 bg-white dark:bg-gray-900 z-20 p-6 overflow-y-auto"
+          className="fixed inset-0 top-0 left-0 bg-[#05070c] z-[60] p-6 overflow-y-auto"
           role="menu"
           aria-label="Mobile navigation"
         >
-          <ul className="flex flex-col items-center gap-6">
-            {navItems.map(({ name, path }, index) => (
-              <li key={index} role="none">
+          <div className="mt-10 space-y-8 text-slate-200">
+            <div className="space-y-4">
+              <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Products</div>
+              <div className="space-y-3">
                 <Link
-                  href={path}
-                  className={`text-gray-700 dark:text-gray-200 text-lg ${pathname === path ? 'font-bold' : ''}`}
+                  href="/nexe"
+                  className="block rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  aria-current={pathname === path ? 'page' : undefined}
                 >
-                  {name}
+                  <div className="text-white font-semibold">Nexe</div>
+                  <div className="text-sm text-slate-400">Anonymous Secure Sharing</div>
                 </Link>
-              </li>
-            ))}
-          </ul>
+                <a
+                  href="https://nexconnect-sigma.vercel.app/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left"
+                >
+                  <div className="text-white font-semibold">NexConnect</div>
+                  <div className="text-sm text-slate-400">Anonymous Communication Platform</div>
+                </a>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Company</div>
+              <div className="space-y-2">
+                <Link
+                  href="/about"
+                  className="block px-3 py-2 text-slate-300 hover:text-white"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About Us
+                </Link>
+                <Link
+                  href="/innovation/lab"
+                  className="block px-3 py-2 text-slate-300 hover:text-white"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Innovation Showcase
+                </Link>
+                <Link
+                  href="/announce"
+                  className="block px-3 py-2 text-slate-300 hover:text-white"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Announcement
+                </Link>
+                <a
+                  href="https://sprition.netlify.app"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block px-3 py-2 text-slate-300 hover:text-white"
+                >
+                  Parent Company (Sprition)
+                </a>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Security</div>
+              <Link
+                href="/security"
+                className="block px-3 py-2 text-slate-300 hover:text-white"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Privacy & Security Architecture
+              </Link>
+            </div>
+          </div>
 
           {/* Close Button */}
           <div className="absolute top-4 right-4">
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-gray-900 dark:text-white"
+              className="text-white"
               aria-label="Close mobile menu"
-              style={{ minWidth: '40px', height: '40px' }} // Ensuring good touch target size
+              style={{ minWidth: '40px', height: '40px' }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

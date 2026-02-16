@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import PageBackground from "@/components/PageBackground";
 
 interface SectionProps {
   title: string;
@@ -8,15 +8,15 @@ interface SectionProps {
   children: React.ReactNode;
 }
 
-const Section: FC<SectionProps> = ({ title, id, children }) => (
-  <div id={id} className="mb-24 scroll-mt-24">
-    <h2 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
-      {title}
-    </h2>
-    <div className="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 text-lg space-y-4">
-      {children}
+const Section = ({ title, id, children }: SectionProps) => (
+  <section id={id} className="scroll-mt-28">
+    <div className="glass-card p-6 md:p-8 animate-fade-up anim-delay-200">
+      <h2 className="text-2xl sm:text-3xl font-semibold text-white">{title}</h2>
+      <div className="mt-4 text-slate-300 text-base sm:text-lg space-y-4">
+        {children}
+      </div>
     </div>
-  </div>
+  </section>
 );
 
 const sections = [
@@ -77,40 +77,77 @@ const sections = [
   },
 ];
 
-const Documentation: FC = () => {
-
+const Documentation = () => {
   return (
-    <div className="flex flex-col md:flex-row min-h-screen">
-      {/* Sidebar */}
-      <aside className="hidden md:block w-full md:w-[225px] px-4 py-10 sticky top-20 h-screen overflow-y-auto border-r border-gray-200 dark:border-gray-700">
-        <nav className="space-y-4 text-gray-800 dark:text-gray-200 text-sm font-medium">
-          <h2 className="text-lg font-semibold mb-4">Documentation</h2>
-          {sections.map((section) => (
-            <a
-              key={section.id}
-              href={`#${section.id}`}
-              className={`block transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-orange-400 dark:hover:text-orange-400`}
+    <main className="page-shell">
+      <PageBackground />
 
-            >
-              {section.title}
-            </a>
-          ))}
-        </nav>
-      </aside>
+      <section className="page-hero">
+        <div className="page-container">
+          <div className="max-w-2xl animate-fade-up">
+            <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">
+              Documentation
+            </div>
+            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-white">
+              Nexe Product Guide
+            </h1>
+            <p className="mt-5 text-lg text-slate-300">
+              Quick reference for anonymous sharing, guest messaging, and room
+              workflows.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* Main Content */}
-      <main className="flex-1 w-full px-6 py-12 max-w-5xl mx-auto">
-        {sections.map(({ id, title, content }) => (
-          <Section key={id} id={id} title={title}>
-            <ul className="list-disc list-inside space-y-2">
-              {content.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-            </ul>
-          </Section>
-        ))}
-      </main>
-    </div>
+      <section className="page-section">
+        <div className="page-container grid gap-10 lg:grid-cols-[240px_1fr]">
+          <aside className="hidden lg:block">
+            <div className="glass-card p-5 sticky top-28">
+              <h2 className="text-xs uppercase tracking-[0.3em] text-slate-500">
+                Contents
+              </h2>
+              <nav className="mt-5 space-y-3 text-sm text-slate-300">
+                {sections.map((section) => (
+                  <a
+                    key={section.id}
+                    href={`#${section.id}`}
+                    className="block rounded-lg px-2 py-1 transition hover:bg-white/5 hover:text-white"
+                  >
+                    {section.title}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </aside>
+
+          <div className="space-y-10">
+            <div className="glass-card p-4 lg:hidden">
+              <div className="flex gap-3 overflow-x-auto text-sm text-slate-300">
+                {sections.map((section) => (
+                  <a
+                    key={section.id}
+                    href={`#${section.id}`}
+                    className="whitespace-nowrap rounded-full border border-white/10 px-3 py-1 hover:border-white/30 hover:text-white"
+                  >
+                    {section.title}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {sections.map(({ id, title, content }) => (
+              <Section key={id} id={id} title={title}>
+                <ul className="list-disc list-inside space-y-2">
+                  {content.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </Section>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 };
 

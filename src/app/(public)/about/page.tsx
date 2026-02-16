@@ -1,270 +1,172 @@
-'use client'
-
+import type { Metadata } from "next";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import PageBackground from "@/components/PageBackground";
 
-export default function About() {
-  const missionContent = {
-    title: "Our Mission",
-    description:
-      "We are committed to privacy-first messaging. With NEXE, you can connect instantly using private IDs while keeping your personal data fully secure and anonymous.",
-    emphasis:
-      "Empowering seamless communication with complete anonymity, security, and control.",
-    coreValues: [
-      {
-        key: "privacy",
-        label: "Privacy",
-        detail:
-          "No email or phone required. Messages are tied only to IDs, never personal data.",
-        icon: "🛡️",
-      },
-      {
-        key: "security",
-        label: "Security",
-        detail: "End-to-end encryption ensures total confidentiality of messages and files.",
-        icon: "🔐",
-      },
-      {
-        key: "accessibility",
-        label: "Accessibility",
-        detail: "Access messages anywhere, on any device, with seamless cross-device sync.",
-        icon: "⚡",
-      },
-      {
-        key: "control",
-        label: "User Control",
-        detail:
-          "Remote delete and message management let you decide what stays and what goes.",
-        icon: "🗑️",
-      },
-    ],
-    animation: { opacity: 0, y: 40 },
-    transition: { delay: 0.6, type: "spring", damping: 15 },
-  };
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Learn about Nexe Technologies, a privacy-first product company under Sprition.",
+};
 
-  const aboutNexe = {
-    title: "About NEXE",
-    tagline: "Revolutionizing messaging with privacy-first technology",
-    description:
-      "NEXE is a secure anonymous messaging platform that allows users to communicate freely using Private and Public IDs. No logins, no passwords—just secure, encrypted messaging and file sharing across devices. Features include guest messaging, private/public rooms, secure attachments, cross-device sync, and remote delete for full control.",
-    highlights: [
-      {
-        key: "anonymous-messaging",
-        label: "Anonymous Messaging",
-        detail:
-          "Communicate freely without revealing your identity. Perfect for self-expression or confidential feedback.",
-        icon: "🕵️‍♂️",
-      },
-      {
-        key: "guest-messaging",
-        label: "Guest Messaging",
-        detail:
-          "Receive messages or files from anyone using just your Private ID—no account required.",
-        icon: "📩",
-      },
-      {
-        key: "private-public-rooms",
-        label: "Private & Public Rooms",
-        detail:
-          "Organize messages into Private or Public spaces. Decide which messages are confidential or shareable.",
-        icon: "🔑",
-      },
-      {
-        key: "secure-files",
-        label: "Secure File Sharing",
-        detail:
-          "Send files up to 50MB securely. All media is encrypted and accessible only to intended recipients.",
-        icon: "🔒",
-      },
-      {
-        key: "cross-device",
-        label: "Cross-Device Sync",
-        detail:
-          "Access messages and files across multiple devices without logging in.",
-        icon: "📱💻",
-      },
-      {
-        key: "remote-delete",
-        label: "Remote Delete",
-        detail:
-          "Delete messages from guest devices instantly to maintain complete privacy.",
-        icon: "🗑️",
-      },
-    ],
-    animation: { opacity: 0, y: -30 },
-    transition: { type: "spring", damping: 12, stiffness: 100, delay: 0.3 },
-  };
+const values = [
+  {
+    title: "Privacy First",
+    detail: "We design systems that protect identity and minimize exposure.",
+  },
+  {
+    title: "Security by Design",
+    detail: "Encryption, isolation, and policy controls are non-negotiable.",
+  },
+  {
+    title: "Operational Clarity",
+    detail: "Clear retention policies and user controls create durable trust.",
+  },
+  {
+    title: "Product Simplicity",
+    detail: "Powerful capabilities delivered with minimal friction for users.",
+  },
+];
 
+export default function AboutPage() {
   return (
-    <div className="relative flex flex-col items-center w-full max-w-5xl mx-auto px-6 pb-24 text-center overflow-hidden">
+    <main className="page-shell">
+      <PageBackground />
 
-      {/* Background Effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-10 left-1/4 w-[200px] h-[200px] bg-gradient-to-r from-green-400 to-blue-500 blur-[120px] opacity-40 animate-pulse" />
-        <div className="absolute bottom-10 right-1/4 w-[180px] h-[180px] bg-gradient-to-r from-pink-400 to-purple-500 blur-[100px] opacity-30 animate-pulse" />
-      </div>
+      <section className="page-hero">
+        <div className="page-container">
+          <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70 animate-fade-up">
+            About
+          </div>
+          <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-white animate-fade-up anim-delay-100">
+            Nexe Technologies
+          </h1>
+          <p className="mt-6 text-lg text-slate-300 max-w-2xl animate-fade-up anim-delay-200">
+            Nexe Technologies is a privacy-first product company within Sprition,
+            focused on building anonymous sharing and secure communication
+            platforms for modern digital infrastructure.
+          </p>
+          <a
+            href="https://sprition.netlify.app"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex items-center gap-2 text-cyan-200 hover:text-white"
+          >
+            Visit Sprition →
+          </a>
+        </div>
+      </section>
 
-      {/* About Section */}
-      <motion.div
-        initial={aboutNexe.animation}
-        animate={{ opacity: 1, y: 0 }}
-        transition={aboutNexe.transition}
-        className="relative mt-20 mx-auto max-w-4xl p-10 bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 shadow-xl rounded-3xl text-center"
-      >
-        <div className="absolute -top-12 left-1/3 w-36 h-36 bg-green-400 opacity-25 blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 right-1/4 w-28 h-28 bg-blue-400 opacity-20 blur-3xl pointer-events-none"></div>
+      <section className="page-section">
+        <div className="page-container grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-white">Mission</h2>
+            <p className="mt-4 text-slate-300">
+              Build systems that let people share information without sacrificing
+              privacy. We remove identity friction while strengthening trust,
+              enabling secure collaboration in everyday workflows.
+            </p>
+            <p className="mt-4 text-slate-400">
+              Our teams focus on privacy-first architecture, minimal data
+              retention, and human-centered UX.
+            </p>
+          </div>
+          <div className="glass-card p-6 animate-fade-up anim-delay-200">
+            <h3 className="text-sm uppercase tracking-[0.3em] text-slate-500">
+              Operating Model
+            </h3>
+            <ul className="mt-4 space-y-4 text-sm text-slate-300">
+              {[
+                "Product-first teams embedded with security expertise.",
+                "Shared infrastructure and governance through Sprition.",
+                "Continuous research into privacy-preserving workflows.",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
-        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text dark:from-pink-400">
-          {aboutNexe.title}
-        </h1>
-        <p className="mt-2 text-xl md:text-2xl text-gray-700 dark:text-gray-300 italic font-medium">
-          {aboutNexe.tagline}
-        </p>
-        <p className="mt-5 text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-          {aboutNexe.description}
-        </p>
-
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {aboutNexe.highlights.map((highlight) => (
-            <div
-              key={highlight.key}
-              className="flex items-center p-5 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-transform transform hover:scale-105"
-            >
-              {/* <span className="text-3xl">{highlight.icon}</span> */}
-              <div className="ml-4">
-                <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">
-                  {highlight.label}
-                </h3>
-                <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
-                  {highlight.detail}
-                </p>
+      <section className="page-section">
+        <div className="page-container">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-white">Values</h2>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            {values.map((value) => (
+              <div
+                key={value.title}
+                className="glass-card p-6 animate-fade-up anim-delay-200"
+              >
+                <h3 className="text-lg font-semibold text-white">{value.title}</h3>
+                <p className="mt-3 text-sm text-slate-300">{value.detail}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </motion.div>
+      </section>
 
-      {/* Mission Section */}
-      <motion.div
-        initial={missionContent.animation}
-        animate={{ opacity: 1, y: 0 }}
-        transition={missionContent.transition}
-        className="relative mt-16 mx-auto max-w-4xl p-8 bg-gradient-to-br from-blue-50 to-white dark:from-gray-800 dark:to-gray-900 shadow-lg rounded-2xl text-center"
-      >
-        <div className="absolute -top-10 left-1/3 w-40 h-40 bg-blue-400 opacity-30 blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 right-1/4 w-32 h-32 bg-pink-400 opacity-20 blur-3xl pointer-events-none"></div>
-
-        <h2 className="text-4xl md:text-5xl font-bold dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-400">
-          {missionContent.title}
-        </h2>
-        <p className="mt-4 text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-          {missionContent.description}
-        </p>
-        <p className="mt-3 text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-200 italic">
-          {missionContent.emphasis}
-        </p>
-
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {missionContent.coreValues.map((value) => (
-            <div
-              key={value.key}
-              className="flex items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-transform transform hover:scale-105"
+      <section className="page-section">
+        <div className="page-container grid gap-6 md:grid-cols-2">
+          <div className="glass-card p-8 animate-fade-up anim-delay-200">
+            <h3 className="text-xl font-semibold text-white">Nexe</h3>
+            <p className="mt-4 text-slate-300">
+              Anonymous data sharing built for fast, secure delivery of messages
+              and files.
+            </p>
+            <Link
+              href="/nexe"
+              className="mt-6 inline-flex items-center gap-2 text-cyan-200 hover:text-white"
             >
-              {/* <span className="text-3xl">{value.icon}</span> */}
-              <div className="ml-4">
-                <h3 className="text-lg md:text-xl font-medium text-gray-900 dark:text-white">
-                  {value.label}
-                </h3>
-                <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
-                  {value.detail}
-                </p>
-              </div>
-            </div>
-          ))}
+              Explore Nexe →
+            </Link>
+          </div>
+          <div className="glass-card p-8 animate-fade-up anim-delay-200">
+            <h3 className="text-xl font-semibold text-white">NexConnect</h3>
+            <p className="mt-4 text-slate-300">
+              Anonymous communication platform for teams who operate in regulated
+              or high-risk environments.
+            </p>
+            <a
+              href="https://nexconnect-sigma.vercel.app/"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-6 inline-flex items-center gap-2 text-cyan-200 hover:text-white"
+            >
+              Explore NexConnect →
+            </a>
+          </div>
         </div>
-      </motion.div>
+      </section>
 
-      {/* Why Choose NEXE */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9, type: 'spring', damping: 15 }}
-        className="mt-12 max-w-3xl"
-      >
-        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white">
-          Why Choose NEXE?
-        </h2>
-
-        <div className="mt-6 space-y-6 text-lg text-gray-700 dark:text-gray-300">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.0, type: "spring", damping: 15 }}
-            className="flex items-start space-x-4"
-          >
-            {/* <span className="text-3xl">🕵️‍♂️</span> */}
-            <div>
-              <h3 className="font-semibold text-left text-xl">Full Anonymity</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Communicate using Private and Public IDs—no email, phone, or PII required.
-              </p>
+      <section className="page-section">
+        <div className="page-container">
+          <div className="glass-card-lg p-10 bg-gradient-to-r from-white/5 via-white/5 to-cyan-500/10 animate-fade-up">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+              See how we build
+            </h2>
+            <p className="mt-4 text-slate-300 max-w-2xl">
+              Review our innovation briefs and security philosophy to
+              understand how Nexe Technologies delivers trusted infrastructure.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-4">
+              <Link
+                href="/innovation"
+                className="px-6 py-3 rounded-full bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition"
+              >
+                View Innovation
+              </Link>
+              <Link
+                href="/security"
+                className="px-6 py-3 rounded-full border border-white/20 text-slate-200 hover:border-white/40 hover:text-white transition"
+              >
+                Security Philosophy
+              </Link>
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2, type: "spring", damping: 15 }}
-            className="flex items-start space-x-4"
-          >
-            {/* <span className="text-3xl">🔐</span> */}
-            <div>
-              <h3 className="font-semibold text-left text-xl">Secure & Encrypted</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                End-to-end encryption ensures that your messages and files are fully private.
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.4, type: "spring", damping: 15 }}
-            className="flex items-start space-x-4"
-          >
-            {/* <span className="text-3xl">📱💻</span> */}
-            <div>
-              <h3 className="font-semibold text-left text-xl">Cross-Device Sync</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Access your messages and files securely on any device in real-time.
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.6, type: "spring", damping: 15 }}
-            className="flex items-start space-x-4"
-          >
-            {/* <span className="text-3xl">🗑️</span> */}
-            <div>
-              <h3 className="font-semibold text-left text-xl">Remote Delete</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Instantly delete messages from guest devices for complete privacy control.
-              </p>
-            </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
-
-      <div className="mt-12">
-        <Link href="/">
-          <button className="px-6 py-3 text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-xl text-lg font-semibold hover:scale-105 transition-all">
-            Get Started with NEXE
-          </button>
-        </Link>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

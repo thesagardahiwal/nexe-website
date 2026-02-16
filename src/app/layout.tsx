@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 import { ThemeProvider } from "@/context/theme-provider";
 import Navbar from "@/components/Navbar";
-import ToastPortal  from "@/components/ToastPortal";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import SiteFooter from "@/components/SiteFooter";
+import ToastPortal from "@/components/ToastPortal";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
 export const metadata: Metadata = {
-  title: "Nexe",
-  description: "Nexe: Share Media",
+  title: {
+    default: "Nexe Technologies",
+    template: "%s | Nexe Technologies",
+  },
+  description:
+    "Nexe Technologies builds privacy-first digital infrastructure for anonymous sharing and secure communication.",
 };
 
 export default function RootLayout({
@@ -17,17 +30,17 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en">
+    <html lang="en" className={`dark ${inter.variable}`}>
       <head>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8352205427716619"
           crossOrigin="anonymous"></script>
       </head>
-      <body
-      >
+      <body className="bg-[#05070c] text-slate-100 antialiased">
         {/* <AuthProvider> */}
         <ThemeProvider>
           <Navbar />
           {children}
+          <SiteFooter />
           <SpeedInsights />
           <ToastPortal/>
         </ThemeProvider>
