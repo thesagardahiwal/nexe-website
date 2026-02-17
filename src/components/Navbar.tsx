@@ -34,37 +34,36 @@ function Navbar() {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 transition-colors duration-300 ${
-          isScrolled
+        className={`sticky top-0 z-50 transition-colors duration-300 ${isScrolled
             ? "bg-[#05070c]/80 backdrop-blur border-b border-white/10"
             : "bg-transparent"
-        }`}
+          }`}
       >
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-3">
-          <Image
-            src={darkModeLogo}
-            className="hidden dark:block"
-            alt="logo for dark mode"
-            height={50}
-            width={50}
-          />
-          <Image
-            src={lightModeLogo}
-            className="dark:hidden"
-            alt="logo for light mode"
-            height={50}
-            width={50}
-          />
-          <div className="flex flex-col leading-tight">
-            <span className="font-semibold text-xl tracking-wide text-white">
-              Nexe Technologies
-            </span>
-            <span className="text-xs uppercase tracking-[0.2em] text-cyan-300/70">
-              Sprition Company
-            </span>
-          </div>
+            <Image
+              src={darkModeLogo}
+              className="hidden dark:block"
+              alt="logo for dark mode"
+              height={50}
+              width={50}
+            />
+            <Image
+              src={lightModeLogo}
+              className="dark:hidden"
+              alt="logo for light mode"
+              height={50}
+              width={50}
+            />
+            <div className="flex flex-col leading-tight">
+              <span className="font-semibold text-xl tracking-wide text-white">
+                Nexe Technologies
+              </span>
+              <span className="text-xs uppercase tracking-[0.2em] text-cyan-300/70">
+                Sprition Company
+              </span>
+            </div>
           </Link>
 
           {/* Navbar Items for Medium Screens and Above */}
@@ -138,9 +137,8 @@ function Navbar() {
 
               <Link
                 href="/security"
-                className={`px-2 py-2 transition-colors ${
-                  pathname.startsWith("/security") ? "text-white" : "text-slate-300 hover:text-white"
-                }`}
+                className={`px-2 py-2 transition-colors ${pathname.startsWith("/security") ? "text-white" : "text-slate-300 hover:text-white"
+                  }`}
               >
                 Security
               </Link>
@@ -234,16 +232,16 @@ function Navbar() {
             </Link>
           </div>
 
-        {/* Hamburger Menu for Small Screens */}
+          {/* Hamburger Menu for Small Screens */}
           <div className="md:hidden flex items-center gap-3">
-            <Link
+            {/* <Link
               href="/nexe"
               className="px-4 py-2 rounded-full flex items-center justify-center font-semibold bg-cyan-500 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:bg-cyan-400 transition-all"
               aria-label="Get Started"
               style={{ maxWidth: '120px', minWidth: '90px', height: '40px' }}
             >
               Get Started
-            </Link>
+            </Link> */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-white"

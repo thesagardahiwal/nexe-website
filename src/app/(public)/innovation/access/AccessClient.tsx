@@ -34,7 +34,7 @@ export default function AccessClient() {
     <main className="page-shell">
       <PageBackground />
 
-      <section className="page-hero">
+      {/* <section className="page-hero">
         <div className="page-container">
           <div className="max-w-3xl animate-fade-up">
             <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">
@@ -62,9 +62,9 @@ export default function AccessClient() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className="page-section">
+      {/* <section className="page-section">
         <div className="page-container grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <h2 className="text-3xl sm:text-4xl font-semibold text-white">
@@ -147,7 +147,7 @@ export default function AccessClient() {
             </ul>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section id="submission-form" className="page-section">
         <div className="page-container grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
