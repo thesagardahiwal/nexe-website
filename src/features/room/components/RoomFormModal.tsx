@@ -56,19 +56,19 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 dark:bg-black/70">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', damping: 20, stiffness: 250 }}
-        className="bg-white dark:bg-zinc-800 mx-4 p-6 rounded-2xl w-full max-w-md shadow-lg space-y-5"
+        className="mx-4 w-full max-w-md space-y-5 p-6 glass-card shadow-[0_0_40px_rgba(14,165,233,0.16)] dark:shadow-[0_0_40px_rgba(34,211,238,0.15)]"
       >
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Enter Room Info</h2>
+        <h2 className="text-xl font-semibold text-foreground">Enter Room Info</h2>
 
         <div className="space-y-4">
           {!isPublic && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
+                <label className="block text-sm font-medium text-muted mb-1">Username</label>
                 <input
                   type="text"
                   value={username}
@@ -78,14 +78,14 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
                     if (errors.username) setErrors(prev => ({ ...prev, username: undefined }));
                   }}
                   placeholder="Enter your name"
-                  className="w-full p-3 rounded-lg bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-600 focus:outline-none"
+                  className="w-full rounded-lg border border-slate-200/70 bg-slate-100/80 p-3 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:border-white/10 dark:bg-black/40 dark:text-slate-100 dark:placeholder:text-slate-500"
                 />
                 {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
               </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{isPublic ? "Public" : "Private"} ID</label>
+            <label className="block text-sm font-medium text-muted mb-1">{isPublic ? "Public" : "Private"} ID</label>
             <input
               type="text"
               value={privateId}
@@ -94,7 +94,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
                 if (errors.privateId) setErrors(prev => ({ ...prev, privateId: undefined }));
               }}
               placeholder={`Enter ${isPublic ? "Public" : "Private"} ID`}
-              className="w-full p-3 rounded-lg bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-600 focus:outline-none"
+              className="w-full rounded-lg border border-slate-200/70 bg-slate-100/80 p-3 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:border-white/10 dark:bg-black/40 dark:text-slate-100 dark:placeholder:text-slate-500"
             />
             {errors.privateId && <p className="text-red-500 text-sm mt-1">{errors.privateId}</p>}
           </div>
@@ -103,14 +103,14 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({ onClose, onSubmit, isPubl
         <div className="flex justify-between gap-3 pt-4">
           <button
             onClick={onClose}
-            className="flex-1 bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-medium"
+            className="flex-1 rounded-lg border border-slate-200/70 bg-white/80 px-4 py-2 font-medium text-slate-700 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:bg-white/5 dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={loading || !privateId.trim() || (!isPublic && (!username.trim()))}
-            className="flex-1 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-medium disabled:opacity-50"
+            className="flex-1 rounded-lg bg-cyan-500 px-4 py-2 font-medium text-slate-950 transition hover:bg-cyan-400 disabled:opacity-50"
           >
             {loading ? 'Submitting...' : 'Submit'}
           </button>

@@ -16,10 +16,10 @@ const SelectedMediaView: React.FC<SelectedMediaViewProps> = ({ selectedMedia, re
   const data = selectedMedia[selectedMedia.type] || [];
 
   return (
-    <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 w-full max-w-2xl">
+    <div className="glass-card p-4 w-full max-w-2xl">
       {/* Header */}
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-100">
+        <h2 className="text-base font-semibold text-foreground">
           {mediaTypeLabel}{data.length > 1 ? 's' : ''}
         </h2>
         <button
@@ -28,7 +28,7 @@ const SelectedMediaView: React.FC<SelectedMediaViewProps> = ({ selectedMedia, re
             toast.success('Media selection cleared');
           }}
           aria-label="Close room form"
-          className="p-1.5 cursor-pointer bg-red-500 hover:bg-red-600 rounded-full text-white"
+          className="p-1.5 cursor-pointer rounded-full border border-slate-200/70 bg-white/80 text-cyan-700 hover:border-cyan-400/60 hover:text-cyan-800 dark:border-white/10 dark:bg-white/5 dark:text-cyan-200 dark:hover:text-white"
         >
           <XCircle size={18} />
         </button>
@@ -65,9 +65,9 @@ const SelectedMediaView: React.FC<SelectedMediaViewProps> = ({ selectedMedia, re
         {selectedMedia.type === 'document' && (
           <div className="flex max-h-40 overflow-y-auto scroll-auto flex-col gap-2">
             {data.map((file, i) => (
-              <div key={i} className="flex items-center bg-zinc-100 dark:bg-zinc-800 p-3 rounded-lg gap-2">
-                <FileText className="text-zinc-500 dark:text-zinc-400" size={20} />
-                <span className="text-sm truncate text-zinc-800 dark:text-zinc-200 max-w-xs">
+              <div key={i} className="flex items-center border border-slate-200/70 bg-white/80 p-3 rounded-lg gap-2 dark:border-white/10 dark:bg-white/5">
+                <FileText className="text-cyan-600/80 dark:text-cyan-200/80" size={20} />
+                <span className="text-sm truncate text-slate-700 max-w-xs dark:text-slate-200">
                   {file.name}
                 </span>
               </div>

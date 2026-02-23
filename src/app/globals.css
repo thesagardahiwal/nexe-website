@@ -1,6 +1,19 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  color-scheme: light;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --muted: #4b5563;
+  --accent: #0891b2;
+  --accent-strong: #0ea5e9;
+  --card: rgba(255, 255, 255, 0.9);
+  --border: rgba(15, 23, 42, 0.08);
+}
+
+.dark {
   color-scheme: dark;
   --background: #05070c;
   --foreground: #e8f0ff;
@@ -14,6 +27,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-card: var(--card);
+  --color-border: var(--border);
   --font-sans: var(--font-inter);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
@@ -34,7 +52,7 @@ body {
 html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: #1f2937 #05070c;
+  scrollbar-color: #cbd5f5 #f8fafc;
 }
 
 /* For Webkit-based browsers like Chrome and Safari */
@@ -43,12 +61,25 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-track {
-  background: #05070c;
+  background: #f8fafc;
 }
 
 html::-webkit-scrollbar-thumb {
-  background-color: #1f2937;
+  background-color: #cbd5f5;
   border-radius: 10px;
+  border: 2px solid #f8fafc;
+}
+
+.dark html {
+  scrollbar-color: #1f2937 #05070c;
+}
+
+.dark html::-webkit-scrollbar-track {
+  background: #05070c;
+}
+
+.dark html::-webkit-scrollbar-thumb {
+  background-color: #1f2937;
   border: 2px solid #05070c;
 }
 
@@ -75,7 +106,7 @@ html::-webkit-scrollbar-thumb {
   }
 
   .page-section {
-    @apply relative py-20 border-t border-white/10;
+    @apply relative py-20 border-t border-border;
   }
 
   .page-container {
@@ -87,11 +118,17 @@ html::-webkit-scrollbar-thumb {
   }
 
   .glass-card {
-    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur;
+    @apply rounded-2xl border border-border bg-card text-foreground backdrop-blur;
   }
 
   .glass-card-lg {
-    @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur;
+    @apply rounded-3xl border border-border bg-card text-foreground backdrop-blur;
+  }
+
+  .nav-glass {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(16px);
   }
 
   .animate-fade-up {

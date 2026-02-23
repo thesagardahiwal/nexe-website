@@ -27,7 +27,7 @@ const IDInputField: React.FC<IDInputFieldProps> = ({
 }) => {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+      <span className="text-sm font-medium text-muted">
         {label}
       </span>
       <div className="mt-1 flex flex-col sm:flex-row gap-2">
@@ -38,14 +38,14 @@ const IDInputField: React.FC<IDInputFieldProps> = ({
           onChange={onChange}
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
-          className="flex-1 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 min-w-0"
+          className="flex-1 rounded-md border border-border bg-slate-100/80 px-3 py-2 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 min-w-0 dark:bg-black/40 dark:text-slate-100 dark:placeholder:text-slate-500"
           placeholder={placeholder}
         />
         <div className="flex gap-2">
           <button
             type="button"
             onClick={onGenerate}
-            className="px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-medium transition-colors whitespace-nowrap flex-1 sm:flex-none"
+            className="px-4 py-2 rounded-md border border-border bg-white/80 hover:border-slate-300 text-sm font-medium text-slate-700 transition-colors whitespace-nowrap flex-1 sm:flex-none dark:bg-white/5 dark:text-slate-200 dark:hover:border-white/40"
           >
             Generate
           </button>
@@ -53,7 +53,7 @@ const IDInputField: React.FC<IDInputFieldProps> = ({
             type="button"
             onClick={onCopy}
             disabled={!value}
-            className="px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap flex-1 sm:flex-none"
+            className="px-4 py-2 rounded-md border border-border bg-white/80 hover:border-slate-300 text-sm font-medium text-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap flex-1 sm:flex-none dark:bg-white/5 dark:text-slate-200 dark:hover:border-white/40"
           >
             Copy
           </button>
@@ -64,7 +64,7 @@ const IDInputField: React.FC<IDInputFieldProps> = ({
           {error}
         </p>
       )}
-      <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+      <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
         {description}
       </p>
     </label>

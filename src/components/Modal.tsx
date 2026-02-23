@@ -13,7 +13,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
-        <div className="fixed inset-0 bg-black bg-opacity-50" />
+        <div className="fixed inset-0 bg-slate-900/40 dark:bg-black/50" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Transition.Child
             as={Fragment}
@@ -24,7 +24,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+            <Dialog.Panel className="w-full max-w-md glass-card p-6 shadow-lg">
               <div className="mt-2">{children}</div>
               <div className="mt-4 flex justify-end">
                 <button

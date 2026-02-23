@@ -14,8 +14,8 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep, steps }) => 
             <div
               className={`py-3 px-4 rounded-lg text-center transition-colors duration-200 ${
                 currentStep === index + 1
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'
+                  ? 'bg-cyan-500 text-slate-950 shadow-md'
+                  : 'bg-slate-100/80 text-slate-700 dark:bg-white/5 dark:text-slate-200'
               }`}
             >
               <div className="font-medium">{step.label}</div>
@@ -33,7 +33,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep, steps }) => 
           <div
             key={index}
             className={`h-1 w-full ${index < steps.length - 1 ? 'mr-2' : ''} ${
-              currentStep > index + 1 ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
+              currentStep > index + 1 ? 'bg-cyan-400' : 'bg-slate-200 dark:bg-slate-700'
             }`}
           />
         ))}

@@ -24,13 +24,13 @@ export default function InnovationIntroPage() {
       <section className="page-hero">
         <div className="page-container">
           <div className="max-w-3xl animate-fade-up">
-            <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">
+            <div className="text-xs uppercase tracking-[0.35em] text-accent/70">
               Innovation Program
             </div>
-            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-white">
+            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-foreground">
               {studentProgramIntro.headline}
             </h1>
-            <p className="mt-6 text-lg text-slate-300">
+            <p className="mt-6 text-lg text-muted">
               {studentProgramIntro.subtext}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -42,7 +42,7 @@ export default function InnovationIntroPage() {
               </Link>
               <Link
                 href="#framework"
-                className="px-6 py-3 rounded-full border border-white/10 text-slate-200 hover:border-white/30 hover:text-white transition"
+                className="px-6 py-3 rounded-full border border-border text-slate-700 hover:border-slate-300 hover:text-slate-900 transition dark:text-slate-200 dark:hover:border-white/30 dark:hover:text-white"
               >
                 View Guidelines
               </Link>
@@ -54,16 +54,16 @@ export default function InnovationIntroPage() {
       <section className="page-section">
         <div className="page-container grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-semibold text-white">
+            <h2 className="text-3xl sm:text-4xl font-semibold text-foreground">
               About the Program
             </h2>
-            <p className="mt-5 text-slate-300 text-lg">
+            <p className="mt-5 text-muted text-lg">
               This is a structured student innovation program focused on
               technical clarity, security-aware design, and product thinking.
             </p>
           </div>
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <ul className="space-y-4 text-sm text-slate-300">
+            <ul className="space-y-4 text-sm text-muted">
               {studentProgramAbout.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
@@ -77,17 +77,17 @@ export default function InnovationIntroPage() {
 
       <section id="framework" className="page-section">
         <div className="page-container">
-          <h2 className="text-3xl sm:text-4xl font-semibold text-white">
+          <h2 className="text-3xl sm:text-4xl font-semibold text-foreground">
             Structured Innovation Framework
           </h2>
-          <p className="mt-4 text-slate-300 max-w-2xl">
+          <p className="mt-4 text-muted max-w-2xl">
             Every submission must follow our structured framework to ensure
             clear, comparable engineering decisions.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {studentProgramFramework.map((item) => (
               <div key={item} className="glass-card p-5 animate-fade-up anim-delay-200">
-                <div className="text-sm font-semibold text-white">{item}</div>
+                <div className="text-sm font-semibold text-foreground">{item}</div>
               </div>
             ))}
           </div>
@@ -96,7 +96,7 @@ export default function InnovationIntroPage() {
 
       <section className="page-section">
         <div className="page-container">
-          <h2 className="text-3xl sm:text-4xl font-semibold text-white">
+          <h2 className="text-3xl sm:text-4xl font-semibold text-foreground">
             Innovation Cycle 01 Timeline
           </h2>
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -105,7 +105,7 @@ export default function InnovationIntroPage() {
                 <div className="text-xs uppercase tracking-[0.3em] text-slate-500">
                   {item.label}
                 </div>
-                <div className="mt-3 text-sm text-white">{item.value}</div>
+                <div className="mt-3 text-sm text-foreground">{item.value}</div>
               </div>
             ))}
           </div>
@@ -115,16 +115,16 @@ export default function InnovationIntroPage() {
       <section className="page-section">
         <div className="page-container grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-semibold text-white">
+            <h2 className="text-3xl sm:text-4xl font-semibold text-foreground">
               Recognition & Certification
             </h2>
-            <p className="mt-4 text-slate-300">
+            <p className="mt-4 text-muted">
               Selected projects receive official recognition based on technical
               depth and structured thinking.
             </p>
           </div>
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <ul className="space-y-4 text-sm text-slate-300">
+            <ul className="space-y-4 text-sm text-muted">
               {studentProgramRecognition.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
@@ -138,14 +138,14 @@ export default function InnovationIntroPage() {
 
       <section className="page-section">
         <div className="page-container">
-          <div className="glass-card-lg p-10 bg-gradient-to-r from-white/5 via-white/5 to-cyan-500/10 animate-fade-up">
-            <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">
+          <div className="glass-card-lg p-10 bg-gradient-to-r from-slate-200/60 via-white/40 to-cyan-200/40 animate-fade-up dark:from-white/5 dark:via-white/5 dark:to-cyan-500/10">
+            <div className="text-xs uppercase tracking-[0.35em] text-accent/70">
               Privacy Commitment
             </div>
-            <h2 className="mt-4 text-2xl sm:text-3xl font-semibold text-white">
+            <h2 className="mt-4 text-2xl sm:text-3xl font-semibold text-foreground">
               Transparency without compromising protection
             </h2>
-            <ul className="mt-6 space-y-3 text-sm text-slate-300">
+            <ul className="mt-6 space-y-3 text-sm text-muted">
               {studentProgramSecurity.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
@@ -162,7 +162,7 @@ export default function InnovationIntroPage() {
               </Link>
               <Link
                 href="/announce"
-                className="px-6 py-3 rounded-full border border-white/20 text-slate-200 hover:border-white/40 hover:text-white transition"
+                className="px-6 py-3 rounded-full border border-border text-slate-700 hover:border-slate-300 hover:text-slate-900 transition dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
               >
                 Read the Announcement
               </Link>

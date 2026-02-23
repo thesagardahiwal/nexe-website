@@ -7,6 +7,7 @@ import PasswordInput from '@/components/PasswordInput';
 import StepIndicator from '@/components/StepIndicator';
 import IDInputField from '@/components/IDInputField';
 import TextInput from '@/components/TextInput';
+import PageBackground from '@/components/PageBackground';
 
 type Step = 1 | 2;
 
@@ -231,136 +232,156 @@ export default function RegisterPage() {
   ];
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-transparent p-4 sm:p-6">
-      <div className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 md:p-8">
-        <header className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
-            Create your Nexe account
-          </h1>
-          <p className="mt-1 sm:mt-2 text-sm text-gray-600 dark:text-gray-300">
-            Two-step secure and anonymous account setup. You control your IDs.
-          </p>
-        </header>
+    <main className="page-shell">
+      <PageBackground />
 
-        <StepIndicator currentStep={step} steps={steps} />
-
-        {/* Form area */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {step === 1 && (
-            <section aria-labelledby="step-1-title">
-              <h2 id="step-1-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                Account details
-              </h2>
-
-              <div className="grid grid-cols-1 gap-4 sm:gap-6">
-                <TextInput
-                  label="Username"
-                  value={form.username}
-                  onChange={handleChange('username')}
-                  error={errors.username}
-                  placeholder="choose a username"
-                  id="username"
-                  required
-                />
-
-                <PasswordInput
-                  label="Password"
-                  value={form.password}
-                  onChange={handleChange('password')}
-                  error={errors.password}
-                  placeholder="At least 8 characters"
-                  id="password"
-                  showStrength={true}
-                />
-
-                <PasswordInput
-                  label="Confirm Password"
-                  value={form.confirmPassword}
-                  onChange={handleChange('confirmPassword')}
-                  error={errors.confirmPassword}
-                  placeholder="Repeat your password"
-                  id="confirmPassword"
-                />
-              </div>
-
-              <div className="flex items-center justify-between mt-6 sm:mt-8">
-                <div />
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors text-sm sm:text-base"
-                >
-                  Continue to IDs
-                </button>
-              </div>
-            </section>
-          )}
-
-          {step === 2 && (
-            <section aria-labelledby="step-2-title">
-              <h2 id="step-2-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                Choose your IDs
-              </h2>
-
-              <div className="grid grid-cols-1 gap-6 sm:gap-8">
-                <IDInputField
-                  label="Private ID"
-                  value={form.privateId}
-                  onChange={handleChange('privateId')}
-                  onGenerate={handleGeneratePrivateId}
-                  onCopy={() => handleCopy(form.privateId)}
-                  error={errors.privateId}
-                  placeholder="e.g., pvt-yourid (6-40 chars)"
-                  description="Keep your Private ID secret — it is used to receive private messages and files."
-                  id="privateId"
-                />
-
-                <IDInputField
-                  label="Public ID"
-                  value={form.publicId}
-                  onChange={handleChange('publicId')}
-                  onGenerate={handleGeneratePublicId}
-                  onCopy={() => handleCopy(form.publicId)}
-                  error={errors.publicId}
-                  placeholder="e.g., publicname (4-40 chars)"
-                  description="Public ID is optional for sharing public messages. Choose carefully — it will be visible to others."
-                  id="publicId"
-                />
-              </div>
-
-              <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 mt-8">
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="w-full sm:w-auto px-4 sm:px-5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm sm:text-base"
-                >
-                  Back
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full sm:w-auto px-4 sm:px-5 py-2.5 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base"
-                >
-                  {loading ? 'Creating account...' : 'Create Account'}
-                </button>
-              </div>
-            </section>
-          )}
-        </form>
-
-        {/* Message / feedback */}
-        {message && (
-          <div className="mt-6 px-4 py-3 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
-            {message}
+      <section className="page-hero">
+        <div className="page-container">
+          <div className="max-w-3xl animate-fade-up">
+            <div className="text-xs uppercase tracking-[0.35em] text-accent/70">
+              Account
+            </div>
+            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-foreground">
+              Create your Nexe account
+            </h1>
+            <p className="mt-6 text-lg text-muted">
+              Two-step secure onboarding for anonymous sharing. You control your
+              private and public IDs.
+            </p>
           </div>
-        )}
+        </div>
+      </section>
 
-        {/* Small note */}
-        <p className="mt-6 text-xs text-gray-500 dark:text-gray-400">
-          By creating an account you agree to Nexe&apos;s Terms and Privacy Policy.
-        </p>
-      </div>
+      <section className="page-section">
+        <div className="page-container">
+          <div className="glass-card-lg p-6 sm:p-8 md:p-10">
+            <header className="mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-semibold text-foreground">
+                Secure registration
+              </h2>
+              <p className="mt-2 text-sm text-muted">
+                Complete the steps below to activate your private and public
+                channels.
+              </p>
+            </header>
+
+            <StepIndicator currentStep={step} steps={steps} />
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {step === 1 && (
+                <section aria-labelledby="step-1-title">
+                  <h3 id="step-1-title" className="text-lg font-semibold text-foreground mb-4">
+                    Account details
+                  </h3>
+
+                  <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                    <TextInput
+                      label="Username"
+                      value={form.username}
+                      onChange={handleChange('username')}
+                      error={errors.username}
+                      placeholder="choose a username"
+                      id="username"
+                      required
+                    />
+
+                    <PasswordInput
+                      label="Password"
+                      value={form.password}
+                      onChange={handleChange('password')}
+                      error={errors.password}
+                      placeholder="At least 8 characters"
+                      id="password"
+                      showStrength={true}
+                    />
+
+                    <PasswordInput
+                      label="Confirm Password"
+                      value={form.confirmPassword}
+                      onChange={handleChange('confirmPassword')}
+                      error={errors.confirmPassword}
+                      placeholder="Repeat your password"
+                      id="confirmPassword"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-end mt-6 sm:mt-8">
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="px-5 py-2.5 rounded-lg bg-cyan-500 text-slate-950 font-medium hover:bg-cyan-400 transition-colors text-sm sm:text-base"
+                    >
+                      Continue to IDs
+                    </button>
+                  </div>
+                </section>
+              )}
+
+              {step === 2 && (
+                <section aria-labelledby="step-2-title">
+                  <h3 id="step-2-title" className="text-lg font-semibold text-foreground mb-4">
+                    Choose your IDs
+                  </h3>
+
+                  <div className="grid grid-cols-1 gap-6 sm:gap-8">
+                    <IDInputField
+                      label="Private ID"
+                      value={form.privateId}
+                      onChange={handleChange('privateId')}
+                      onGenerate={handleGeneratePrivateId}
+                      onCopy={() => handleCopy(form.privateId)}
+                      error={errors.privateId}
+                      placeholder="e.g., pvt-yourid (6-40 chars)"
+                      description="Keep your Private ID secret — it is used to receive private messages and files."
+                      id="privateId"
+                    />
+
+                    <IDInputField
+                      label="Public ID"
+                      value={form.publicId}
+                      onChange={handleChange('publicId')}
+                      onGenerate={handleGeneratePublicId}
+                      onCopy={() => handleCopy(form.publicId)}
+                      error={errors.publicId}
+                      placeholder="e.g., publicname (4-40 chars)"
+                      description="Public ID is optional for sharing public messages. Choose carefully — it will be visible to others."
+                      id="publicId"
+                    />
+                  </div>
+
+                  <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 mt-8">
+                    <button
+                      type="button"
+                      onClick={handleBack}
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-border text-slate-700 hover:border-slate-300 hover:text-slate-900 transition-colors text-sm sm:text-base dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
+                    >
+                      Back
+                    </button>
+
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-cyan-500 text-slate-950 font-medium hover:bg-cyan-400 transition-colors disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base"
+                    >
+                      {loading ? 'Creating account...' : 'Create Account'}
+                    </button>
+                  </div>
+                </section>
+              )}
+            </form>
+
+            {message && (
+              <div className="mt-6 rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground">
+                {message}
+              </div>
+            )}
+
+            <p className="mt-6 text-xs text-slate-500 dark:text-slate-400">
+              By creating an account you agree to Nexe&apos;s Terms and Privacy Policy.
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

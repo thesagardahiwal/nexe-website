@@ -1,20 +1,24 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import { Moon, Sun } from 'lucide-react';
 import lightModeLogo from "@/assets/Light-Mode.ico";
 import darkModeLogo from "@/assets/Dark-Mode.ico";
+import { useTheme } from "@/context/theme-provider";
 
 type MenuKey = "products" | "company";
 
 function Navbar() {
   const pathname = usePathname(); // Get current route
+  const { resolvedTheme, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<MenuKey | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const menuCloseTimer = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +28,23 @@ function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const openDropdown = (menu: MenuKey) => {
+    if (menuCloseTimer.current) {
+      clearTimeout(menuCloseTimer.current);
+      menuCloseTimer.current = null;
+    }
+    setOpenMenu(menu);
+  };
+
+  const closeDropdown = () => {
+    if (menuCloseTimer.current) {
+      clearTimeout(menuCloseTimer.current);
+    }
+    menuCloseTimer.current = setTimeout(() => {
+      setOpenMenu(null);
+    }, 120);
+  };
 
   const handleMenuBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     if (!event.currentTarget.contains(event.relatedTarget as Node)) {
@@ -35,8 +56,8 @@ function Navbar() {
     <>
       <header
         className={`sticky top-0 z-50 transition-colors duration-300 ${isScrolled
-            ? "bg-[#05070c]/80 backdrop-blur border-b border-white/10"
-            : "bg-transparent"
+          ? "nav-glass shadow-[0_10px_30px_-24px_rgba(15,23,42,0.4)] dark:shadow-[0_10px_30px_-24px_rgba(0,0,0,0.7)]"
+          : "bg-transparent"
           }`}
       >
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
@@ -44,23 +65,23 @@ function Navbar() {
           <Link href="/" className="flex items-center gap-3">
             <Image
               src={darkModeLogo}
-              className="hidden dark:block"
+              className="hidden rounded-2xl dark:block"
               alt="logo for dark mode"
               height={50}
               width={50}
             />
             <Image
               src={lightModeLogo}
-              className="dark:hidden"
+              className="rounded-2xl dark:hidden"
               alt="logo for light mode"
               height={50}
               width={50}
             />
-            <div className="flex flex-col leading-tight">
-              <span className="font-semibold text-xl tracking-wide text-white">
+            <div className="md:flex hidden flex-col leading-tight">
+              <span className="font-semibold text-xl tracking-wide text-foreground">
                 Nexe Technologies
               </span>
-              <span className="text-xs uppercase tracking-[0.2em] text-cyan-300/70">
+              <span className="text-xs uppercase tracking-[0.2em] text-accent/70">
                 Sprition Company
               </span>
             </div>
@@ -68,17 +89,17 @@ function Navbar() {
 
           {/* Navbar Items for Medium Screens and Above */}
           <nav className="hidden md:flex-1 md:flex items-center justify-center" aria-label="Main navigation">
-            <div className="flex items-center gap-8 text-sm font-medium text-slate-300">
+            <div className="flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
               <div
                 className="relative"
-                onMouseEnter={() => setOpenMenu("products")}
-                onMouseLeave={() => setOpenMenu(null)}
-                onFocusCapture={() => setOpenMenu("products")}
+                onMouseEnter={() => openDropdown("products")}
+                onMouseLeave={closeDropdown}
+                onFocusCapture={() => openDropdown("products")}
                 onBlurCapture={handleMenuBlur}
               >
                 <button
                   type="button"
-                  className="inline-flex items-center gap-2 px-2 py-2 text-slate-200 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 px-2 py-2 text-slate-700 hover:text-slate-900 transition-colors dark:text-slate-200 dark:hover:text-white"
                   aria-haspopup="true"
                   aria-expanded={openMenu === "products"}
                 >
@@ -98,20 +119,22 @@ function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-1/2 top-full mt-4 w-[480px] -translate-x-1/2 rounded-3xl border border-cyan-400/20 bg-black/70 p-6 shadow-[0_0_40px_rgba(34,211,238,0.18)] backdrop-blur"
+                    className="absolute left-1/2 top-full mt-4 w-[480px] -translate-x-1/2 rounded-3xl border border-slate-200/70 bg-white/90 p-6 shadow-[0_0_40px_rgba(14,165,233,0.18)] backdrop-blur dark:border-cyan-400/20 dark:bg-black/70 dark:shadow-[0_0_40px_rgba(34,211,238,0.18)]"
                     role="menu"
+                    onMouseEnter={() => openDropdown("products")}
+                    onMouseLeave={closeDropdown}
                   >
                     <div className="grid gap-4 md:grid-cols-2">
                       <Link
                         href="/nexe"
-                        className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(34,211,238,0.25)]"
+                        className="group rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(14,165,233,0.2)] dark:border-white/10 dark:bg-white/5 dark:hover:shadow-[0_0_30px_rgba(34,211,238,0.25)]"
                         role="menuitem"
                       >
-                        <div className="text-white text-lg font-semibold">Nexe</div>
-                        <p className="mt-2 text-sm text-slate-300">
+                        <div className="text-foreground text-lg font-semibold">Nexe</div>
+                        <p className="mt-2 text-sm text-muted">
                           Anonymous Secure Sharing
                         </p>
-                        <span className="mt-4 inline-flex text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                        <span className="mt-4 inline-flex text-xs uppercase tracking-[0.3em] text-accent/80">
                           Product
                         </span>
                       </Link>
@@ -119,14 +142,14 @@ function Navbar() {
                         href="https://nexconnect-sigma.vercel.app/"
                         target="_blank"
                         rel="noreferrer"
-                        className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(34,211,238,0.25)]"
+                        className="group rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition hover:border-cyan-400/40 hover:shadow-[0_0_30px_rgba(14,165,233,0.2)] dark:border-white/10 dark:bg-white/5 dark:hover:shadow-[0_0_30px_rgba(34,211,238,0.25)]"
                         role="menuitem"
                       >
-                        <div className="text-white text-lg font-semibold">NexConnect</div>
-                        <p className="mt-2 text-sm text-slate-300">
+                        <div className="text-foreground text-lg font-semibold">NexConnect</div>
+                        <p className="mt-2 text-sm text-muted">
                           Anonymous Communication Platform
                         </p>
-                        <span className="mt-4 inline-flex text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                        <span className="mt-4 inline-flex text-xs uppercase tracking-[0.3em] text-accent/80">
                           Live Product
                         </span>
                       </a>
@@ -137,7 +160,7 @@ function Navbar() {
 
               <Link
                 href="/security"
-                className={`px-2 py-2 transition-colors ${pathname.startsWith("/security") ? "text-white" : "text-slate-300 hover:text-white"
+                className={`px-2 py-2 transition-colors ${pathname.startsWith("/security") ? "text-foreground" : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
                   }`}
               >
                 Security
@@ -145,14 +168,14 @@ function Navbar() {
 
               <div
                 className="relative"
-                onMouseEnter={() => setOpenMenu("company")}
-                onMouseLeave={() => setOpenMenu(null)}
-                onFocusCapture={() => setOpenMenu("company")}
+                onMouseEnter={() => openDropdown("company")}
+                onMouseLeave={closeDropdown}
+                onFocusCapture={() => openDropdown("company")}
                 onBlurCapture={handleMenuBlur}
               >
                 <button
                   type="button"
-                  className="inline-flex items-center gap-2 px-2 py-2 text-slate-200 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 px-2 py-2 text-slate-700 hover:text-slate-900 transition-colors dark:text-slate-200 dark:hover:text-white"
                   aria-haspopup="true"
                   aria-expanded={openMenu === "company"}
                 >
@@ -172,32 +195,34 @@ function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-1/2 top-full mt-4 w-64 -translate-x-1/2 rounded-2xl border border-cyan-400/20 bg-black/70 p-4 shadow-[0_0_30px_rgba(34,211,238,0.18)] backdrop-blur"
+                    className="absolute left-1/2 top-full mt-4 w-64 -translate-x-1/2 rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-[0_0_30px_rgba(14,165,233,0.16)] backdrop-blur dark:border-cyan-400/20 dark:bg-black/70 dark:shadow-[0_0_30px_rgba(34,211,238,0.18)]"
                     role="menu"
+                    onMouseEnter={() => openDropdown("company")}
+                    onMouseLeave={closeDropdown}
                   >
-                    <div className="flex flex-col gap-3 text-sm text-slate-300">
+                    <div className="flex flex-col gap-3 text-sm text-slate-600 dark:text-slate-300">
                       <Link
                         href="/about"
-                        className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white"
+                        className="rounded-xl px-3 py-2 transition hover:bg-slate-100/70 hover:text-slate-900 dark:hover:bg-white/5 dark:hover:text-white"
                         role="menuitem"
                       >
                         About Us
                       </Link>
-                      <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-                        <div className="text-[11px] uppercase tracking-[0.3em] text-slate-500">
+                      <div className="rounded-xl border border-slate-200/70 bg-white/80 px-3 py-2 dark:border-white/10 dark:bg-white/5">
+                        <div className="text-[11px] uppercase tracking-[0.3em] text-slate-500 dark:text-slate-500">
                           Innovation
                         </div>
                         <div className="mt-2 space-y-1">
                           <Link
                             href="/innovation/lab"
-                            className="block rounded-lg px-2 py-1 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white"
+                            className="block rounded-lg px-2 py-1 text-sm text-slate-600 transition hover:bg-slate-100/70 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white"
                             role="menuitem"
                           >
                             Innovation Showcase
                           </Link>
                           <Link
                             href="/announce"
-                            className="block rounded-lg px-2 py-1 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white"
+                            className="block rounded-lg px-2 py-1 text-sm text-slate-600 transition hover:bg-slate-100/70 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white"
                             role="menuitem"
                           >
                             Announcement
@@ -208,7 +233,7 @@ function Navbar() {
                         href="https://sprition.netlify.app"
                         target="_blank"
                         rel="noreferrer"
-                        className="rounded-xl px-3 py-2 transition hover:bg-white/5 hover:text-white"
+                        className="rounded-xl px-3 py-2 transition hover:bg-slate-100/70 hover:text-slate-900 dark:hover:bg-white/5 dark:hover:text-white"
                         role="menuitem"
                       >
                         Parent Company (Sprition)
@@ -222,6 +247,14 @@ function Navbar() {
 
           {/* CTA Button */}
           <div className="md:flex hidden items-center gap-4">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/70 bg-white/80 text-slate-700 transition hover:text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:text-white"
+              aria-label="Toggle theme"
+            >
+              {resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
             <Link
               href="/nexe"
               className="min-w-[140px] h-[44px] px-6 rounded-full font-semibold bg-cyan-500 text-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:bg-cyan-400 transition-all flex items-center justify-center"
@@ -234,6 +267,14 @@ function Navbar() {
 
           {/* Hamburger Menu for Small Screens */}
           <div className="md:hidden flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/70 bg-white/80 text-slate-700 transition hover:text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:text-white"
+              aria-label="Toggle theme"
+            >
+              {resolvedTheme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
             {/* <Link
               href="/nexe"
               className="px-4 py-2 rounded-full flex items-center justify-center font-semibold bg-cyan-500 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:bg-cyan-400 transition-all"
@@ -244,7 +285,7 @@ function Navbar() {
             </Link> */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-white"
+              className="text-slate-900 dark:text-white"
               aria-label="Toggle mobile menu"
               aria-expanded={isMobileMenuOpen ? 'true' : 'false'}
               style={{ minWidth: '40px', height: '40px' }}
@@ -264,30 +305,30 @@ function Navbar() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
           transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-          className="fixed inset-0 top-0 left-0 bg-[#05070c] z-[60] p-6 overflow-y-auto"
+          className="fixed inset-0 top-0 left-0 bg-white z-[60] p-6 overflow-y-auto dark:bg-[#05070c]"
           role="menu"
           aria-label="Mobile navigation"
         >
-          <div className="mt-10 space-y-8 text-slate-200">
+          <div className="mt-10 space-y-8 text-slate-700 dark:text-slate-200">
             <div className="space-y-4">
               <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Products</div>
               <div className="space-y-3">
                 <Link
                   href="/nexe"
-                  className="block rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left"
+                  className="block rounded-xl border border-slate-200/70 bg-white/80 px-4 py-3 text-left dark:border-white/10 dark:bg-white/5"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <div className="text-white font-semibold">Nexe</div>
-                  <div className="text-sm text-slate-400">Anonymous Secure Sharing</div>
+                  <div className="text-foreground font-semibold">Nexe</div>
+                  <div className="text-sm text-muted">Anonymous Secure Sharing</div>
                 </Link>
                 <a
                   href="https://nexconnect-sigma.vercel.app/"
                   target="_blank"
                   rel="noreferrer"
-                  className="block rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left"
+                  className="block rounded-xl border border-slate-200/70 bg-white/80 px-4 py-3 text-left dark:border-white/10 dark:bg-white/5"
                 >
-                  <div className="text-white font-semibold">NexConnect</div>
-                  <div className="text-sm text-slate-400">Anonymous Communication Platform</div>
+                  <div className="text-foreground font-semibold">NexConnect</div>
+                  <div className="text-sm text-muted">Anonymous Communication Platform</div>
                 </a>
               </div>
             </div>
@@ -297,21 +338,21 @@ function Navbar() {
               <div className="space-y-2">
                 <Link
                   href="/about"
-                  className="block px-3 py-2 text-slate-300 hover:text-white"
+                  className="block px-3 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   About Us
                 </Link>
                 <Link
                   href="/innovation/lab"
-                  className="block px-3 py-2 text-slate-300 hover:text-white"
+                  className="block px-3 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Innovation Showcase
                 </Link>
                 <Link
                   href="/announce"
-                  className="block px-3 py-2 text-slate-300 hover:text-white"
+                  className="block px-3 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Announcement
@@ -320,7 +361,7 @@ function Navbar() {
                   href="https://sprition.netlify.app"
                   target="_blank"
                   rel="noreferrer"
-                  className="block px-3 py-2 text-slate-300 hover:text-white"
+                  className="block px-3 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
                 >
                   Parent Company (Sprition)
                 </a>
@@ -331,7 +372,7 @@ function Navbar() {
               <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Security</div>
               <Link
                 href="/security"
-                className="block px-3 py-2 text-slate-300 hover:text-white"
+                className="block px-3 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Privacy & Security Architecture
@@ -343,7 +384,7 @@ function Navbar() {
           <div className="absolute top-4 right-4">
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-white"
+              className="text-slate-900 dark:text-white"
               aria-label="Close mobile menu"
               style={{ minWidth: '40px', height: '40px' }}
             >

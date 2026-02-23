@@ -33,13 +33,13 @@ export default function SpritionPage() {
 
       <section className="page-hero">
         <div className="page-container">
-          <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70 animate-fade-up">
+          <div className="text-xs uppercase tracking-[0.35em] text-accent/70 animate-fade-up">
             Parent Company
           </div>
-          <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-white animate-fade-up anim-delay-100">
+          <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-foreground animate-fade-up anim-delay-100">
             Sprition
           </h1>
-          <p className="mt-6 text-lg text-slate-300 max-w-2xl animate-fade-up anim-delay-200">
+          <p className="mt-6 text-lg text-muted max-w-2xl animate-fade-up anim-delay-200">
             Sprition is the parent organization supporting Nexe Technologies with
             strategic oversight, capital, and a long-term privacy mission.
           </p>
@@ -53,8 +53,8 @@ export default function SpritionPage() {
               key={item.title}
               className="glass-card p-6 animate-fade-up anim-delay-200"
             >
-              <h2 className="text-lg font-semibold text-white">{item.title}</h2>
-              <p className="mt-3 text-sm text-slate-300">{item.detail}</p>
+              <h2 className="text-lg font-semibold text-foreground">{item.title}</h2>
+              <p className="mt-3 text-sm text-muted">{item.detail}</p>
             </div>
           ))}
         </div>
@@ -63,17 +63,17 @@ export default function SpritionPage() {
       <section className="page-section">
         <div className="page-container grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
               Relationship to Nexe Technologies
             </h2>
-            <p className="mt-4 text-slate-300">
+            <p className="mt-4 text-muted">
               Sprition operates as a parent company similar to a holding studio,
               enabling Nexe Technologies to focus on product excellence while
               benefiting from shared governance and long-term strategy.
             </p>
           </div>
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <ul className="space-y-4 text-sm text-slate-300">
+            <ul className="space-y-4 text-sm text-muted">
               {[
                 "Centralized risk management and compliance oversight.",
                 "Shared research into privacy-first infrastructure.",
@@ -91,11 +91,11 @@ export default function SpritionPage() {
 
       <section className="page-section">
         <div className="page-container">
-          <div className="glass-card-lg p-10 bg-gradient-to-r from-white/5 via-white/5 to-cyan-500/10 animate-fade-up">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+          <div className="glass-card-lg p-10 bg-gradient-to-r from-slate-200/60 via-white/40 to-cyan-200/40 animate-fade-up dark:from-white/5 dark:via-white/5 dark:to-cyan-500/10">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
               Build with Nexe Technologies
             </h2>
-            <p className="mt-4 text-slate-300 max-w-2xl">
+            <p className="mt-4 text-muted max-w-2xl">
               Learn how the Sprition portfolio is delivering privacy-first
               infrastructure through Nexe and NexConnect.
             </p>
@@ -108,7 +108,7 @@ export default function SpritionPage() {
               </Link>
               <Link
                 href="/nexconnect"
-                className="px-6 py-3 rounded-full border border-white/20 text-slate-200 hover:border-white/40 hover:text-white transition"
+                className="px-6 py-3 rounded-full border border-border text-slate-700 hover:border-slate-300 hover:text-slate-900 transition dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
               >
                 NexConnect Product
               </Link>

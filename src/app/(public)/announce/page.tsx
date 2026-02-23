@@ -40,13 +40,13 @@ export default function AnnouncementPage() {
       <section className="page-hero">
         <div className="page-container">
           <div className="max-w-3xl animate-fade-up">
-            <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">
+            <div className="text-xs uppercase tracking-[0.35em] text-accent/70">
               Innovation Initiative
             </div>
-            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-white">
+            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-foreground">
               Engineering in the Open.
             </h1>
-            <p className="mt-6 text-lg text-slate-300">
+            <p className="mt-6 text-lg text-muted">
               At Nexe Technologies, we believe innovation should be transparent,
               structured, and impactful.
             </p>
@@ -59,7 +59,7 @@ export default function AnnouncementPage() {
               </Link>
               <Link
                 href="/security"
-                className="px-6 py-3 rounded-full border border-white/10 text-slate-200 hover:border-white/30 hover:text-white transition"
+                className="px-6 py-3 rounded-full border border-border text-slate-700 hover:border-slate-300 hover:text-slate-900 transition dark:text-slate-200 dark:hover:border-white/30 dark:hover:text-white"
               >
                 View Our Philosophy
               </Link>
@@ -71,17 +71,17 @@ export default function AnnouncementPage() {
       <section className="page-section">
         <div className="page-container grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-semibold text-white">
+            <h2 className="text-3xl sm:text-4xl font-semibold text-foreground">
               Why We’re Doing This
             </h2>
-            <p className="mt-5 text-slate-300 text-lg">
+            <p className="mt-5 text-muted text-lg">
               Nexe Technologies is launching structured innovation briefs to
               showcase our architecture, product thinking, and privacy-first
               decisions. This is a strategic commitment to clarity and trust.
             </p>
           </div>
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <ul className="space-y-4 text-sm text-slate-300">
+            <ul className="space-y-4 text-sm text-muted">
               {whyPoints.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
@@ -95,10 +95,10 @@ export default function AnnouncementPage() {
 
       <section className="page-section">
         <div className="page-container">
-          <h2 className="text-3xl sm:text-4xl font-semibold text-white">
+          <h2 className="text-3xl sm:text-4xl font-semibold text-foreground">
             What To Expect
           </h2>
-          <p className="mt-4 text-slate-300 max-w-2xl">
+          <p className="mt-4 text-muted max-w-2xl">
             Each innovation presentation is designed to be investor-ready and
             engineering-grade, documenting the real thinking behind the product.
           </p>
@@ -108,7 +108,7 @@ export default function AnnouncementPage() {
                 key={item}
                 className="glass-card p-5 animate-fade-up anim-delay-200"
               >
-                <div className="text-sm font-semibold text-white">{item}</div>
+                <div className="text-sm font-semibold text-foreground">{item}</div>
               </div>
             ))}
           </div>
@@ -118,16 +118,16 @@ export default function AnnouncementPage() {
       <section className="page-section">
         <div className="page-container grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-semibold text-white">
+            <h2 className="text-3xl sm:text-4xl font-semibold text-foreground">
               Our Commitment
             </h2>
-            <p className="mt-4 text-slate-300">
+            <p className="mt-4 text-muted">
               We will share the thinking behind our systems without compromising
               user safety. Transparency and protection will move together.
             </p>
           </div>
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <ul className="space-y-4 text-sm text-slate-300">
+            <ul className="space-y-4 text-sm text-muted">
               {commitments.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
@@ -141,8 +141,8 @@ export default function AnnouncementPage() {
 
       <section className="page-section">
         <div className="page-container">
-          <div className="glass-card-lg p-10 bg-gradient-to-r from-white/5 via-white/5 to-cyan-500/10 animate-fade-up">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+          <div className="glass-card-lg p-10 bg-gradient-to-r from-slate-200/60 via-white/40 to-cyan-200/40 animate-fade-up dark:from-white/5 dark:via-white/5 dark:to-cyan-500/10">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
               Privacy-first. Innovation-driven. Structured by design.
             </h2>
             <div className="mt-6 flex flex-wrap gap-4">
@@ -154,7 +154,7 @@ export default function AnnouncementPage() {
               </Link>
               <Link
                 href="/#products"
-                className="px-6 py-3 rounded-full border border-white/20 text-slate-200 hover:border-white/40 hover:text-white transition"
+                className="px-6 py-3 rounded-full border border-border text-slate-700 hover:border-slate-300 hover:text-slate-900 transition dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
               >
                 Explore Products →
               </Link>

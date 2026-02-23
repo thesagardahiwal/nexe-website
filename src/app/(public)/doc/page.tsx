@@ -11,8 +11,8 @@ interface SectionProps {
 const Section = ({ title, id, children }: SectionProps) => (
   <section id={id} className="scroll-mt-28">
     <div className="glass-card p-6 md:p-8 animate-fade-up anim-delay-200">
-      <h2 className="text-2xl sm:text-3xl font-semibold text-white">{title}</h2>
-      <div className="mt-4 text-slate-300 text-base sm:text-lg space-y-4">
+      <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">{title}</h2>
+      <div className="mt-4 text-muted text-base sm:text-lg space-y-4">
         {children}
       </div>
     </div>
@@ -85,13 +85,13 @@ const Documentation = () => {
       <section className="page-hero">
         <div className="page-container">
           <div className="max-w-2xl animate-fade-up">
-            <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">
+            <div className="text-xs uppercase tracking-[0.35em] text-accent/70">
               Documentation
             </div>
-            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-white">
+            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-foreground">
               Nexe Product Guide
             </h1>
-            <p className="mt-5 text-lg text-slate-300">
+            <p className="mt-5 text-lg text-muted">
               Quick reference for anonymous sharing, guest messaging, and room
               workflows.
             </p>
@@ -106,12 +106,12 @@ const Documentation = () => {
               <h2 className="text-xs uppercase tracking-[0.3em] text-slate-500">
                 Contents
               </h2>
-              <nav className="mt-5 space-y-3 text-sm text-slate-300">
+              <nav className="mt-5 space-y-3 text-sm text-muted">
                 {sections.map((section) => (
                   <a
                     key={section.id}
                     href={`#${section.id}`}
-                    className="block rounded-lg px-2 py-1 transition hover:bg-white/5 hover:text-white"
+                    className="block rounded-lg px-2 py-1 transition hover:bg-slate-100/70 hover:text-slate-900 dark:hover:bg-white/5 dark:hover:text-white"
                   >
                     {section.title}
                   </a>
@@ -122,12 +122,12 @@ const Documentation = () => {
 
           <div className="space-y-10">
             <div className="glass-card p-4 lg:hidden">
-              <div className="flex gap-3 overflow-x-auto text-sm text-slate-300">
+              <div className="flex gap-3 overflow-x-auto text-sm text-muted">
                 {sections.map((section) => (
                   <a
                     key={section.id}
                     href={`#${section.id}`}
-                    className="whitespace-nowrap rounded-full border border-white/10 px-3 py-1 hover:border-white/30 hover:text-white"
+                    className="whitespace-nowrap rounded-full border border-border px-3 py-1 hover:border-slate-300 hover:text-slate-900 dark:hover:border-white/30 dark:hover:text-white"
                   >
                     {section.title}
                   </a>

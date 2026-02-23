@@ -69,13 +69,13 @@ export default function SecurityPage() {
 
       <section className="page-hero">
         <div className="page-container">
-          <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70 animate-fade-up">
+          <div className="text-xs uppercase tracking-[0.35em] text-accent/70 animate-fade-up">
             Security & Privacy
           </div>
-          <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-white animate-fade-up anim-delay-100">
+          <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-foreground animate-fade-up anim-delay-100">
             Security & Privacy Philosophy
           </h1>
-          <p className="mt-6 text-lg text-slate-300 max-w-2xl animate-fade-up anim-delay-200">
+          <p className="mt-6 text-lg text-muted max-w-2xl animate-fade-up anim-delay-200">
             Our architecture assumes sensitive data should be protected by
             default. We build privacy into every layer of the stack so people can
             share confidently.
@@ -85,7 +85,7 @@ export default function SecurityPage() {
 
       <section className="page-section">
         <div className="page-container">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
             Core Principles
           </h2>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
@@ -94,8 +94,8 @@ export default function SecurityPage() {
                 key={item.title}
                 className="glass-card p-6 animate-fade-up anim-delay-200"
               >
-                <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm text-slate-300">{item.detail}</p>
+                <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-3 text-sm text-muted">{item.detail}</p>
               </div>
             ))}
           </div>
@@ -104,7 +104,7 @@ export default function SecurityPage() {
 
       <section className="page-section">
         <div className="page-container">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
             Data Lifecycle
           </h2>
           <div className="mt-6 grid gap-4 md:grid-cols-4">
@@ -113,10 +113,10 @@ export default function SecurityPage() {
                 key={item.step}
                 className="glass-card p-5 animate-fade-up anim-delay-200"
               >
-                <div className="text-xs uppercase tracking-[0.3em] text-cyan-300/70">
+                <div className="text-xs uppercase tracking-[0.3em] text-accent/70">
                   {item.step}
                 </div>
-                <p className="mt-3 text-sm text-slate-300">{item.detail}</p>
+                <p className="mt-3 text-sm text-muted">{item.detail}</p>
               </div>
             ))}
           </div>
@@ -126,16 +126,16 @@ export default function SecurityPage() {
       <section className="page-section">
         <div className="page-container grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
               Architecture Highlights
             </h2>
-            <p className="mt-4 text-slate-300">
+            <p className="mt-4 text-muted">
               We combine cryptographic controls, infrastructure isolation, and
               operational discipline to minimize risk.
             </p>
           </div>
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <ul className="space-y-4 text-sm text-slate-300">
+            <ul className="space-y-4 text-sm text-muted">
               {architecture.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
@@ -149,11 +149,11 @@ export default function SecurityPage() {
 
       <section className="page-section">
         <div className="page-container">
-          <div className="glass-card-lg p-10 bg-gradient-to-r from-white/5 via-white/5 to-cyan-500/10 animate-fade-up">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+          <div className="glass-card-lg p-10 bg-gradient-to-r from-slate-200/60 via-white/40 to-cyan-200/40 animate-fade-up dark:from-white/5 dark:via-white/5 dark:to-cyan-500/10">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
               Explore products built on these guarantees
             </h2>
-            <p className="mt-4 text-slate-300 max-w-2xl">
+            <p className="mt-4 text-muted max-w-2xl">
               Review how Nexe and NexConnect translate these principles into
               real-world workflows.
             </p>
@@ -168,7 +168,7 @@ export default function SecurityPage() {
                 href="https://nexconnect-sigma.vercel.app/"
                 target="_blank"
                 rel="noreferrer"
-                className="px-6 py-3 rounded-full border border-white/20 text-slate-200 hover:border-white/40 hover:text-white transition"
+                className="px-6 py-3 rounded-full border border-border text-slate-700 hover:border-slate-300 hover:text-slate-900 transition dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
               >
                 NexConnect Product
               </a>

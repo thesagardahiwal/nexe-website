@@ -46,7 +46,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
 
   return (
     <div className="block">
-      <label htmlFor={id} className="text-sm font-medium text-gray-700 dark:text-gray-200">
+      <label htmlFor={id} className="text-sm font-medium text-muted">
         {label}
       </label>
       <div className="mt-1 relative">
@@ -57,14 +57,14 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
           onChange={onChange}
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
-          className="block w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="block w-full rounded-md border border-border bg-slate-100/80 px-3 py-2 pr-10 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:bg-black/40 dark:text-slate-100 dark:placeholder:text-slate-500"
           placeholder={placeholder}
           autoComplete={autoComplete}
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none"
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none"
           aria-label={showPassword ? 'Hide password' : 'Show password'}
         >
           {showPassword ? (
@@ -83,13 +83,13 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       {showStrength && value && (
         <div className="mt-2">
           <div className="flex items-center gap-2 mb-1">
-            <div className="text-xs text-gray-600 dark:text-gray-400">
+            <div className="text-xs text-slate-500 dark:text-slate-400">
               Strength: <span className={`font-medium ${strength?.color === 'bg-red-500' ? 'text-red-600' : strength?.color === 'bg-yellow-500' ? 'text-yellow-600' : 'text-green-600'}`}>
                 {strength?.text}
               </span>
             </div>
           </div>
-          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1">
+          <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1">
             <div
               className={`h-1 rounded-full transition-all duration-300 ${strength?.color}`}
               style={{ width: `${(strength?.score || 0) * 20}%` }}
@@ -105,7 +105,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       )}
       
       {showStrength && !value && (
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1 text-xs text-slate-500">
           Use at least 8 characters with uppercase, lowercase, and a number.
         </p>
       )}

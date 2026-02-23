@@ -30,12 +30,12 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en" className={`dark ${inter.variable}`}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8352205427716619"
           crossOrigin="anonymous"></script>
       </head>
-      <body className="bg-[#05070c] text-slate-100 antialiased">
+      <body className="bg-background text-foreground antialiased">
         {/* <AuthProvider> */}
         <ThemeProvider>
           <Navbar />

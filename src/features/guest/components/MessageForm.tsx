@@ -99,14 +99,14 @@ export default function MessageForm({ onClose, isRoomMessage = false }: MessageF
 
   /* -------------------- UI -------------------- */
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/70 dark:bg-black/70">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm dark:bg-black/70">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', damping: 20, stiffness: 250 }}
-        className="mx-4 w-full max-w-md space-y-5 rounded-2xl bg-white p-6 shadow-lg dark:bg-zinc-800"
+        className="mx-4 w-full max-w-md space-y-5 p-6 glass-card shadow-[0_0_40px_rgba(14,165,233,0.16)] dark:shadow-[0_0_40px_rgba(34,211,238,0.15)]"
       >
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
+        <h2 className="text-xl font-semibold text-foreground">
           Send a Message
         </h2>
 
@@ -115,7 +115,7 @@ export default function MessageForm({ onClose, isRoomMessage = false }: MessageF
         {/* Inputs */}
         <div className="space-y-4">
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="mb-1 block text-sm font-medium text-muted">
               Private ID
             </span>
             <input
@@ -124,19 +124,19 @@ export default function MessageForm({ onClose, isRoomMessage = false }: MessageF
                 setPrivateId(e.target.value.toLowerCase().replace(/\s/g, ''))
               }
               placeholder="Enter Private ID"
-              className="w-full rounded-lg border border-gray-300 bg-zinc-100 p-3 text-gray-900 focus:outline-none dark:border-zinc-600 dark:bg-zinc-700 dark:text-white"
+              className="w-full rounded-lg border border-slate-200/70 bg-slate-100/80 p-3 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:border-white/10 dark:bg-black/40 dark:text-slate-100 dark:placeholder:text-slate-500"
             />
           </label>
 
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="mb-1 block text-sm font-medium text-muted">
               Message
             </span>
             <textarea
               value={chat}
               onChange={(e) => setChat(e.target.value)}
               placeholder="Write your message here"
-              className="min-h-[100px] w-full rounded-lg border border-gray-300 bg-zinc-100 p-3 text-gray-900 focus:outline-none dark:border-zinc-600 dark:bg-zinc-700 dark:text-white"
+              className="min-h-[100px] w-full rounded-lg border border-slate-200/70 bg-slate-100/80 p-3 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:border-white/10 dark:bg-black/40 dark:text-slate-100 dark:placeholder:text-slate-500"
             />
           </label>
 
@@ -144,7 +144,7 @@ export default function MessageForm({ onClose, isRoomMessage = false }: MessageF
           <button
             type="button"
             onClick={() => setPickerOpen(true)}
-            className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200 text-gray-800 transition hover:bg-blue-500/30 focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:bg-zinc-600 dark:text-white dark:hover:bg-zinc-500"
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200/70 bg-white/80 text-cyan-700 transition hover:border-cyan-400/60 hover:text-cyan-800 focus:outline-none focus-visible:ring focus-visible:ring-cyan-500 dark:border-white/10 dark:bg-white/5 dark:text-cyan-200 dark:hover:text-white"
             aria-label="Attach media"
           >
             <Paperclip className="h-5 w-5" />
@@ -161,7 +161,7 @@ export default function MessageForm({ onClose, isRoomMessage = false }: MessageF
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 rounded-lg bg-red-600 px-4 py-2 font-medium text-white transition hover:bg-red-500 focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-red-500"
+            className="flex-1 rounded-lg border border-slate-200/70 bg-white/80 px-4 py-2 font-medium text-slate-700 transition hover:border-slate-300 hover:text-slate-900 focus:outline-none focus-visible:ring focus-visible:ring-cyan-500 dark:border-white/20 dark:bg-white/5 dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
           >
             Close
           </button>
@@ -169,7 +169,7 @@ export default function MessageForm({ onClose, isRoomMessage = false }: MessageF
             type="button"
             onClick={uploadChat}
             disabled={uploading || !chat.trim() || !privateId.trim()}
-            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition hover:bg-blue-500 disabled:opacity-50 focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 font-medium text-slate-950 transition hover:bg-cyan-400 disabled:opacity-50 focus:outline-none focus-visible:ring focus-visible:ring-cyan-500"
           >
             {uploading ? (
               'Sending...'

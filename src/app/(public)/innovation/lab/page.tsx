@@ -16,13 +16,13 @@ export default function InnovationLabPage() {
       <section className="page-hero">
         <div className="page-container">
           <div className="max-w-3xl animate-fade-up">
-            <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70">
+            <div className="text-xs uppercase tracking-[0.35em] text-accent/70">
               Innovation Showcase
             </div>
-            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-white">
+            <h1 className="mt-5 text-4xl sm:text-6xl font-semibold text-foreground">
               Student Innovation Highlights
             </h1>
-            <p className="mt-6 text-lg text-slate-300">
+            <p className="mt-6 text-lg text-muted">
               A curated selection of student submissions demonstrating structured
               product thinking, system architecture, and privacy-aware design.
             </p>
@@ -39,10 +39,10 @@ export default function InnovationLabPage() {
             >
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.3em] text-cyan-300/70">
+                  <div className="text-xs uppercase tracking-[0.3em] text-accent/70">
                     {initiative.tagline}
                   </div>
-                  <h2 className="mt-3 text-3xl font-semibold text-white">
+                  <h2 className="mt-3 text-3xl font-semibold text-foreground">
                     {initiative.name}
                   </h2>
                 </div>
@@ -56,19 +56,19 @@ export default function InnovationLabPage() {
                   <h3 className="text-sm uppercase tracking-[0.3em] text-slate-500">
                     Problem
                   </h3>
-                  <p className="mt-3 text-slate-300">{initiative.problem}</p>
+                  <p className="mt-3 text-muted">{initiative.problem}</p>
                 </div>
                 <div>
                   <h3 className="text-sm uppercase tracking-[0.3em] text-slate-500">
                     Market Gap
                   </h3>
-                  <p className="mt-3 text-slate-300">{initiative.marketGap}</p>
+                  <p className="mt-3 text-muted">{initiative.marketGap}</p>
                 </div>
                 <div>
                   <h3 className="text-sm uppercase tracking-[0.3em] text-slate-500">
                     System Architecture
                   </h3>
-                  <p className="mt-3 text-slate-300">{initiative.architecture}</p>
+                  <p className="mt-3 text-muted">{initiative.architecture}</p>
                 </div>
                 <div>
                   <h3 className="text-sm uppercase tracking-[0.3em] text-slate-500">
@@ -78,7 +78,7 @@ export default function InnovationLabPage() {
                     {initiative.techStack.map((tech) => (
                       <span
                         key={tech}
-                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300"
+                        className="rounded-full border border-border bg-white/80 px-3 py-1 text-xs text-muted dark:bg-white/5"
                       >
                         {tech}
                       </span>
@@ -92,19 +92,19 @@ export default function InnovationLabPage() {
                   <h3 className="text-sm uppercase tracking-[0.3em] text-slate-500">
                     Security Model
                   </h3>
-                  <p className="mt-3 text-slate-300">{initiative.securityModel}</p>
+                  <p className="mt-3 text-muted">{initiative.securityModel}</p>
                 </div>
                 <div>
                   <h3 className="text-sm uppercase tracking-[0.3em] text-slate-500">
                     Business Thinking
                   </h3>
-                  <p className="mt-3 text-slate-300">{initiative.businessVision}</p>
+                  <p className="mt-3 text-muted">{initiative.businessVision}</p>
                 </div>
                 <div>
                   <h3 className="text-sm uppercase tracking-[0.3em] text-slate-500">
                     Future Vision
                   </h3>
-                  <p className="mt-3 text-slate-300">{initiative.roadmap}</p>
+                  <p className="mt-3 text-muted">{initiative.roadmap}</p>
                 </div>
               </div>
             </article>

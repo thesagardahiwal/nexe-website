@@ -155,7 +155,7 @@ export default function AccessClient() {
             <div className="text-xs uppercase tracking-[0.3em] text-slate-500">
               Submission Form
             </div>
-            <div className="mt-4 rounded-2xl border border-white/10 bg-black/40 overflow-hidden">
+            <div className="mt-4 rounded-2xl border border-border bg-slate-100/80 overflow-hidden dark:bg-black/40">
               <iframe
                 title="Student Innovation Program Submission"
                 src={STUDENT_PROGRAM_FORM_URL}
@@ -170,7 +170,7 @@ export default function AccessClient() {
               >
                 I&apos;ve submitted my project
               </button>
-              <span className="text-sm text-slate-400">
+              <span className="text-sm text-slate-500 dark:text-slate-400">
                 We will review your submission and respond by email.
               </span>
             </div>
@@ -178,8 +178,8 @@ export default function AccessClient() {
 
           <div className="space-y-6">
             <div className="glass-card p-6 animate-fade-up anim-delay-200">
-              <h2 className="text-xl font-semibold text-white">Privacy Note</h2>
-              <ul className="mt-4 space-y-3 text-sm text-slate-300">
+              <h2 className="text-xl font-semibold text-foreground">Privacy Note</h2>
+              <ul className="mt-4 space-y-3 text-sm text-muted">
                 {studentProgramSecurity.map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <span className="mt-1 h-2 w-2 rounded-full bg-cyan-400" />
@@ -190,10 +190,10 @@ export default function AccessClient() {
             </div>
 
             <div className="glass-card p-6 animate-fade-up anim-delay-300">
-              <h2 className="text-xl font-semibold text-white">Submission Status</h2>
+              <h2 className="text-xl font-semibold text-foreground">Submission Status</h2>
               {submitted ? (
-                <div className="mt-4 text-slate-300">
-                  <div className="text-sm uppercase tracking-[0.3em] text-cyan-300/80">
+                <div className="mt-4 text-muted">
+                  <div className="text-sm uppercase tracking-[0.3em] text-accent/80">
                     Submission Received
                   </div>
                   <p className="mt-3 text-sm">
@@ -201,13 +201,13 @@ export default function AccessClient() {
                   </p>
                   <Link
                     href="/innovation/lab"
-                    className="mt-4 inline-flex text-sm text-cyan-200 hover:text-white"
+                    className="mt-4 inline-flex text-sm text-accent hover:text-foreground"
                   >
                     Explore the Innovation Showcase →
                   </Link>
                 </div>
               ) : (
-                <p className="mt-4 text-sm text-slate-300">
+                <p className="mt-4 text-sm text-muted">
                   Submit the form to complete your entry.
                 </p>
               )}
@@ -218,20 +218,20 @@ export default function AccessClient() {
 
       <section className="page-section">
         <div className="page-container">
-          <div className="glass-card-lg p-10 bg-gradient-to-r from-white/5 via-white/5 to-cyan-500/10 animate-fade-up">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+          <div className="glass-card-lg p-10 bg-gradient-to-r from-slate-200/60 via-white/40 to-cyan-200/40 animate-fade-up dark:from-white/5 dark:via-white/5 dark:to-cyan-500/10">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
               Privacy-first. Innovation-driven. Structured by design.
             </h2>
             <div className="mt-6 flex flex-wrap gap-4">
               <Link
                 href="/innovation"
-                className="px-6 py-3 rounded-full border border-white/20 text-slate-200 hover:border-white/40 hover:text-white transition"
+                className="px-6 py-3 rounded-full border border-border text-slate-700 hover:border-slate-300 hover:text-slate-900 transition dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
               >
                 Back to Innovation
               </Link>
               <Link
                 href="/announce"
-                className="px-6 py-3 rounded-full border border-white/20 text-slate-200 hover:border-white/40 hover:text-white transition"
+                className="px-6 py-3 rounded-full border border-border text-slate-700 hover:border-slate-300 hover:text-slate-900 transition dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
               >
                 Read the Announcement
               </Link>

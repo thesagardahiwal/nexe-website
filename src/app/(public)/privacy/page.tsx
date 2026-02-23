@@ -8,16 +8,16 @@ export default function PrivacyPolicy() {
 
       <section className="page-hero">
         <div className="page-container-narrow">
-          <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/70 animate-fade-up">
+          <div className="text-xs uppercase tracking-[0.35em] text-accent/70 animate-fade-up">
             Legal
           </div>
-          <h1 className="mt-5 text-4xl sm:text-5xl font-semibold text-white animate-fade-up anim-delay-100">
+          <h1 className="mt-5 text-4xl sm:text-5xl font-semibold text-foreground animate-fade-up anim-delay-100">
             Privacy Policy for NEXE
           </h1>
-          <p className="mt-3 text-sm text-slate-400 animate-fade-up anim-delay-200">
+          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400 animate-fade-up anim-delay-200">
             Last Updated: December 4, 2025
           </p>
-          <p className="mt-6 text-slate-300 animate-fade-up anim-delay-300">
+          <p className="mt-6 text-muted animate-fade-up anim-delay-300">
             Welcome to <strong>NEXE</strong>. We are committed to providing a
             secure and anonymous messaging platform. This policy explains how we
             protect your privacy and handle your data while giving you full
@@ -27,10 +27,10 @@ export default function PrivacyPolicy() {
       </section>
 
       <section className="page-section">
-        <div className="page-container-narrow space-y-8 text-slate-300">
+        <div className="page-container-narrow space-y-8 text-muted">
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <h2 className="text-xl font-semibold text-white">Information We Collect</h2>
-            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-300">
+            <h2 className="text-xl font-semibold text-foreground">Information We Collect</h2>
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-muted">
               <li>
                 <strong>Private ID & Public ID:</strong> Used to separate your
                 private and public communications. These IDs are never linked to
@@ -57,8 +57,8 @@ export default function PrivacyPolicy() {
           </div>
 
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <h2 className="text-xl font-semibold text-white">How We Use Your Data</h2>
-            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-300">
+            <h2 className="text-xl font-semibold text-foreground">How We Use Your Data</h2>
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-muted">
               <li>Enable anonymous communication and message delivery</li>
               <li>Support cross-device message access</li>
               <li>Ensure security through encryption and authentication</li>
@@ -71,7 +71,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <h2 className="text-xl font-semibold text-white">Third-Party Services</h2>
+            <h2 className="text-xl font-semibold text-foreground">Third-Party Services</h2>
             <p className="mt-4 text-sm">
               NEXE uses trusted services such as Firebase, Vercel, and other
               secure platforms to enable functionality. These providers manage
@@ -80,7 +80,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <h2 className="text-xl font-semibold text-white">Data Security</h2>
+            <h2 className="text-xl font-semibold text-foreground">Data Security</h2>
             <p className="mt-4 text-sm">
               All messages and files are protected with end-to-end encryption. We
               use secure storage practices and HTTPS connections. You remain in
@@ -90,7 +90,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <h2 className="text-xl font-semibold text-white">Data Retention</h2>
+            <h2 className="text-xl font-semibold text-foreground">Data Retention</h2>
             <p className="mt-4 text-sm">
               Messages and files are stored only as long as necessary for
               delivery. Users can delete messages at any time, and guest messages
@@ -100,7 +100,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <h2 className="text-xl font-semibold text-white">Your Rights</h2>
+            <h2 className="text-xl font-semibold text-foreground">Your Rights</h2>
             <p className="mt-4 text-sm">
               You may delete your account or any messages at any time. Contact us
               to request data deletion or inquire about privacy practices.
@@ -108,7 +108,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <h2 className="text-xl font-semibold text-white">Using Private & Public IDs</h2>
+            <h2 className="text-xl font-semibold text-foreground">Using Private & Public IDs</h2>
             <p className="mt-4 text-sm">
               Your <strong>Private ID</strong> is for secure, personal
               communication, while your <strong>Public ID</strong> can share
@@ -118,17 +118,17 @@ export default function PrivacyPolicy() {
           </div>
 
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <h2 className="text-xl font-semibold text-white">Contact Us</h2>
+            <h2 className="text-xl font-semibold text-foreground">Contact Us</h2>
             <p className="mt-4 text-sm">
-              Email: <a className="text-cyan-200 hover:text-white" href="mailto:hello.sprition@gmail.com">hello.sprition@gmail.com</a>
+              Email: <a className="text-accent hover:text-foreground" href="mailto:hello.sprition@gmail.com">hello.sprition@gmail.com</a>
             </p>
             <p className="text-sm">
-              Website: <a className="text-cyan-200 hover:text-white" href="https://nexe.in">https://nexe.in</a>
+              Website: <a className="text-accent hover:text-foreground" href="https://nexe.in">https://nexe.in</a>
             </p>
           </div>
 
           <div className="glass-card p-6 animate-fade-up anim-delay-200">
-            <h2 className="text-xl font-semibold text-white">Changes to This Policy</h2>
+            <h2 className="text-xl font-semibold text-foreground">Changes to This Policy</h2>
             <p className="mt-4 text-sm">
               We may update this Privacy Policy as the platform evolves.
               Significant changes will be communicated via our app or website.
