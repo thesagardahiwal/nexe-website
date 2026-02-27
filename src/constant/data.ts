@@ -124,9 +124,9 @@ export const studentProgramFramework = [
 
 export const studentProgramTimeline = [
   { label: "Submission Opens", value: "February 16, 2026" },
-  { label: "Submission Closes", value: "February 28, 2026" },
-  { label: "Evaluation Period", value: "20 days" },
-  { label: "Results Announced", value: "March 20, 2026" },
+  { label: "Submission Closes", value: "February 25, 2026" },
+  { label: "Evaluation Period", value: "1 days" },
+  { label: "Results Announced", value: "February 26, 2026" },
 ];
 
 export const studentProgramRecognition = [
