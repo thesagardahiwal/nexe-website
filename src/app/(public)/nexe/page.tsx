@@ -94,7 +94,7 @@ export default function NexePage() {
               Explore Documentation
             </Link>
             <a
-              href="https://expo.dev/artifacts/eas/pVCDh2fJwMELjyyaah2rVP.apk"
+              href="https://drive.google.com/drive/folders/17wMY55fMUf21ZZhDj_NxUU97QUlqJZUb?usp=drive_link"
               target="_blank"
               rel="noreferrer"
               className="px-6 py-3 rounded-full border border-border text-slate-700 font-semibold hover:border-slate-300 hover:text-slate-900 transition dark:text-slate-200 dark:hover:border-white/40 dark:hover:text-white"
@@ -147,7 +147,7 @@ export default function NexePage() {
               {
                 title: "Download APK",
                 detail: "Grab the latest APK build for Android devices.",
-                href: "https://expo.dev/artifacts/eas/pVCDh2fJwMELjyyaah2rVP.apk",
+                href: "https://drive.google.com/drive/folders/17wMY55fMUf21ZZhDj_NxUU97QUlqJZUb?usp=drive_link",
                 cta: "Download APK",
                 external: true,
               },

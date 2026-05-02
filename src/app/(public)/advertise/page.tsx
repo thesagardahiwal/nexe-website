@@ -37,7 +37,7 @@ export default function AppDownload() {
             </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a
-              href="https://expo.dev/artifacts/eas/pVCDh2fJwMELjyyaah2rVP.apk"
+              href="https://drive.google.com/drive/folders/17wMY55fMUf21ZZhDj_NxUU97QUlqJZUb?usp=drive_link"
               target="_blank"
               rel="noreferrer"
                 className="px-6 py-3 rounded-full bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/20 hover:bg-cyan-400 transition"
@@ -112,7 +112,7 @@ export default function AppDownload() {
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
               <a
-                href="https://expo.dev/artifacts/eas/pVCDh2fJwMELjyyaah2rVP.apk"
+                href="https://drive.google.com/drive/folders/17wMY55fMUf21ZZhDj_NxUU97QUlqJZUb?usp=drive_link"
                 target="_blank"
                 rel="noreferrer"
                 className="px-6 py-3 rounded-full bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition"
